@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overscroll-behavior: none;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    position: relative;
+  }
+
+  /* Tabular numbers for financial data */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .glass-surface {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  }
+
+  .tap-scale {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tap-scale:active {
+    transform: scale(0.97);
+  }
+
+  .transition-smooth {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Subtle ambient bg */
+  .bg-ambient {
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(24, 173, 99, 0.04) 0%, transparent 60%),
+      linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
