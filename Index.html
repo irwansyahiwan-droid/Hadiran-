@@ -2218,8 +2218,15 @@ Masuk sebagai Bendahara
 <section class="page" id="pgKas">
 <div id="kasHadiranHero"></div>
 <div id="kasHadiranBtns" style="display:none;margin-bottom:14px"></div>
-<div class="sec-ttl">📋 Alur Kas Hadiran Per Tarikan</div>
-<div class="card">
+<div class="kh-section-header">
+<div class="kh-sh-ic">📋</div>
+<div class="kh-sh-text">
+<div class="kh-sh-title">Alur Kas Hadiran</div>
+<div class="kh-sh-sub">Detail keuangan per tarikan</div>
+</div>
+<div class="kh-sh-badge" id="khSecCount">— tarikan</div>
+</div>
+<div class="card kh-table-card">
 <div class="card-body" style="padding:0">
 <div class="tbl-wrap">
 <table class="zt">
@@ -2240,7 +2247,7 @@ Masuk sebagai Bendahara
 </tfoot>
 </table>
 </div>
-<div class="tbl-hint">← Geser untuk lihat semua →</div>
+<div class="tbl-hint">← Geser untuk lihat semua kolom →</div>
 </div>
 </div>
 <div class="sec-ttl">📊 Rekap Per Tarikan</div>
@@ -3302,24 +3309,56 @@ else{toast((r&&r.message)||'Gagal','err');}
 /* ═══════════ KAS ═══════════ */
 function renderKasHadiranUI(sorted, totals){
 var heroEl = document.getElementById('kasHadiranHero');
-var btnsEl = document.getElementById('kasHadiranBtns');
 if(!heroEl) return;
 var saldo = totals.saldo || 0;
-var totMasuk = totals.tM || 0;
-var totKas = totals.tK || 0;
-var totTal = totals.tT || 0;
-var totSetor = totals.tSt || 0;
-// ── Hero card ──
-heroEl.innerHTML = '<div class="hero" style="margin-bottom:14px">'+
-'<div class="hero-ey">SALDO KAS HADIRAN</div>'+
-'<div class="hero-amt"><span class="hero-rp">Rp</span><span>'+fmtN(saldo)+'</span></div>'+
-'<div class="hero-note">'+sorted.length+' tarikan terlaksana</div>'+
-'<div class="hero-breakdown">'+
-'<div class="hb-row"><span class="hb-lbl">💰 Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(totKas)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">🏦 Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(totTal)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">📤 Setoran ke Kas Besar</span><span class="hb-val" style="color:#FDE68A">'+fmtRp(totSetor)+'</span></div>'+
+// ── Data dashboard-equivalent (sama dgn Beranda hero) ──
+// dM = total iuran terkumpul (dari KasHistory: jenis "Iuran Mingguan")
+// dT = total talangan belum lunas (dari Talangan list)
+// dSt = total setoran ke Kas Besar RT (dari KasHistory: jenis setor/pengeluaran)
+// Fallback ke tK/tT/tSt jika dashboard-totals tidak tersedia (mode offline/fallback)
+var totTerkumpul = (totals.dM!=null) ? totals.dM : (totals.tK || 0);
+var totTalangan  = (totals.dT!=null) ? totals.dT : (totals.tT || 0);
+var totSetor     = (totals.dSt!=null)? totals.dSt: (totals.tSt|| 0);
+var nTarikan = sorted.length;
+// ── Format tanggal "Per ..." ──
+var perTgl = (new Date()).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+// ── Render: Hero 2026 + Bento Stats ──
+var html = ''+
+'<div class="hero kh-hero-2026">'+
+  '<div class="kh-hero-top">'+
+    '<span class="hero-ey">SALDO KAS HADIRAN</span>'+
+    '<span class="kh-live-pill"><span class="kh-live-dot"></span>Real-time</span>'+
+  '</div>'+
+  '<div class="hero-amt"><span class="hero-rp">Rp</span><span>'+fmtN(saldo)+'</span></div>'+
+  '<div class="hero-note">'+nTarikan+' tarikan terlaksana · Per '+perTgl+'</div>'+
+  '<div class="hero-breakdown">'+
+    '<div class="hb-row"><span class="hb-lbl">📈 Total Iuran Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(totTerkumpul)+'</span></div>'+
+    '<div class="hb-row"><span class="hb-lbl">🏦 Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(totTalangan)+'</span></div>'+
+    '<div class="hb-row"><span class="hb-lbl">🏛️ Setoran ke Kas Besar RT</span><span class="hb-val" style="color:#FDE68A">'+fmtRp(totSetor)+'</span></div>'+
+  '</div>'+
 '</div>'+
+// ── Bento stats grid (App Store 2026 style) ──
+'<div class="kh-stats-bento">'+
+  '<div class="kh-stat-card kh-stat-green">'+
+    '<div class="kh-stat-head"><div class="kh-stat-ic">📈</div><span class="kh-stat-trend kh-trend-up">Masuk</span></div>'+
+    '<div class="kh-stat-val">'+fmtRp(totTerkumpul)+'</div>'+
+    '<div class="kh-stat-lbl">Iuran Terkumpul</div>'+
+  '</div>'+
+  '<div class="kh-stat-card kh-stat-amber">'+
+    '<div class="kh-stat-head"><div class="kh-stat-ic">🏦</div>'+(totTalangan>0?'<span class="kh-stat-trend kh-trend-warn">Belum lunas</span>':'<span class="kh-stat-trend kh-trend-ok">Lunas ✓</span>')+'</div>'+
+    '<div class="kh-stat-val">'+fmtRp(totTalangan)+'</div>'+
+    '<div class="kh-stat-lbl">Talangan Aktif</div>'+
+  '</div>'+
+  '<div class="kh-stat-card kh-stat-gold">'+
+    '<div class="kh-stat-head"><div class="kh-stat-ic">🏛️</div><span class="kh-stat-trend kh-trend-gold">Disetor</span></div>'+
+    '<div class="kh-stat-val">'+fmtRp(totSetor)+'</div>'+
+    '<div class="kh-stat-lbl">Setoran ke Kas RT</div>'+
+  '</div>'+
 '</div>';
+heroEl.innerHTML = html;
+// Update section count badge (jika ada)
+var bd=document.getElementById('khSecCount');
+if(bd)bd.textContent = nTarikan + ' tarikan';
 }
 function loadKasBesar(){
 var el=document.getElementById('kasBesarBody');if(!el)return;
@@ -3559,7 +3598,11 @@ var kh=batch.kasHistory||[];
 if(!data.length){
 tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:var(--k4)">Belum ada data</td></tr>';
 if(ft)ft.style.display='none';
-renderKasHadiranUI([],{saldo:curSaldo,tM:0,tSB:0,tK:0,tT:0,tSt:0,tN:0});
+// Hitung dashboard-equivalent totals (meski rekap kosong, bisa saja ada data di KasHistory)
+var _dM0=(kh||[]).filter(function(k){return String(k.jenis||'')==='Iuran Mingguan';}).reduce(function(s,k){return s+(Number(k.pemasukan)||0);},0);
+var _dSt0=(kh||[]).filter(function(k){var j=String(k.jenis||'').toLowerCase(),ket=String(k.keterangan||'').toLowerCase();return j.indexOf('setor')>=0||j.indexOf('pengeluaran')>=0||ket.indexOf('kas besar')>=0;}).reduce(function(s,k){return s+(Number(k.pengeluaran)||0);},0);
+var _dT0=((batch&&batch.talangan)||[]).filter(function(t){return String(t.status||'')==='Belum Lunas';}).reduce(function(s,t){return s+(Number(t.jumlah)||0);},0);
+renderKasHadiranUI([],{saldo:curSaldo,tM:0,tSB:0,tK:0,tT:0,tSt:0,tN:0,dM:_dM0,dT:_dT0,dSt:_dSt0});
 loadRekap(); return;
 }
 kasCache=data.slice();
@@ -3574,18 +3617,24 @@ var m=ket.match(/Tarikan-([0-9]+)/i);
 sm[m?String(+m[1]):'0']=(sm[m?String(+m[1]):'0']||0)+jml;
 });
 window._setMap=sm;
-_renderKasTable(sorted,window._talMap,sm,tbody,ft,curSaldo);
+// ── Hitung totals dashboard-equivalent (sumber data persis sama dgn getDashboardData) ──
+var dashTotals = {
+  totalTerkumpul: kh.filter(function(k){return String(k.jenis||'')==='Iuran Mingguan';}).reduce(function(s,k){return s+(Number(k.pemasukan)||0);},0),
+  totalSetor: kh.filter(function(k){var j=String(k.jenis||'').toLowerCase(),ket=String(k.keterangan||'').toLowerCase();return j.indexOf('setor')>=0||j.indexOf('pengeluaran')>=0||ket.indexOf('kas besar')>=0;}).reduce(function(s,k){return s+(Number(k.pengeluaran)||0);},0),
+  sisaTalangan: (batch.talangan||[]).filter(function(t){return String(t.status||'')==='Belum Lunas';}).reduce(function(s,t){return s+(Number(t.jumlah)||0);},0)
+};
+_renderKasTable(sorted,window._talMap,sm,tbody,ft,curSaldo,dashTotals);
 },function(){
 gas('getSaldoKas',undefined,function(saldo){
 gas('getRekapPertemuan',undefined,function(data){
 if(!data||!data.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:var(--k4)">Belum ada data</td></tr>';if(ft)ft.style.display='none';return;}
 kasCache=data.slice();
-_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap||{},window._setMap||{},tbody,ft,saldo||0);
+_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap||{},window._setMap||{},tbody,ft,saldo||0,null);
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 });
 }
-function _renderKasTable(sorted,talMap,setMap,tbody,ft,curSaldo){
+function _renderKasTable(sorted,talMap,setMap,tbody,ft,curSaldo,dashTotals){
 var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
 var rows=sorted.map(function(r,i){
 r.noUrut=i+1;
@@ -3624,7 +3673,17 @@ ft.style.display='';
 }
 // Hero card + admin buttons
 window._lastSaldo=curSaldo||tK-tT-tSt;
-renderKasHadiranUI(sorted,{saldo:window._lastSaldo,tM:tM,tSB:tSB,tK:tK,tT:tT,tSt:tSt,tN:tN});
+// Build totals object — utamakan dashTotals (dari kasHistory) supaya data SAMA dengan Beranda hero
+var heroTotals = {
+  saldo: window._lastSaldo,
+  tM: tM, tSB: tSB, tK: tK, tT: tT, tSt: tSt, tN: tN
+};
+if(dashTotals){
+  heroTotals.dM  = dashTotals.totalTerkumpul;
+  heroTotals.dT  = dashTotals.sisaTalangan;
+  heroTotals.dSt = dashTotals.totalSetor;
+}
+renderKasHadiranUI(sorted, heroTotals);
 // Also load rekap below table
 loadRekap();
 // Tombol PDF untuk semua (admin & warga); Setor hanya admin
@@ -19892,5 +19951,315 @@ html[data-theme="dark"] body::before{
 }
 
 </style>
+
+<style id="kh-app-store-2026-final">
+/* ═════════════════════════════════════════════════════════════════════════
+   ALUR KAS HADIRAN — App Store 2026 Premium Refresh
+   • Hero refinement (eyebrow row + live pill + tighter typography)
+   • Bento Stats Grid (3-card App Store style)
+   • Premium Section Header (icon chip + title + subtitle + count badge)
+   • Refined table card surface
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── 1. HERO 2026 (refined eyebrow + live pill) ─────────────────────────── */
+#pgKas .kh-hero-2026{
+  margin-bottom: 12px !important;
+  position: relative !important;
+  isolation: isolate !important;
+}
+#pgKas .kh-hero-top{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin-bottom: 6px !important;
+}
+#pgKas .kh-hero-top .hero-ey{
+  margin-bottom: 0 !important;
+  font-size: 10.5px !important;
+  letter-spacing: 1.6px !important;
+  color: rgba(255,255,255,.62) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+#pgKas .kh-live-pill{
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 4px 9px 4px 8px !important;
+  background: rgba(255,255,255,.13) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .3px !important;
+  color: rgba(255,255,255,.92) !important;
+  text-transform: uppercase !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+#pgKas .kh-live-dot{
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #4ADE80 !important;
+  box-shadow: 0 0 8px rgba(74,222,128,.7), 0 0 0 2px rgba(74,222,128,.18) !important;
+  animation: kh-pulse 2.2s ease-in-out infinite !important;
+}
+@keyframes kh-pulse{
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .55; transform: scale(.85); }
+}
+
+/* ── 2. BENTO STATS GRID (3 cards under hero) ───────────────────────────── */
+#pgKas .kh-stats-bento{
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+}
+#pgKas .kh-stat-card{
+  position: relative !important;
+  overflow: hidden !important;
+  background: var(--pr-surf) !important;
+  border: 1px solid var(--pr-hairline) !important;
+  border-radius: 16px !important;
+  padding: 12px 12px 11px !important;
+  box-shadow: var(--pr-shadow-1) !important;
+  transition: transform var(--pr-dur) var(--pr-ease),
+              box-shadow var(--pr-dur) var(--pr-ease) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  min-height: 92px !important;
+}
+#pgKas .kh-stat-card::before{
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(160deg, currentColor 0%, transparent 55%) !important;
+  opacity: .04 !important;
+  pointer-events: none !important;
+}
+#pgKas .kh-stat-card:active{
+  transform: scale(.97) !important;
+  box-shadow: var(--pr-shadow-0) !important;
+}
+#pgKas .kh-stat-head{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+}
+#pgKas .kh-stat-ic{
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 15px !important;
+  flex-shrink: 0 !important;
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,.04) !important;
+}
+#pgKas .kh-stat-trend{
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .3px !important;
+  text-transform: uppercase !important;
+  padding: 3px 7px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+}
+#pgKas .kh-stat-val{
+  font-family: var(--ff-d, 'Inter') !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: var(--pr-t0) !important;
+  letter-spacing: -.4px !important;
+  line-height: 1.15 !important;
+  margin-top: 2px !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+#pgKas .kh-stat-lbl{
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  color: var(--pr-t3) !important;
+  letter-spacing: -.005em !important;
+  margin-top: auto !important;
+}
+/* Tints per kategori */
+#pgKas .kh-stat-green{ color: var(--pr-G) !important; }
+#pgKas .kh-stat-green .kh-stat-ic{
+  background: var(--pr-G-tint) !important;
+  color: var(--pr-G) !important;
+}
+#pgKas .kh-stat-amber{ color: #B45309 !important; }
+#pgKas .kh-stat-amber .kh-stat-ic{
+  background: #FFF7ED !important;
+  color: #B45309 !important;
+}
+#pgKas .kh-stat-gold{ color: var(--pr-gold-deep) !important; }
+#pgKas .kh-stat-gold .kh-stat-ic{
+  background: var(--pr-gold-tint) !important;
+  color: var(--pr-gold-deep) !important;
+}
+/* Trend pills */
+#pgKas .kh-trend-up{ background: var(--pr-G-tint) !important; color: var(--pr-G) !important; }
+#pgKas .kh-trend-warn{ background: #FFF1E0 !important; color: #B45309 !important; }
+#pgKas .kh-trend-ok{ background: var(--pr-G-tint) !important; color: var(--pr-G) !important; }
+#pgKas .kh-trend-gold{ background: var(--pr-gold-tint) !important; color: var(--pr-gold-deep) !important; }
+
+/* ── 3. PREMIUM SECTION HEADER (Alur Kas Hadiran) ───────────────────────── */
+#pgKas .kh-section-header{
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 6px 4px 12px !important;
+  margin-top: 6px !important;
+}
+#pgKas .kh-sh-ic{
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 12px !important;
+  background: var(--pr-G-tint) !important;
+  color: var(--pr-G) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 17px !important;
+  flex-shrink: 0 !important;
+  box-shadow: inset 0 0 0 1px rgba(14,143,77,.06) !important;
+}
+#pgKas .kh-sh-text{
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+#pgKas .kh-sh-title{
+  font-family: var(--ff-d, 'Inter') !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--pr-t0) !important;
+  letter-spacing: -.4px !important;
+  line-height: 1.2 !important;
+}
+#pgKas .kh-sh-sub{
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: var(--pr-t3) !important;
+  letter-spacing: -.005em !important;
+  margin-top: 2px !important;
+}
+#pgKas .kh-sh-badge{
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .3px !important;
+  text-transform: uppercase !important;
+  padding: 5px 10px !important;
+  background: var(--pr-surf-tint) !important;
+  color: var(--pr-t2) !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--pr-hairline) !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+/* ── 4. POLISHED TABLE CARD ─────────────────────────────────────────────── */
+#pgKas .kh-table-card{
+  border-radius: var(--pr-r-lg, 22px) !important;
+  overflow: hidden !important;
+  box-shadow: var(--pr-shadow-2) !important;
+  border: 1px solid var(--pr-hairline) !important;
+  background: var(--pr-surf) !important;
+}
+#pgKas .kh-table-card .tbl-wrap{
+  position: relative !important;
+}
+/* Subtle right-edge fade indicator (App Store-style scroll hint) */
+#pgKas .kh-table-card .tbl-wrap::after{
+  content: '' !important;
+  position: absolute !important;
+  top: 0; right: 0; bottom: 0;
+  width: 36px !important;
+  background: linear-gradient(to left, var(--pr-surf) 0%, rgba(255,255,255,0) 100%) !important;
+  pointer-events: none !important;
+  opacity: .85 !important;
+  z-index: 1 !important;
+}
+#pgKas .kh-table-card .tbl-hint{
+  background: var(--pr-surf-tint) !important;
+  color: var(--pr-t3) !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: .2px !important;
+  text-align: center !important;
+  padding: 8px 10px !important;
+  border-top: 1px solid var(--pr-hairline) !important;
+}
+
+/* ── 5. RESPONSIVE: stack bento on small screens (<360px) ───────────────── */
+@media (max-width: 359px){
+  #pgKas .kh-stats-bento{
+    grid-template-columns: 1fr 1fr !important;
+  }
+  #pgKas .kh-stats-bento .kh-stat-card:nth-child(3){
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* ── 6. DARK MODE ───────────────────────────────────────────────────────── */
+[data-theme="dark"] #pgKas .kh-stat-card{
+  background: var(--pr-surf) !important;
+  border-color: rgba(255,255,255,.06) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 6px 16px rgba(0,0,0,.18) !important;
+}
+[data-theme="dark"] #pgKas .kh-stat-val{ color: var(--pr-t0) !important; }
+[data-theme="dark"] #pgKas .kh-stat-lbl{ color: var(--pr-t3) !important; }
+[data-theme="dark"] #pgKas .kh-stat-green .kh-stat-ic{
+  background: rgba(34,197,94,.14) !important;
+  color: #6EE7B7 !important;
+}
+[data-theme="dark"] #pgKas .kh-stat-amber .kh-stat-ic{
+  background: rgba(217,119,6,.18) !important;
+  color: #FCD34D !important;
+}
+[data-theme="dark"] #pgKas .kh-stat-gold .kh-stat-ic{
+  background: rgba(200,169,107,.18) !important;
+  color: #E8D08A !important;
+}
+[data-theme="dark"] #pgKas .kh-trend-up,
+[data-theme="dark"] #pgKas .kh-trend-ok{ background: rgba(34,197,94,.14) !important; color: #86EFAC !important; }
+[data-theme="dark"] #pgKas .kh-trend-warn{ background: rgba(217,119,6,.18) !important; color: #FCD34D !important; }
+[data-theme="dark"] #pgKas .kh-trend-gold{ background: rgba(200,169,107,.18) !important; color: #E8D08A !important; }
+
+[data-theme="dark"] #pgKas .kh-sh-ic{
+  background: rgba(34,197,94,.14) !important;
+  color: #6EE7B7 !important;
+}
+[data-theme="dark"] #pgKas .kh-sh-title{ color: var(--pr-t0) !important; }
+[data-theme="dark"] #pgKas .kh-sh-sub{ color: var(--pr-t3) !important; }
+[data-theme="dark"] #pgKas .kh-sh-badge{
+  background: rgba(255,255,255,.04) !important;
+  color: var(--pr-t2) !important;
+  border-color: rgba(255,255,255,.06) !important;
+}
+[data-theme="dark"] #pgKas .kh-table-card{
+  background: var(--pr-surf) !important;
+  border-color: rgba(255,255,255,.06) !important;
+}
+[data-theme="dark"] #pgKas .kh-table-card .tbl-wrap::after{
+  background: linear-gradient(to left, var(--pr-surf) 0%, rgba(0,0,0,0) 100%) !important;
+}
+[data-theme="dark"] #pgKas .kh-table-card .tbl-hint{
+  background: rgba(255,255,255,.025) !important;
+  border-top-color: rgba(255,255,255,.06) !important;
+  color: var(--pr-t3) !important;
+}
+</style>
+
 </body>
 </html>
