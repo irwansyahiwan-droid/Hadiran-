@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <base target="_top" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Hadiran</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            primary: { 50:'#edfcf2',100:'#d4f7e0',200:'#acedc6',300:'#75dea5',400:'#3cc87f',500:'#18ad63',600:'#0c8b4f',700:'#0a6f41',800:'#0b5835' },
+            surface: { 0:'#ffffff',50:'#fafbfc',100:'#f4f5f7',200:'#ebedf0',300:'#dfe1e6' },
+            ink: { 900:'#0f1419',700:'#2d3748',500:'#596273',400:'#7b8494',300:'#a0a8b8',200:'#c8cdd6' }
+          },
+          borderRadius: { card:'16px', btn:'12px', float:'20px', chip:'9999px' },
+          boxShadow: {
+            card:'0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
+            'card-hover':'0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04)',
+            float:'0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)'
+          },
+          fontSize: {
+            balance:['2.25rem',{lineHeight:'1.1',fontWeight:'700',letterSpacing:'-0.02em'}],
+            heading:['1.125rem',{lineHeight:'1.3',fontWeight:'600'}],
+            body:['0.9375rem',{lineHeight:'1.5',fontWeight:'500'}],
+            caption:['0.8125rem',{lineHeight:'1.4',fontWeight:'400'}],
+            micro:['0.6875rem',{lineHeight:'1.3',fontWeight:'500'}]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    html { font-feature-settings:'cv02','cv03','cv04','cv11'; -webkit-font-smoothing:antialiased; }
+    body {
+      font-family:'Inter',system-ui,sans-serif;
+      max-width:430px; margin:0 auto;
+      background:#fafbfc; color:#0f1419;
+      min-height:100vh; overscroll-behavior:none;
+    }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .glass-surface { background: rgba(255,255,255,0.85); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); }
+    .tap-scale { transition: transform .15s cubic-bezier(.16,1,.3,1); }
+    .tap-scale:active { transform: scale(.97); }
+    .bg-ambient {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(24,173,99,.05) 0%, transparent 60%),
+        linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+    }
+    @keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+    .animate-slide-up { animation: slideUp .4s cubic-bezier(.16,1,.3,1) backwards; }
+    .animate-fade-in { animation: fadeIn .3s ease-out; }
+    .animate-scale-in { animation: scaleIn .2s ease-out; }
+    .screen { display:none; }
+    .screen.active { display:block; }
+    .progress-fill { transition: width .8s cubic-bezier(.16,1,.3,1); }
+    [data-lucide] { stroke-width: 1.8; }
+    /* Custom scrollbar hide */
+    body::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+<main id="app" class="relative">
+
+<!-- ============================================== -->
+<!-- HOME SCREEN                                    -->
+<!-- ============================================== -->
+<section id="screen-home" class="screen active bg-ambient min-h-screen pb-28">
+  <header class="px-5 pt-12 pb-2 flex items-center justify-between">
+    <div>
+      <p class="text-caption text-ink-500">Selamat pagi</p>
+      <h1 class="text-heading text-ink-900">Irwansyah</h1>
+    </div>
+    <button class="tap-scale relative w-10 h-10 flex items-center justify-center rounded-full bg-surface-0 border border-surface-200 shadow-card">
+      <i data-lucide="bell" class="w-[18px] h-[18px] text-ink-700"></i>
+      <span class="absolute top-2 right-2 w-2 h-2 bg-primary-500 rounded-full"></span>
+    </button>
+  </header>
+
+  <!-- Balance Card -->
+  <section class="px-5 mt-4">
+    <div class="bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-5 relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-primary-100/40 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="relative">
+        <div class="flex items-center gap-2 mb-1">
+          <p class="text-caption text-ink-500">Total Saldo Arisan</p>
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border bg-primary-50 text-primary-700 border-primary-200/50">
+            <i data-lucide="trending-up" class="w-2.5 h-2.5"></i> Aktif
+          </span>
+        </div>
+        <span id="balance-amount" class="text-balance text-ink-900 block mt-1 tabular-nums">Rp 0</span>
+        <div class="flex items-center gap-1 mt-2">
+          <span class="text-micro text-primary-600 font-medium">+Rp 750.000</span>
+          <span class="text-micro text-ink-400">bulan ini</span>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-5">
+        <button class="tap-scale flex-1 flex flex-col items-center gap-1.5 py-3 rounded-btn bg-surface-50 border border-surface-200/50 hover:bg-surface-100 transition-all">
+          <i data-lucide="arrow-up-right" class="w-4 h-4 text-primary-600"></i>
+          <span class="text-micro text-ink-700 font-medium">Setor</span>
+        </button>
+        <button class="tap-scale flex-1 flex flex-col items-center gap-1.5 py-3 rounded-btn bg-surface-50 border border-surface-200/50 hover:bg-surface-100 transition-all">
+          <i data-lucide="arrow-down-left" class="w-4 h-4 text-primary-600"></i>
+          <span class="text-micro text-ink-700 font-medium">Tarik</span>
+        </button>
+        <button class="tap-scale flex-1 flex flex-col items-center gap-1.5 py-3 rounded-btn bg-surface-50 border border-surface-200/50 hover:bg-surface-100 transition-all">
+          <i data-lucide="clock" class="w-4 h-4 text-primary-600"></i>
+          <span class="text-micro text-ink-700 font-medium">Riwayat</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alert -->
+  <section class="px-5 mt-4">
+    <button class="tap-scale w-full bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3 hover:shadow-card-hover transition-all text-left">
+      <div class="w-9 h-9 rounded-btn bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0">
+        <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-body text-ink-900 truncate">Pembayaran jatuh tempo besok</p>
+        <p class="text-caption text-ink-400">Arisan Keluarga — Rp 500.000</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-ink-300 flex-shrink-0"></i>
+    </button>
+  </section>
+
+  <!-- Next Schedule -->
+  <section class="px-5 mt-6">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-heading text-ink-900">Jadwal Berikutnya</h2>
+      <button onclick="switchTab('schedule')" class="text-caption text-primary-600 font-medium tap-scale">Lihat semua</button>
+    </div>
+    <div class="bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-btn bg-primary-50 border border-primary-100 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="calendar" class="w-[18px] h-[18px] text-primary-600"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-body text-ink-900">Arisan RT 05</p>
+          <p class="text-caption text-ink-400">Minggu, 25 Mei 2026 • 19:00</p>
+        </div>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border bg-blue-50 text-blue-700 border-blue-200/50">3 hari</span>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <div class="flex-1 h-[6px] bg-surface-200 rounded-full overflow-hidden">
+          <div class="progress-fill h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full" data-percent="72" style="width:0%"></div>
+        </div>
+        <span class="text-micro text-ink-500 tabular-nums font-medium">72%</span>
+      </div>
+      <p class="text-micro text-ink-400 mt-1">18 dari 25 anggota sudah bayar</p>
+    </div>
+  </section>
+
+  <!-- Recent Transactions -->
+  <section class="px-5 mt-6">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-heading text-ink-900">Transaksi Terakhir</h2>
+      <button onclick="switchTab('activity')" class="text-caption text-primary-600 font-medium tap-scale">Semua</button>
+    </div>
+    <div class="space-y-2">
+      <!-- Tx item template -->
+      <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-700 font-semibold flex items-center justify-center border border-primary-100 text-micro">SA</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-body text-ink-900 truncate">Siti Aminah</p>
+          <p class="text-caption text-ink-400">Menerima arisan</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-body tabular-nums font-semibold text-primary-600">+Rp 2.500.000</p>
+          <p class="text-micro text-ink-400">Hari ini</p>
+        </div>
+      </div>
+      <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-700 font-semibold flex items-center justify-center border border-primary-100 text-micro">BS</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-body text-ink-900 truncate">Budi Santoso</p>
+          <p class="text-caption text-ink-400">Setoran bulanan</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-body tabular-nums font-semibold text-ink-900">-Rp 500.000</p>
+          <p class="text-micro text-ink-400">Kemarin</p>
+        </div>
+      </div>
+      <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-primary-50 text-primary-700 font-semibold flex items-center justify-center border border-primary-100 text-micro">AK</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-body text-ink-900 truncate">Arisan Kantor</p>
+          <p class="text-caption text-ink-400">Setoran bulanan</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-body tabular-nums font-semibold text-ink-900">-Rp 1.000.000</p>
+          <p class="text-micro text-ink-400">20 Mei</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============================================== -->
+<!-- SCHEDULE SCREEN                                -->
+<!-- ============================================== -->
+<section id="screen-schedule" class="screen bg-ambient min-h-screen pb-28">
+  <header class="px-5 pt-12 pb-2">
+    <h1 class="text-heading text-ink-900">Jadwal Arisan</h1>
+    <p class="text-caption text-ink-500 mt-0.5">3 jadwal mendatang</p>
+  </header>
+  <section class="px-5 mt-4">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-btn bg-primary-50 border border-primary-100 flex items-center justify-center">
+        <i data-lucide="calendar" class="w-3.5 h-3.5 text-primary-600"></i>
+      </div>
+      <span class="text-body text-ink-700 font-semibold">Mei — Juni 2026</span>
+    </div>
+  </section>
+
+  <section class="px-5 mt-4 space-y-3">
+    <!-- Schedule card 1 -->
+    <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 animate-slide-up" style="animation-delay:0ms">
+      <div class="flex items-center gap-2">
+        <h3 class="text-body text-ink-900 font-semibold truncate flex-1">Arisan RT 05</h3>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border bg-amber-50 text-amber-700 border-amber-200/50">3 hari</span>
+      </div>
+      <div class="mt-2.5 space-y-1.5">
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="clock" class="w-3.5 h-3.5"></i><span>Minggu, 25 Mei 2026 • 19:00 WIB</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i><span>Rumah Pak Ahmad</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="users" class="w-3.5 h-3.5"></i><span>18/25 anggota sudah bayar</span></div>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <div class="flex-1 h-[6px] bg-surface-200 rounded-full overflow-hidden">
+          <div class="progress-fill h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full" data-percent="72" style="width:0%"></div>
+        </div>
+        <span class="text-micro text-ink-500 tabular-nums font-medium">72%</span>
+      </div>
+    </div>
+    <!-- Schedule card 2 -->
+    <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 animate-slide-up" style="animation-delay:80ms">
+      <div class="flex items-center gap-2">
+        <h3 class="text-body text-ink-900 font-semibold truncate flex-1">Arisan Keluarga Besar</h3>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border bg-blue-50 text-blue-700 border-blue-200/50">9 hari</span>
+      </div>
+      <div class="mt-2.5 space-y-1.5">
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="clock" class="w-3.5 h-3.5"></i><span>Sabtu, 31 Mei 2026 • 10:00 WIB</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i><span>Resto Padang Sederhana</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="users" class="w-3.5 h-3.5"></i><span>8/15 anggota sudah bayar</span></div>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <div class="flex-1 h-[6px] bg-surface-200 rounded-full overflow-hidden">
+          <div class="progress-fill h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full" data-percent="53" style="width:0%"></div>
+        </div>
+        <span class="text-micro text-ink-500 tabular-nums font-medium">53%</span>
+      </div>
+    </div>
+    <!-- Schedule card 3 -->
+    <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 animate-slide-up" style="animation-delay:160ms">
+      <div class="flex items-center gap-2">
+        <h3 class="text-body text-ink-900 font-semibold truncate flex-1">Arisan Kantor Divisi IT</h3>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border bg-blue-50 text-blue-700 border-blue-200/50">15 hari</span>
+      </div>
+      <div class="mt-2.5 space-y-1.5">
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="clock" class="w-3.5 h-3.5"></i><span>Jumat, 6 Juni 2026 • 12:00 WIB</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i><span>Kantor Lt. 3</span></div>
+        <div class="flex items-center gap-2 text-caption text-ink-500"><i data-lucide="users" class="w-3.5 h-3.5"></i><span>5/20 anggota sudah bayar</span></div>
+      </div>
+      <div class="mt-3 flex items-center gap-2">
+        <div class="flex-1 h-[6px] bg-surface-200 rounded-full overflow-hidden">
+          <div class="progress-fill h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full" data-percent="25" style="width:0%"></div>
+        </div>
+        <span class="text-micro text-ink-500 tabular-nums font-medium">25%</span>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============================================== -->
+<!-- ACTIVITY SCREEN                                -->
+<!-- ============================================== -->
+<section id="screen-activity" class="screen bg-ambient min-h-screen pb-28">
+  <header class="px-5 pt-12 pb-2 flex items-center justify-between">
+    <div>
+      <h1 class="text-heading text-ink-900">Aktivitas</h1>
+      <p class="text-caption text-ink-500 mt-0.5">Riwayat transaksi arisan</p>
+    </div>
+    <button class="tap-scale w-9 h-9 flex items-center justify-center rounded-btn bg-surface-0 border border-surface-200 shadow-card">
+      <i data-lucide="filter" class="w-4 h-4 text-ink-500"></i>
+    </button>
+  </header>
+  <section class="px-5 mt-4 space-y-2" id="activity-list"></section>
+</section>
+
+<!-- ============================================== -->
+<!-- MEMBERS SCREEN                                 -->
+<!-- ============================================== -->
+<section id="screen-members" class="screen bg-ambient min-h-screen pb-28">
+  <header class="px-5 pt-12 pb-2">
+    <h1 class="text-heading text-ink-900">Anggota</h1>
+    <p class="text-caption text-ink-500 mt-0.5">8 anggota terdaftar</p>
+  </header>
+  <section class="px-5 mt-4">
+    <div class="relative">
+      <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none"></i>
+      <input type="text" placeholder="Cari anggota..." class="w-full h-11 pl-10 pr-4 text-body bg-surface-0 border border-surface-200 rounded-btn shadow-card focus:outline-none focus:border-primary-300 focus:ring-2 focus:ring-primary-100 transition-all placeholder:text-ink-300" />
+    </div>
+  </section>
+  <section class="px-5 mt-4 grid grid-cols-3 gap-2">
+    <div class="flex flex-col items-center py-2.5 rounded-btn border bg-primary-50 border-primary-100 text-primary-700">
+      <span class="text-heading tabular-nums">5</span><span class="text-micro mt-0.5">Lunas</span>
+    </div>
+    <div class="flex flex-col items-center py-2.5 rounded-btn border bg-amber-50 border-amber-100 text-amber-700">
+      <span class="text-heading tabular-nums">2</span><span class="text-micro mt-0.5">Menunggu</span>
+    </div>
+    <div class="flex flex-col items-center py-2.5 rounded-btn border bg-red-50 border-red-100 text-red-700">
+      <span class="text-heading tabular-nums">1</span><span class="text-micro mt-0.5">Terlambat</span>
+    </div>
+  </section>
+  <section class="px-5 mt-5 space-y-2" id="members-list"></section>
+</section>
+
+<!-- ============================================== -->
+<!-- PROFILE SCREEN                                 -->
+<!-- ============================================== -->
+<section id="screen-profile" class="screen bg-ambient min-h-screen pb-28">
+  <header class="px-5 pt-12 pb-2 flex items-center justify-between">
+    <h1 class="text-heading text-ink-900">Profil</h1>
+    <button class="tap-scale w-9 h-9 flex items-center justify-center rounded-btn bg-surface-0 border border-surface-200 shadow-card">
+      <i data-lucide="settings" class="w-4 h-4 text-ink-500"></i>
+    </button>
+  </header>
+
+  <section class="px-5 mt-4">
+    <div class="bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-5 flex flex-col items-center text-center">
+      <div class="w-12 h-12 rounded-full bg-primary-50 text-primary-700 font-semibold flex items-center justify-center border border-primary-100 text-body">IR</div>
+      <h2 class="text-heading text-ink-900 mt-3">Irwansyah</h2>
+      <p class="text-caption text-ink-500 mt-0.5">irwansyah@email.com</p>
+      <p class="text-caption text-ink-400">Bergabung sejak Januari 2024</p>
+      <div class="grid grid-cols-3 gap-3 w-full mt-5">
+        <div class="flex flex-col items-center py-3 rounded-btn bg-surface-50 border border-surface-200/50">
+          <i data-lucide="wallet" class="w-4 h-4 text-primary-600 mb-1"></i>
+          <span class="text-body text-ink-900 font-semibold tabular-nums">3</span>
+          <span class="text-micro text-ink-400 mt-0.5">Grup Aktif</span>
+        </div>
+        <div class="flex flex-col items-center py-3 rounded-btn bg-surface-50 border border-surface-200/50">
+          <i data-lucide="users" class="w-4 h-4 text-primary-600 mb-1"></i>
+          <span class="text-body text-ink-900 font-semibold tabular-nums">60</span>
+          <span class="text-micro text-ink-400 mt-0.5">Anggota</span>
+        </div>
+        <div class="flex flex-col items-center py-3 rounded-btn bg-surface-50 border border-surface-200/50">
+          <i data-lucide="award" class="w-4 h-4 text-primary-600 mb-1"></i>
+          <span class="text-body text-ink-900 font-semibold tabular-nums">1.250</span>
+          <span class="text-micro text-ink-400 mt-0.5">Poin</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 mt-5">
+    <div class="bg-surface-0 rounded-card border border-surface-200/70 shadow-card divide-y divide-surface-200/70 overflow-hidden">
+      <button class="tap-scale w-full flex items-center gap-3 p-4 hover:bg-surface-50 transition-all">
+        <div class="w-9 h-9 rounded-btn bg-surface-100 border border-surface-200/50 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="bell" class="w-4 h-4 text-ink-700"></i>
+        </div>
+        <div class="flex-1 text-left min-w-0">
+          <p class="text-body text-ink-900">Notifikasi</p>
+          <p class="text-caption text-ink-400">Atur pemberitahuan</p>
+        </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-ink-300 flex-shrink-0"></i>
+      </button>
+      <button class="tap-scale w-full flex items-center gap-3 p-4 hover:bg-surface-50 transition-all">
+        <div class="w-9 h-9 rounded-btn bg-surface-100 border border-surface-200/50 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="shield" class="w-4 h-4 text-ink-700"></i>
+        </div>
+        <div class="flex-1 text-left min-w-0">
+          <p class="text-body text-ink-900">Keamanan</p>
+          <p class="text-caption text-ink-400">PIN & verifikasi</p>
+        </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-ink-300 flex-shrink-0"></i>
+      </button>
+      <button class="tap-scale w-full flex items-center gap-3 p-4 hover:bg-surface-50 transition-all">
+        <div class="w-9 h-9 rounded-btn bg-surface-100 border border-surface-200/50 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="moon" class="w-4 h-4 text-ink-700"></i>
+        </div>
+        <div class="flex-1 text-left min-w-0">
+          <p class="text-body text-ink-900">Tampilan</p>
+          <p class="text-caption text-ink-400">Mode gelap</p>
+        </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-ink-300 flex-shrink-0"></i>
+      </button>
+      <button class="tap-scale w-full flex items-center gap-3 p-4 hover:bg-surface-50 transition-all">
+        <div class="w-9 h-9 rounded-btn bg-surface-100 border border-surface-200/50 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="help-circle" class="w-4 h-4 text-ink-700"></i>
+        </div>
+        <div class="flex-1 text-left min-w-0">
+          <p class="text-body text-ink-900">Bantuan</p>
+          <p class="text-caption text-ink-400">FAQ & dukungan</p>
+        </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-ink-300 flex-shrink-0"></i>
+      </button>
+    </div>
+  </section>
+
+  <section class="px-5 mt-4">
+    <button class="tap-scale w-full flex items-center justify-center gap-2 h-12 rounded-btn bg-red-50 border border-red-100 text-red-600 text-body font-medium hover:bg-red-100 transition-all">
+      <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+    </button>
+  </section>
+
+  <p class="text-center text-micro text-ink-300 mt-6">Hadiran v0.1.0</p>
+</section>
+
+</main>
+
+<!-- ============================================== -->
+<!-- BOTTOM NAVIGATION                              -->
+<!-- ============================================== -->
+<nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-[398px] glass-surface rounded-float shadow-float border border-surface-200/60 z-50">
+  <div class="flex items-center justify-around h-[60px] px-1">
+    <button onclick="switchTab('home')" data-tab="home" class="nav-btn tap-scale relative flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-btn text-primary-600 transition-all">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-micro leading-none font-medium">Beranda</span>
+    </button>
+    <button onclick="switchTab('schedule')" data-tab="schedule" class="nav-btn tap-scale relative flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-btn text-ink-400 transition-all">
+      <i data-lucide="calendar" class="w-5 h-5"></i>
+      <span class="text-micro leading-none">Jadwal</span>
+    </button>
+    <button onclick="switchTab('activity')" data-tab="activity" class="nav-btn tap-scale relative flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-btn text-ink-400 transition-all">
+      <i data-lucide="activity" class="w-5 h-5"></i>
+      <span class="text-micro leading-none">Aktivitas</span>
+    </button>
+    <button onclick="switchTab('members')" data-tab="members" class="nav-btn tap-scale relative flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-btn text-ink-400 transition-all">
+      <i data-lucide="users" class="w-5 h-5"></i>
+      <span class="text-micro leading-none">Anggota</span>
+    </button>
+    <button onclick="switchTab('profile')" data-tab="profile" class="nav-btn tap-scale relative flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-btn text-ink-400 transition-all">
+      <i data-lucide="user" class="w-5 h-5"></i>
+      <span class="text-micro leading-none">Profil</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  // ============== DATA ==============
+  const activities = [
+    { type:'win',         title:'Menerima Arisan',      desc:'Arisan RT 05',    amount:12500000, date:'Hari ini, 08:30',   person:'Irwansyah',     icon:'check-circle-2', color:'primary', sign:'+' },
+    { type:'payment_out', title:'Setoran Bulanan',      desc:'Arisan Keluarga', amount:500000,   date:'Kemarin, 14:20',    person:'Irwansyah',     icon:'arrow-up-right', color:'ink',     sign:'-' },
+    { type:'payment_in',  title:'Pembayaran Diterima',  desc:'Arisan Kantor',   amount:1000000,  date:'20 Mei, 09:15',     person:'Budi Santoso',  icon:'arrow-down-left', color:'primary', sign:'+' },
+    { type:'payment_in',  title:'Pembayaran Diterima',  desc:'Arisan RT 05',    amount:500000,   date:'19 Mei, 16:40',     person:'Siti Aminah',   icon:'arrow-down-left', color:'primary', sign:'+' },
+    { type:'missed',      title:'Pembayaran Terlewat',  desc:'Arisan Keluarga', amount:500000,   date:'18 Mei, 00:00',     person:'Andi Wijaya',   icon:'x-circle',       color:'red',     sign:''  },
+    { type:'payment_out', title:'Setoran Bulanan',      desc:'Arisan Kantor',   amount:1000000,  date:'15 Mei, 10:00',     person:'Irwansyah',     icon:'arrow-up-right', color:'ink',     sign:'-' },
+    { type:'payment_in',  title:'Pembayaran Diterima',  desc:'Arisan RT 05',    amount:500000,   date:'14 Mei, 11:30',     person:'Dewi Lestari',  icon:'arrow-down-left', color:'primary', sign:'+' },
+  ];
+
+  const members = [
+    { name:'Irwansyah',     role:'admin',  status:'paid',    totalPaid:6000000, groups:3 },
+    { name:'Siti Aminah',   role:'member', status:'paid',    totalPaid:4500000, groups:2 },
+    { name:'Budi Santoso',  role:'member', status:'paid',    totalPaid:5000000, groups:2 },
+    { name:'Dewi Lestari',  role:'member', status:'pending', totalPaid:3000000, groups:1 },
+    { name:'Andi Wijaya',   role:'member', status:'overdue', totalPaid:2500000, groups:2 },
+    { name:'Rina Kusuma',   role:'member', status:'paid',    totalPaid:4000000, groups:2 },
+    { name:'Ahmad Fauzi',   role:'member', status:'paid',    totalPaid:3500000, groups:1 },
+    { name:'Yuni Astuti',   role:'member', status:'pending', totalPaid:2000000, groups:1 },
+  ];
+
+  const statusMap = {
+    paid:    { label:'Lunas',     bg:'bg-primary-50',  txt:'text-primary-700', border:'border-primary-200/50', icon:'check-circle-2' },
+    pending: { label:'Menunggu',  bg:'bg-amber-50',    txt:'text-amber-700',   border:'border-amber-200/50',   icon:'clock' },
+    overdue: { label:'Terlambat', bg:'bg-red-50',      txt:'text-red-700',     border:'border-red-200/50',     icon:'clock' },
+  };
+
+  // ============== RENDER ==============
+  function initials(name) {
+    return name.split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase();
+  }
+  function fmt(n) { return n.toLocaleString('id-ID'); }
+
+  function renderActivities() {
+    const list = document.getElementById('activity-list');
+    list.innerHTML = activities.map((a, i) => {
+      const colorClass = a.color === 'primary' ? 'text-primary-600 bg-primary-50 border-primary-100'
+                       : a.color === 'red'     ? 'text-red-600 bg-red-50 border-red-100'
+                       :                          'text-ink-700 bg-surface-100 border-surface-200';
+      const amountClass = a.type === 'missed' ? 'text-red-600'
+                        : a.sign === '+'      ? 'text-primary-600'
+                        :                       'text-ink-900';
+      return `
+        <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3 animate-slide-up" style="animation-delay:${i*50}ms">
+          <div class="w-9 h-9 rounded-btn border flex items-center justify-center flex-shrink-0 ${colorClass}">
+            <i data-lucide="${a.icon}" class="w-4 h-4"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-body text-ink-900 truncate">${a.title}</p>
+            <p class="text-caption text-ink-400">${a.desc} • ${a.date}</p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <p class="text-body tabular-nums font-semibold ${amountClass}">${a.sign}Rp ${fmt(a.amount)}</p>
+            <p class="text-micro text-ink-400">${a.person}</p>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderMembers() {
+    const list = document.getElementById('members-list');
+    list.innerHTML = members.map((m, i) => {
+      const s = statusMap[m.status];
+      const crown = m.role === 'admin' ? `<i data-lucide="crown" class="w-3 h-3 text-amber-500 flex-shrink-0"></i>` : '';
+      return `
+        <div class="tap-scale bg-surface-0 rounded-card border border-surface-200/70 shadow-card p-4 flex items-center gap-3 animate-slide-up" style="animation-delay:${i*50}ms">
+          <div class="w-10 h-10 rounded-full bg-primary-50 text-primary-700 font-semibold flex items-center justify-center border border-primary-100 text-caption">${initials(m.name)}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <p class="text-body text-ink-900 truncate font-medium">${m.name}</p>${crown}
+            </div>
+            <p class="text-caption text-ink-400">${m.groups} grup • Rp ${fmt(m.totalPaid)}</p>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-micro font-medium rounded-chip border ${s.bg} ${s.txt} ${s.border}">
+            <i data-lucide="${s.icon}" class="w-2.5 h-2.5"></i>${s.label}
+          </span>
+        </div>`;
+    }).join('');
+  }
+
+  // ============== ANIMATIONS ==============
+  function animateBalance() {
+    const el = document.getElementById('balance-amount');
+    if (!el) return;
+    const target = 12750000;
+    const start = 0;
+    const duration = 900;
+    const t0 = performance.now();
+    function frame(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const cur = Math.round(start + (target - start) * eased);
+      el.textContent = 'Rp ' + cur.toLocaleString('id-ID');
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function animateProgressBars(scope) {
+    (scope || document).querySelectorAll('.progress-fill').forEach(el => {
+      const target = el.getAttribute('data-percent') || 0;
+      el.style.width = '0%';
+      requestAnimationFrame(() => {
+        setTimeout(() => { el.style.width = target + '%'; }, 50);
+      });
+    });
+  }
+
+  // ============== TAB SWITCHING ==============
+  function switchTab(tab) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + tab);
+    target.classList.add('active');
+    target.classList.remove('animate-fade-in');
+    void target.offsetWidth; // reflow
+    target.classList.add('animate-fade-in');
+
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      const isActive = b.dataset.tab === tab;
+      b.classList.toggle('text-primary-600', isActive);
+      b.classList.toggle('text-ink-400', !isActive);
+    });
+
+    // Re-init icons & animations for newly visible content
+    if (window.lucide) lucide.createIcons();
+    animateProgressBars(target);
+    if (tab === 'home') animateBalance();
+  }
+
+  // ============== INIT ==============
+  document.addEventListener('DOMContentLoaded', () => {
+    renderActivities();
+    renderMembers();
+    if (window.lucide) lucide.createIcons();
+    animateBalance();
+    animateProgressBars();
+  });
+</script>
+</body>
+</html>
