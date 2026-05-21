@@ -19892,5 +19892,497 @@ html[data-theme="dark"] body::before{
 }
 
 </style>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     HADIRAN RT — PREMIUM 2026 v10  (Kas Hadiran Hero Sync + UI Upgrade)
+     ─────────────────────────────────────────────────────
+     • Sinkronkan data hero Kas Hadiran dengan Beranda (single source of truth)
+       saldoKas, totalTerkumpul, sisaTalangan, totalSetoran  →  dashData
+     • Upgrade tampilan ke standar App Store 2026:
+       liquid glass · embossed typography · floating orbs · pulse "live"
+       spring micro-interactions · tabular-nums · multi-layer depth
+     • Tetap kompatibel dengan v40 patch & struktur existing (table, footer)
+     ════════════════════════════════════════════════════════════════════════ -->
+<style id="v10-kas-hero">
+/* ── Sembunyikan tombol legacy di kasHadiranBtns saat v10 aktif ───── */
+body #kasHadiranBtns.v10kh-hidden { display: none !important; }
+
+/* ── Wrapper: matikan style lama .hero di dalam #kasHadiranHero ──── */
+#kasHadiranHero .hero { all: unset; display: contents; }
+
+/* ═══ v10 Liquid Glass Hero — App Store 2026 Premium ═══════════════ */
+.v10kh-hero{
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 24px 22px 18px;
+  margin-bottom: 14px;
+  isolation: isolate;
+  /* Multi-layer depth gradient — deep emerald → graphite */
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(74, 222, 128, .28), transparent 55%),
+    radial-gradient(100% 70% at 0% 100%, rgba(15, 118, 60, .32), transparent 55%),
+    linear-gradient(155deg, #062216 0%, #0B5128 38%, #117A38 72%, #15A348 100%);
+  /* Layered shadow + inner highlight */
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.10) inset,
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 -28px 64px -28px rgba(187, 247, 208, .35) inset,
+    0 18px 52px -10px rgba(8, 60, 30, .50),
+    0 4px 12px -2px rgba(15, 23, 42, .14),
+    0 1px 2px rgba(15, 23, 42, .08);
+  transform: translateZ(0);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Floating ambient orbs */
+.v10kh-orb{
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(2px);
+  z-index: 0;
+}
+.v10kh-orb-1{
+  top: -60px; right: -40px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(187,247,208,.22), rgba(187,247,208,0) 65%);
+  animation: v10kh-float1 18s ease-in-out infinite;
+}
+.v10kh-orb-2{
+  bottom: -50px; left: -30px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,.10), rgba(255,255,255,0) 70%);
+  animation: v10kh-float2 22s ease-in-out infinite;
+}
+@keyframes v10kh-float1{
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(-10px, 14px) scale(1.06); }
+}
+@keyframes v10kh-float2{
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(12px, -10px) scale(.94); }
+}
+@media (prefers-reduced-motion: reduce){
+  .v10kh-orb-1, .v10kh-orb-2{ animation: none; }
+}
+
+/* Subtle grain for tactile feel */
+.v10kh-grain{
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .35;
+  mix-blend-mode: overlay;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.05) 0, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,.04) 0, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+}
+
+.v10kh-content{ position: relative; z-index: 1; }
+
+/* Eyebrow */
+.v10kh-eyebrow{
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,.62);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Hero amount — embossed, tabular-nums */
+.v10kh-amt{
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: #fff;
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.10),
+    0 2px 22px rgba(187,247,208,.20);
+}
+.v10kh-rp{
+  font-size: 18px;
+  font-weight: 700;
+  opacity: .78;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.v10kh-num{
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1.7px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtitle with live pulse */
+.v10kh-sub{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: rgba(255,255,255,.68);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.v10kh-pulse{
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ADE80;
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, .55);
+  animation: v10kh-pulse 2.4s ease-out infinite;
+  flex-shrink: 0;
+}
+.v10kh-pulse.is-loading{
+  background: #FDE68A;
+  animation: v10kh-pulse-warn 1.4s ease-out infinite;
+}
+@keyframes v10kh-pulse{
+  0%{ box-shadow: 0 0 0 0 rgba(74,222,128,.60); }
+  70%{ box-shadow: 0 0 0 9px rgba(74,222,128,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+}
+@keyframes v10kh-pulse-warn{
+  0%{ box-shadow: 0 0 0 0 rgba(253,230,138,.60); }
+  70%{ box-shadow: 0 0 0 8px rgba(253,230,138,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(253,230,138,0); }
+}
+@media (prefers-reduced-motion: reduce){
+  .v10kh-pulse{ animation: none; }
+}
+
+/* Breakdown — liquid glass card */
+.v10kh-breakdown{
+  background: rgba(255,255,255,.085);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 4px 14px;
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  margin-bottom: 14px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.10) inset,
+    0 1px 2px rgba(0,0,0,.06);
+}
+.v10kh-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  font-variant-numeric: tabular-nums;
+}
+.v10kh-row:last-child{ border-bottom: none; }
+.v10kh-lbl{
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: rgba(255,255,255,.78);
+  font-weight: 500;
+  letter-spacing: -.005em;
+}
+.v10kh-lbl-ic{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.10);
+  font-size: 12px;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    inset 0 -1px 0 rgba(0,0,0,.05);
+}
+.v10kh-val{
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.005em;
+}
+.v10kh-val-pos{ color: #86EFAC; }
+.v10kh-val-neg{ color: #FCA5A5; }
+.v10kh-val-warn{ color: #FDE68A; }
+
+/* Action buttons — premium pill */
+.v10kh-actions{
+  display: flex;
+  gap: 8px;
+}
+.v10kh-btn{
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(8px) saturate(1.3);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 1px 2px rgba(0,0,0,.10),
+    0 4px 12px rgba(0,0,0,.10);
+  transition:
+    transform .22s cubic-bezier(.34,1.56,.64,1),
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease;
+}
+.v10kh-btn:active{
+  transform: scale(.965);
+  background: rgba(255,255,255,.18);
+}
+.v10kh-btn-ic{ font-size: 14px; line-height: 1; }
+.v10kh-btn-pdf{
+  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+}
+.v10kh-btn-setor{
+  background: linear-gradient(180deg, rgba(254,243,199,.22), rgba(254,243,199,.08));
+  border-color: rgba(254,243,199,.35);
+  color: #FFFBEB;
+}
+.v10kh-btn-full{ flex: 1; }
+
+@media (hover: hover){
+  .v10kh-btn:hover{
+    border-color: rgba(255,255,255,.30);
+    background: rgba(255,255,255,.16);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.20),
+      0 2px 4px rgba(0,0,0,.08),
+      0 8px 18px rgba(0,0,0,.14);
+  }
+  .v10kh-btn-setor:hover{
+    background: linear-gradient(180deg, rgba(254,243,199,.30), rgba(254,243,199,.12));
+  }
+}
+
+/* Dark mode tweaks */
+[data-theme="dark"] .v10kh-hero{
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(74, 222, 128, .22), transparent 55%),
+    radial-gradient(100% 70% at 0% 100%, rgba(15, 118, 60, .26), transparent 55%),
+    linear-gradient(155deg, #04150C 0%, #073C1E 38%, #0B5F2C 72%, #108538 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 0 0 1px rgba(255,255,255,.04) inset,
+    0 18px 52px -10px rgba(0,0,0,.55),
+    0 4px 12px -2px rgba(0,0,0,.30);
+}
+
+/* Compact responsive */
+@media (max-width: 360px){
+  .v10kh-hero{ padding: 20px 18px 16px; border-radius: 24px; }
+  .v10kh-num{ font-size: 34px; letter-spacing: -1.4px; }
+  .v10kh-rp{ font-size: 16px; }
+  .v10kh-actions{ flex-direction: column; }
+  .v10kh-btn{ width: 100%; }
+}
+</style>
+
+<script id="v10-kas-hero-sync">
+/* ─────────────────────────────────────────────────────────────────────
+   v10 — Kas Hadiran Hero · Data Sync + Premium UI
+   - Data source: Beranda (dashData) — single source of truth
+   - Chains on top of v40 override (replaces hero render only)
+   - Keeps existing structure: table, footer, rekap, save bar all intact
+   ───────────────────────────────────────────────────────────────────── */
+(function(){
+  var _cachedSetor = null;        // sum setoran (formula identik Beranda)
+  var _setorReqInFlight = false;
+  var _dashReqInFlight  = false;
+
+  function fmtRpSafe(v){ try { return typeof fmtRp === 'function' ? fmtRp(v) : 'Rp ' + (Number(v)||0).toLocaleString('id-ID'); } catch(e){ return 'Rp 0'; } }
+  function fmtNSafe(v){ try { return typeof fmtN === 'function' ? fmtN(v) : (Number(v)||0).toLocaleString('id-ID'); } catch(e){ return '0'; } }
+  function escSafe(s){ try { return typeof esc === 'function' ? esc(s) : String(s||''); } catch(e){ return ''; } }
+
+  /* Sum setoran ke Kas Besar — formula PERSIS sama dengan Beranda
+     (lihat renderDash → gas('getKasHistory') filter jenis/keterangan) */
+  function fetchSetorBeranda(cb){
+    if (_setorReqInFlight || typeof gas !== 'function') return;
+    _setorReqInFlight = true;
+    gas('getKasHistory', undefined, function(kh){
+      var totSetor = (kh||[]).filter(function(k){
+        var j   = String(k.jenis||'').toLowerCase();
+        var ket = String(k.keterangan||'').toLowerCase();
+        return j.indexOf('setor')>=0 || j.indexOf('pengeluaran')>=0 || ket.indexOf('kas besar')>=0;
+      }).reduce(function(s,k){ return s + (Number(k.pengeluaran)||0); }, 0);
+      _cachedSetor = totSetor;
+      _setorReqInFlight = false;
+      if (typeof cb === 'function') cb(totSetor);
+    }, function(){ _setorReqInFlight = false; });
+  }
+
+  /* Fetch dashData kalau belum ada di cache global */
+  function fetchDash(cb){
+    if (_dashReqInFlight) return;
+    if (typeof gasPage !== 'function') { if (cb) cb(null); return; }
+    _dashReqInFlight = true;
+    gasPage('dash', function(d){
+      window.dashData = d;
+      _dashReqInFlight = false;
+      if (cb) cb(d);
+    }, function(){
+      _dashReqInFlight = false;
+      if (cb) cb(null);
+    });
+  }
+
+  /* Build hero HTML — Beranda data first, fallback ke totals client-side */
+  function renderHero(heroEl, ctx){
+    if (!heroEl) return;
+    var d = ctx.dash || {};
+    var t = ctx.totals || {};
+    var sorted = ctx.sorted || [];
+
+    // ── DATA SYNC: prioritaskan Beranda dashData ──
+    var saldo    = (d.saldoKas        != null) ? d.saldoKas        : (t.saldo || 0);
+    var totKas   = (d.totalTerkumpul  != null) ? d.totalTerkumpul  : (t.tK    || 0);
+    var sisaTal  = (d.sisaTalangan    != null) ? d.sisaTalangan    : (t.tT    || 0);
+    var totSetor = (ctx.setorBeranda  != null) ? ctx.setorBeranda  : (t.tSt   || 0);
+    var nTar     = (d.totalPertemuan  != null) ? d.totalPertemuan  : sorted.length;
+    var nAng     = d.totalAnggota || 0;
+
+    var adminMode = (typeof isAdmin !== 'undefined') && isAdmin;
+    var actionBtns = adminMode
+      ? '<div class="v10kh-actions">'
+        + '<button class="v10kh-btn v10kh-btn-pdf" type="button" onclick="cetakPDF()">'
+        +   '<span class="v10kh-btn-ic">\u{1F4C4}</span><span>Cetak PDF</span>'
+        + '</button>'
+        + '<button class="v10kh-btn v10kh-btn-setor" type="button" onclick="openOv(\'ovPengeluaran\')">'
+        +   '<span class="v10kh-btn-ic">\u{1F3E6}</span><span>Setor ke Kas Besar</span>'
+        + '</button>'
+      + '</div>'
+      : '<div class="v10kh-actions">'
+        + '<button class="v10kh-btn v10kh-btn-pdf v10kh-btn-full" type="button" onclick="cetakPDF()">'
+        +   '<span class="v10kh-btn-ic">\u{1F4C4}</span><span>Cetak PDF Alur Kas Hadiran</span>'
+        + '</button>'
+      + '</div>';
+
+    var subParts = [nTar + ' tarikan terlaksana'];
+    if (nAng) subParts.push(nAng + ' anggota aktif');
+    var subtitle = subParts.join(' \u00B7 ');
+    var pulseCls = ctx.loading ? 'v10kh-pulse is-loading' : 'v10kh-pulse';
+
+    heroEl.innerHTML =
+      '<div class="v10kh-hero" role="region" aria-label="Saldo Kas Hadiran">'
+      +   '<div class="v10kh-orb v10kh-orb-1" aria-hidden="true"></div>'
+      +   '<div class="v10kh-orb v10kh-orb-2" aria-hidden="true"></div>'
+      +   '<div class="v10kh-grain" aria-hidden="true"></div>'
+      +   '<div class="v10kh-content">'
+      +     '<div class="v10kh-eyebrow">SALDO KAS HADIRAN</div>'
+      +     '<div class="v10kh-amt">'
+      +       '<span class="v10kh-rp">Rp</span>'
+      +       '<span class="v10kh-num">' + fmtNSafe(saldo) + '</span>'
+      +     '</div>'
+      +     '<div class="v10kh-sub">'
+      +       '<span class="' + pulseCls + '" aria-hidden="true"></span>'
+      +       '<span>' + escSafe(subtitle) + '</span>'
+      +     '</div>'
+      +     '<div class="v10kh-breakdown">'
+      +       '<div class="v10kh-row">'
+      +         '<span class="v10kh-lbl"><span class="v10kh-lbl-ic">\u{1F4C8}</span>Total Iuran Kas Terkumpul</span>'
+      +         '<span class="v10kh-val v10kh-val-pos">' + fmtRpSafe(totKas) + '</span>'
+      +       '</div>'
+      +       '<div class="v10kh-row">'
+      +         '<span class="v10kh-lbl"><span class="v10kh-lbl-ic">\u{1F3E6}</span>Talangan Belum Lunas</span>'
+      +         '<span class="v10kh-val v10kh-val-neg">' + fmtRpSafe(sisaTal) + '</span>'
+      +       '</div>'
+      +       '<div class="v10kh-row">'
+      +         '<span class="v10kh-lbl"><span class="v10kh-lbl-ic">\u{1F3DB}\uFE0F</span>Setoran ke Kas Besar RT</span>'
+      +         '<span class="v10kh-val v10kh-val-warn">' + fmtRpSafe(totSetor) + '</span>'
+      +       '</div>'
+      +     '</div>'
+      +     actionBtns
+      +   '</div>'
+      + '</div>';
+
+    // Sembunyikan tombol legacy (kasHadiranBtns) — buttons sudah embedded di hero
+    var btnsEl = document.getElementById('kasHadiranBtns');
+    if (btnsEl) {
+      btnsEl.classList.add('v10kh-hidden');
+      btnsEl.style.display = 'none';
+    }
+  }
+
+  /* Override renderKasHadiranUI — chains on top of v40 */
+  var _prev = window.renderKasHadiranUI;
+  window.renderKasHadiranUI = function(sorted, totals){
+    var heroEl = document.getElementById('kasHadiranHero');
+    if (!heroEl){ if (_prev) _prev(sorted, totals); return; }
+
+    var hasDash = !!(window.dashData && window.dashData.saldoKas != null);
+    var hasSetor = (_cachedSetor != null);
+
+    // 1st render: pakai data yang tersedia, tunjukkan loading kalau perlu fetch
+    renderHero(heroEl, {
+      sorted: sorted,
+      totals: totals,
+      dash: window.dashData,
+      setorBeranda: _cachedSetor,
+      loading: !hasDash || !hasSetor
+    });
+
+    // Fetch dashData kalau belum di cache
+    if (!hasDash){
+      fetchDash(function(d){
+        if (!d) return;
+        renderHero(heroEl, {
+          sorted: sorted, totals: totals,
+          dash: d, setorBeranda: _cachedSetor,
+          loading: !_cachedSetor
+        });
+      });
+    }
+
+    // Selalu refresh totSetor (pakai formula identik Beranda)
+    fetchSetorBeranda(function(totSetor){
+      renderHero(heroEl, {
+        sorted: sorted, totals: totals,
+        dash: window.dashData,
+        setorBeranda: totSetor,
+        loading: false
+      });
+    });
+  };
+
+  /* Safety net: kalau _renderKasTable men-set ulang display btnsEl,
+     MutationObserver akan menyembunyikannya kembali. */
+  function watchBtns(){
+    var el = document.getElementById('kasHadiranBtns');
+    if (!el || el.__v10kh_watched) return;
+    el.__v10kh_watched = true;
+    var mo = new MutationObserver(function(){
+      if (el.classList.contains('v10kh-hidden') && el.style.display !== 'none'){
+        el.style.display = 'none';
+      }
+    });
+    mo.observe(el, { attributes: true, attributeFilter: ['style','class'] });
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', watchBtns);
+  } else {
+    watchBtns();
+  }
+})();
+</script>
 </body>
 </html>
