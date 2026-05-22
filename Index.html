@@ -2249,7 +2249,7 @@ Masuk sebagai Bendahara
 <section class="page" id="pgKasRT">
 <div id="kasRTHero"></div>
 <div id="kasRTBtns" style="display:none;margin-bottom:14px"></div>
-<div class="sec-ttl">📒 Mutasi Kas Besar RT 004/006</div>
+<div class="krt2-sec"><div class="krt2-sec-t">Mutasi Kas Besar RT</div></div>
 <div class="card-body" style="padding:0" id="kasBesarBody"><div class="lrow"><div class="lsp"></div>Memuat...</div></div>
 </section>
 </div>
@@ -3321,6 +3321,42 @@ heroEl.innerHTML = '<div class="hero" style="margin-bottom:14px">'+
 '</div>'+
 '</div>';
 }
+/* ═══════════ KAS RT — Premium Redesign 2026 ═══════════ */
+var KRT2_SVG = {
+bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>',
+plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+minus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+arrowUp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>',
+arrowDown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>',
+house:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+hospital:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.8-3.8a6 6 0 01-7.9 7.9L7 19a2.83 2.83 0 11-4-4l7.6-7.6A6 6 0 0118.4 2.6z"/></svg>',
+doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>',
+pdf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="14" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>',
+pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4z"/></svg>'
+};
+function fmtTglShort(d){
+if(!d)return'—';
+var s=typeof d==='string'?d.substring(0,10):String(d);
+var x=s.split('-');if(x.length<3)return s;
+var bl=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+return (+x[2])+' '+bl[+x[1]-1]+' '+x[0];
+}
+function _krt2Ico(kat,dir){
+var k=String(kat||'').toUpperCase();
+if(k==='SALDO_AWAL')          return {cls:'gold', svg:KRT2_SVG.bag};
+if(k==='IURAN_ANGGOTA')       return {cls:'house',svg:KRT2_SVG.house};
+if(k==='IURAN_NON_ANGGOTA')   return {cls:'house',svg:KRT2_SVG.house};
+if(k==='DONASI_RAWAT_INAP')   return {cls:'red',  svg:KRT2_SVG.hospital};
+if(k==='PEMELIHARAAN')        return {cls:'red',  svg:KRT2_SVG.wrench};
+if(k==='LAIN_LAIN')           return {cls:dir==='out'?'red':'blue',svg:KRT2_SVG.doc};
+return {cls:dir==='out'?'red':'blue',svg:dir==='out'?KRT2_SVG.arrowDown:KRT2_SVG.arrowUp};
+}
+function _krt2EditBtn(r,dir){
+if(!isAdmin)return'';
+var safeKet=String(r.keterangan||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+return '<button class="krt2-row-edit" aria-label="Edit" onclick="event.stopPropagation();openEditSetoran(\''+r.id+'\',\''+dir+'\',\''+r.tanggal+'\',\''+safeKet+'\','+r.nominal+')">'+KRT2_SVG.pencil+'</button>';
+}
 function loadKasBesar(){
 var el=document.getElementById('kasBesarBody');if(!el)return;
 el.innerHTML='<div class="lrow"><div class="lsp"></div>Memuat Laporan Kas RT...</div>';
@@ -3339,68 +3375,89 @@ var saldoAwalNom=saldoAwal?saldoAwal.nominal:0;
 var totMasuk=pemasukan.reduce(function(s,r){return s+r.nominal;},0);
 var totKeluar=pengeluaran.reduce(function(s,r){return s+r.nominal;},0);
 var saldoAkhir=saldoAwalNom+totMasuk-totKeluar;
-var heroHtml='<div class="hero" style="margin-bottom:14px">'+
-'<div class="hero-ey">SALDO BERSIH KAS RT 004/006</div>'+
-'<div class="hero-amt"><span class="hero-rp">Rp</span><span>'+fmtN(saldoAkhir)+'</span></div>'+
-'<div class="hero-note">Per '+(new Date()).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+'</div>'+
-'<div class="hero-breakdown">'+
-'<div class="hb-row"><span class="hb-lbl">💰 Saldo Awal</span><span class="hb-val">'+fmtRp(saldoAwalNom)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">📥 Total Pemasukan</span><span class="hb-val" style="color:#86EFAC">+'+fmtRp(totMasuk)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">📤 Total Pengeluaran</span><span class="hb-val" style="color:#FCA5A5">-'+fmtRp(totKeluar)+'</span></div>'+
-'</div></div>';
-var heroEl=document.getElementById('kasRTHero');if(heroEl)heroEl.innerHTML=heroHtml;
-var btnsEl=document.getElementById('kasRTBtns');
-if(btnsEl&&isAdmin){
-btnsEl.style.display='';
-btnsEl.innerHTML=
-'<div class="krt-actions">'+
-'<div class="krt-row-primary">'+
-'<button class="krt-btn-primary krt-btn-masuk" onclick="openInputMasuk()">'+
-'<div class="krt-btn-ic">📥</div>'+
-'<span class="krt-btn-label">Pemasukan</span>'+
-'<span class="krt-btn-desc">Tambah mutasi masuk</span>'+
-'</button>'+
-'<button class="krt-btn-primary krt-btn-keluar" onclick="openInputKeluar()">'+
-'<div class="krt-btn-ic">📤</div>'+
-'<span class="krt-btn-label">Pengeluaran</span>'+
-'<span class="krt-btn-desc">Catat biaya keluar</span>'+
-'</button>'+
-'</div>'+
-'<div class="krt-row-util">'+
-'<button class="krt-btn-util krt-btn-setor" onclick="openOv(\'ovPengeluaran\')">'+
-'<span class="krt-util-ic">🏦</span>Setor dari Hadiran</button>'+
-'<button class="krt-btn-util krt-btn-cetak" onclick="cetakKasBesar()">'+
-'<span class="krt-util-ic">📄</span>Cetak PDF</button>'+
+var todayStr=(function(){var d=new Date();var bl=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];return d.getDate()+' '+bl[d.getMonth()]+' '+d.getFullYear();})();
+// ── Hero card: glassmorphism, geometric typography, subtle Arabic ──
+var heroHtml='<div class="krt2-hero">'+
+'<div class="krt2-arabic">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>'+
+'<div class="krt2-hero-label">Saldo Bersih Kas RT</div>'+
+'<div class="krt2-hero-amt"><span class="krt2-rp">Rp</span><span class="krt2-num">'+fmtN(saldoAkhir)+'</span></div>'+
+'<div class="krt2-hero-date">Per '+todayStr+'</div>'+
+'<div class="krt2-breakdown">'+
+'<div class="krt2-bd-row"><div class="krt2-bd-ic gold">'+KRT2_SVG.bag+'</div><div class="krt2-bd-lbl">Saldo Awal</div><div class="krt2-bd-val">'+fmtRp(saldoAwalNom)+'</div></div>'+
+'<div class="krt2-bd-row"><div class="krt2-bd-ic blue">'+KRT2_SVG.plus+'</div><div class="krt2-bd-lbl">Total Pemasukan</div><div class="krt2-bd-val up">+'+fmtRp(totMasuk)+'</div></div>'+
+'<div class="krt2-bd-row"><div class="krt2-bd-ic red">'+KRT2_SVG.minus+'</div><div class="krt2-bd-lbl">Total Pengeluaran</div><div class="krt2-bd-val down">-'+fmtRp(totKeluar)+'</div></div>'+
 '</div>'+
 '</div>';
-}else if(btnsEl){btnsEl.style.display='none';}
-var html='';
-if(saldoAwal){
-html+='<div class="kbs-card kbs-card-awal"><div class="kbs-card-icon">💰</div><div class="kbs-card-info"><div class="kbs-card-cat">SALDO AWAL</div><div class="kbs-card-ket">'+esc(saldoAwal.keterangan)+'</div><div class="kbs-card-tgl">📅 '+fmtTglID2(saldoAwal.tanggal)+'</div></div><div class="kbs-card-nom" style="color:#0F2F7E">'+fmtRp(saldoAwal.nominal)+'</div></div>';
+var heroEl=document.getElementById('kasRTHero');if(heroEl)heroEl.innerHTML=heroHtml;
+// ── Action tiles (admin) + minimal PDF link ──
+var btnsEl=document.getElementById('kasRTBtns');
+if(btnsEl){
+btnsEl.style.display='';
+var actionTiles='';
+if(isAdmin){
+actionTiles='<div class="krt2-tiles">'+
+'<button class="krt2-tile in" onclick="openInputMasuk()">'+
+'<div class="krt2-tile-ic">'+KRT2_SVG.arrowUp+'</div>'+
+'<div class="krt2-tile-amt">+'+fmtRp(totMasuk)+'</div>'+
+'<div class="krt2-tile-lbl">Pemasukan</div>'+
+'<div class="krt2-tile-desc">Catat dana masuk</div>'+
+'</button>'+
+'<button class="krt2-tile out" onclick="openInputKeluar()">'+
+'<div class="krt2-tile-ic">'+KRT2_SVG.arrowDown+'</div>'+
+'<div class="krt2-tile-amt">-'+fmtRp(totKeluar)+'</div>'+
+'<div class="krt2-tile-lbl">Pengeluaran</div>'+
+'<div class="krt2-tile-desc">Catat dana keluar</div>'+
+'</button>'+
+'</div>';
 }
-html+='<div class="kbs-section kbs-sec-in"><div class="kbs-section-hdr"><span class="kbs-section-ic">📥</span><span class="kbs-section-ttl">PEMASUKAN</span><span class="kbs-section-cnt">'+pemasukan.length+' transaksi</span><span class="kbs-section-tot">'+fmtRp(totMasuk)+'</span></div></div>';
+btnsEl.innerHTML=actionTiles+
+'<button class="krt2-pdf-link" onclick="cetakKasBesar()">'+KRT2_SVG.pdf+'<span>Cetak PDF</span></button>';
+}
+// ── Streamlined single-line list ──
+var html='<div class="krt2-list">';
+if(saldoAwal){
+html+='<div class="krt2-row krt2-row-saldo">'+
+'<div class="krt2-row-ic gold">'+KRT2_SVG.bag+'</div>'+
+'<div class="krt2-row-info">'+
+'<div class="krt2-row-cat">Saldo Awal</div>'+
+'<div class="krt2-row-tgl">'+fmtTglShort(saldoAwal.tanggal)+'</div>'+
+'</div>'+
+'<div class="krt2-row-amt">'+fmtRp(saldoAwal.nominal)+'</div>'+
+'</div>';
+}
+html+='<div class="krt2-sec-divider in"><span class="label">Pemasukan</span><span class="line"></span><span class="total">+'+fmtRp(totMasuk)+'</span></div>';
 if(pemasukan.length){
-html+='<div class="kbs-group-in">';
 pemasukan.forEach(function(r){
-var ico=catIcon(r.kategori);
-var editBtn=isAdmin?'<button class="kbs-edit-btn" onclick="event.stopPropagation();openEditSetoran(\''+r.id+'\',\'masuk\',\''+r.tanggal+'\',\''+r.keterangan.replace(/'/g,"\\'").replace(/"/g,'"')+'\','+r.nominal+')">✎</button>':'';
-html+='<div class="kbs-card kbs-card-in"><div class="kbs-card-icon" style="background:#DCFCE7;color:#166534">'+ico+'</div><div class="kbs-card-info"><div class="kbs-card-cat" style="color:#166534">'+r.kategori.replace(/_/g,' ')+'</div><div class="kbs-card-ket">'+esc(r.keterangan)+'</div><div class="kbs-card-tgl">📅 '+fmtTglID2(r.tanggal)+'</div></div><div class="kbs-card-nom" style="color:#15803D">+'+fmtRp(r.nominal)+'</div>'+editBtn+'</div>';
+var ic=_krt2Ico(r.kategori,'in');
+var label=r.keterangan||r.kategori.replace(/_/g,' ');
+html+='<div class="krt2-row">'+
+'<div class="krt2-row-ic '+ic.cls+'">'+ic.svg+'</div>'+
+'<div class="krt2-row-info">'+
+'<div class="krt2-row-cat">'+esc(label)+'</div>'+
+'<div class="krt2-row-tgl">'+fmtTglShort(r.tanggal)+'</div>'+
+'</div>'+
+'<div class="krt2-row-amt up">+'+fmtRp(r.nominal)+'</div>'+
+_krt2EditBtn(r,'masuk')+
+'</div>';
 });
-html+='</div>';
-}else{html+='<div class="empty" style="padding:20px"><div class="empty-d">Belum ada pemasukan</div></div>';}
-// Pengeluaran section
-html+='<div class="kbs-section kbs-sec-out" style="margin-top:10px"><div class="kbs-section-hdr"><span class="kbs-section-ic">📤</span><span class="kbs-section-ttl">PENGELUARAN</span><span class="kbs-section-cnt">'+pengeluaran.length+' transaksi</span><span class="kbs-section-tot" style="color:#B91C1C">'+fmtRp(totKeluar)+'</span></div></div>';
+}else{html+='<div class="krt2-empty">Belum ada pemasukan</div>';}
+html+='<div class="krt2-sec-divider out"><span class="label">Pengeluaran</span><span class="line"></span><span class="total">-'+fmtRp(totKeluar)+'</span></div>';
 if(pengeluaran.length){
-html+='<div class="kbs-group-out">';
 pengeluaran.forEach(function(r){
-var ico=catIcon(r.kategori);
-var editBtn2=isAdmin?'<button class="kbs-edit-btn" onclick="event.stopPropagation();openEditSetoran(\''+r.id+'\',\'keluar\',\''+r.tanggal+'\',\''+r.keterangan.replace(/'/g,"\\'").replace(/"/g,'"')+'\','+r.nominal+')">✎</button>':'';
-html+='<div class="kbs-card kbs-card-out"><div class="kbs-card-icon" style="background:#FEE2E2;color:#991B1B">'+ico+'</div><div class="kbs-card-info"><div class="kbs-card-cat" style="color:#991B1B">'+r.kategori.replace(/_/g,' ')+'</div><div class="kbs-card-ket">'+esc(r.keterangan)+'</div><div class="kbs-card-tgl">📅 '+fmtTglID2(r.tanggal)+'</div></div><div class="kbs-card-nom" style="color:#B91C1C">-'+fmtRp(r.nominal)+'</div>'+editBtn2+'</div>';
+var ic=_krt2Ico(r.kategori,'out');
+var label=r.keterangan||r.kategori.replace(/_/g,' ');
+html+='<div class="krt2-row">'+
+'<div class="krt2-row-ic '+ic.cls+'">'+ic.svg+'</div>'+
+'<div class="krt2-row-info">'+
+'<div class="krt2-row-cat">'+esc(label)+'</div>'+
+'<div class="krt2-row-tgl">'+fmtTglShort(r.tanggal)+'</div>'+
+'</div>'+
+'<div class="krt2-row-amt down">-'+fmtRp(r.nominal)+'</div>'+
+_krt2EditBtn(r,'keluar')+
+'</div>';
 });
+}else{html+='<div class="krt2-empty">Belum ada pengeluaran</div>';}
 html+='</div>';
-}else{html+='<div class="empty" style="padding:20px"><div class="empty-d">Belum ada pengeluaran</div></div>';}
-// Footer summary
-html+='<div class="kbs-footer"><div class="kbs-footer-row"><span>Saldo Awal</span><span>'+fmtRp(saldoAwalNom)+'</span></div><div class="kbs-footer-row"><span>+ Total Pemasukan</span><span style="color:#86EFAC">'+fmtRp(totMasuk)+'</span></div><div class="kbs-footer-row"><span>− Total Pengeluaran</span><span style="color:#FCA5A5">'+fmtRp(totKeluar)+'</span></div><div class="kbs-footer-row kbs-footer-total"><span>SALDO BERSIH</span><span>'+fmtRp(saldoAkhir)+'</span></div></div>';
 el.innerHTML=html;
 },function(){document.getElementById('kasBesarBody').innerHTML='<div class="alert aR" style="margin:10px"><span class="alert-ic">⚠️</span><span>Belum bisa akses Laporan Kas RT. Pastikan getLaporanKasBesar() ada di Code.gs.</span></div>';});
 }
@@ -19889,6 +19946,508 @@ html[data-theme] body::before{
 
 html[data-theme="dark"] body::before{
   color: rgba(255,255,255,.12) !important;
+}
+
+</style>
+<style id="krt2-redesign-2026">
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN RT — KAS RT PREMIUM REDESIGN 2026
+   Glass green hero, geometric typography, single-line list, sharp SVG
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hide global Bismillah banner (now integrated inside hero) ─── */
+.bismillah-top,
+.bismillah-top.show { display:none !important; }
+
+/* ── 2. Section title used by the new Kas RT page ───────────────── */
+.krt2-sec {
+  margin: 22px 2px 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.krt2-sec-t {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.6px !important;
+  text-transform: uppercase !important;
+  color: var(--t2) !important;
+  position: relative;
+  padding-left: 11px;
+}
+.krt2-sec-t::before {
+  content:'';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--G), transparent);
+}
+
+/* ── 3. Hero card: green, glassmorphism, premium typography ─────── */
+.krt2-hero {
+  position: relative;
+  margin-bottom: 18px;
+  padding: 22px 22px 18px;
+  border-radius: 28px;
+  background:
+    linear-gradient(160deg, #0B5132 0%, #0F6B3F 38%, #16A34A 100%);
+  box-shadow:
+    0 14px 44px rgba(11,81,50,.34),
+    0 2px 10px rgba(11,81,50,.18),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+}
+.krt2-hero::before {
+  content:'';
+  position: absolute;
+  top: -70px; right: -70px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.10), transparent 65%);
+  z-index: 0; pointer-events: none;
+}
+.krt2-hero::after {
+  content:'';
+  position: absolute;
+  bottom: -90px; left: -50px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,.20), transparent 65%);
+  z-index: 0; pointer-events: none;
+}
+.krt2-hero > * { position: relative; z-index: 1; }
+
+.krt2-arabic {
+  font-family: 'Amiri Quran','Scheherazade New','Amiri','Traditional Arabic',serif !important;
+  font-size: 16px;
+  color: rgba(255,255,255,.55);
+  line-height: 1;
+  margin-bottom: 14px;
+  text-align: right;
+  letter-spacing: 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,.18);
+}
+
+.krt2-hero-label {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.8px !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.62) !important;
+  margin-bottom: 8px;
+}
+
+.krt2-hero-amt {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #fff;
+  letter-spacing: -1.6px;
+  line-height: 1;
+}
+.krt2-hero-amt .krt2-rp {
+  font-family: 'Inter','SF Pro Display',sans-serif !important;
+  font-size: 19px;
+  font-weight: 600;
+  opacity: .68;
+  letter-spacing: -.2px;
+}
+.krt2-hero-amt .krt2-num {
+  font-family: 'Inter','SF Pro Display',system-ui,sans-serif !important;
+  font-size: 38px;
+  font-weight: 700;
+  font-feature-settings: 'tnum' 1, 'cv11' 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+.krt2-hero-date {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,.58);
+  letter-spacing: .15px;
+  margin-bottom: 18px;
+}
+
+/* Breakdown — clean lines with subtle glass panel */
+.krt2-breakdown {
+  background: rgba(255,255,255,.075);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  padding: 2px 14px;
+}
+.krt2-bd-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.krt2-bd-row:last-child { border-bottom: none; }
+.krt2-bd-ic {
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+.krt2-bd-ic svg { width: 16px; height: 16px; }
+.krt2-bd-ic.gold {
+  background: linear-gradient(135deg,#F59E0B,#D97706);
+  box-shadow: 0 2px 8px rgba(217,119,6,.45), inset 0 1px 0 rgba(255,255,255,.20);
+}
+.krt2-bd-ic.blue {
+  background: linear-gradient(135deg,#60A5FA,#2563EB);
+  box-shadow: 0 2px 8px rgba(37,99,235,.45), inset 0 1px 0 rgba(255,255,255,.20);
+}
+.krt2-bd-ic.red {
+  background: linear-gradient(135deg,#F87171,#DC2626);
+  box-shadow: 0 2px 8px rgba(220,38,38,.45), inset 0 1px 0 rgba(255,255,255,.20);
+}
+.krt2-bd-lbl {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,.78);
+}
+.krt2-bd-val {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.1px;
+}
+.krt2-bd-val.up   { color: #BBF7D0; }
+.krt2-bd-val.down { color: #FCA5A5; }
+
+/* ── 4. Quick-action tiles (Pemasukan / Pengeluaran) ────────────── */
+.krt2-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.krt2-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 132px;
+  padding: 16px 16px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 22px;
+  background: var(--surf);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s var(--e2), box-shadow .22s, border-color .18s;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: left;
+}
+.krt2-tile::after {
+  content:'';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 100%, rgba(255,255,255,0), transparent 70%);
+  transition: background .25s;
+  z-index: 0; pointer-events: none;
+}
+.krt2-tile > * { position: relative; z-index: 1; }
+.krt2-tile:active { transform: scale(.96); }
+.krt2-tile-ic {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.krt2-tile-ic svg { width: 20px; height: 20px; }
+.krt2-tile-amt {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.krt2-tile-lbl {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--t0);
+  letter-spacing: -.1px;
+  margin-top: 2px;
+}
+.krt2-tile-desc {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--t3);
+}
+.krt2-tile.in {
+  background: linear-gradient(160deg, #F0FDF4 0%, #FFFFFF 60%);
+  border-color: rgba(22,163,74,.22);
+}
+.krt2-tile.in .krt2-tile-ic {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  box-shadow: 0 6px 16px rgba(22,163,74,.32), inset 0 1px 0 rgba(255,255,255,.20);
+}
+.krt2-tile.in .krt2-tile-amt { color: #15803D; }
+.krt2-tile.in:active {
+  border-color: rgba(22,163,74,.45);
+  box-shadow: 0 4px 16px rgba(22,163,74,.22);
+}
+.krt2-tile.out {
+  background: linear-gradient(160deg, #FEF2F2 0%, #FFFFFF 60%);
+  border-color: rgba(220,38,38,.20);
+}
+.krt2-tile.out .krt2-tile-ic {
+  background: linear-gradient(135deg, #F87171, #DC2626);
+  box-shadow: 0 6px 16px rgba(220,38,38,.30), inset 0 1px 0 rgba(255,255,255,.20);
+}
+.krt2-tile.out .krt2-tile-amt { color: #B91C1C; }
+.krt2-tile.out:active {
+  border-color: rgba(220,38,38,.45);
+  box-shadow: 0 4px 16px rgba(220,38,38,.20);
+}
+[data-theme="dark"] .krt2-tile.in {
+  background: linear-gradient(160deg, rgba(22,163,74,.14) 0%, var(--surf) 60%);
+  border-color: rgba(34,197,94,.30);
+}
+[data-theme="dark"] .krt2-tile.out {
+  background: linear-gradient(160deg, rgba(220,38,38,.14) 0%, var(--surf) 60%);
+  border-color: rgba(239,68,68,.30);
+}
+[data-theme="dark"] .krt2-tile.in .krt2-tile-amt  { color: #4ADE80; }
+[data-theme="dark"] .krt2-tile.out .krt2-tile-amt { color: #F87171; }
+
+/* ── 5. Minimal PDF text link ──────────────────────────────────── */
+.krt2-pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 8px 8px;
+  margin: 0 0 10px -4px;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t2);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color .15s, background .15s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.krt2-pdf-link svg { width: 16px; height: 16px; opacity: .8; }
+.krt2-pdf-link:hover { color: var(--G); }
+.krt2-pdf-link:active {
+  transform: scale(.96);
+  background: var(--surf2);
+}
+
+/* ── 6. Streamlined single-line list rows ──────────────────────── */
+.krt2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.krt2-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 6px;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  transition: background .15s;
+  position: relative;
+}
+.krt2-row:last-child { border-bottom: none; }
+.krt2-row:active { background: var(--surf2); }
+.krt2-row-ic {
+  width: 36px; height: 36px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+.krt2-row-ic svg { width: 17px; height: 17px; }
+.krt2-row-ic.gold {
+  background: linear-gradient(135deg, #FBBF24, #D97706);
+  box-shadow: 0 3px 10px rgba(217,119,6,.30), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.krt2-row-ic.blue {
+  background: linear-gradient(135deg, #60A5FA, #2563EB);
+  box-shadow: 0 3px 10px rgba(37,99,235,.28), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.krt2-row-ic.red {
+  background: linear-gradient(135deg, #F87171, #DC2626);
+  box-shadow: 0 3px 10px rgba(220,38,38,.26), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.krt2-row-ic.house {
+  background: linear-gradient(135deg, #34D399, #059669);
+  box-shadow: 0 3px 10px rgba(5,150,105,.28), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.krt2-row-info { flex: 1; min-width: 0; }
+.krt2-row-cat {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--t0);
+  letter-spacing: -.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.krt2-row-saldo .krt2-row-cat {
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.krt2-row-tgl {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+  margin-top: 3px;
+  letter-spacing: .15px;
+  font-variant-numeric: tabular-nums;
+}
+.krt2-row-amt {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--t0);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -.2px;
+}
+.krt2-row-amt.up   { color: #15803D; }
+.krt2-row-amt.down { color: #B91C1C; }
+[data-theme="dark"] .krt2-row-amt.up   { color: #4ADE80; }
+[data-theme="dark"] .krt2-row-amt.down { color: #F87171; }
+
+.krt2-row-edit {
+  background: var(--surf2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--t3);
+  margin-left: 2px;
+  transition: all .14s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.krt2-row-edit svg { width: 14px; height: 14px; }
+.krt2-row-edit:hover { color: var(--G); border-color: var(--G-soft); }
+.krt2-row-edit:active { transform: scale(.88); background: var(--G-dim); color: var(--G); }
+
+/* ── 7. Section dividers (Pemasukan / Pengeluaran group labels) ── */
+.krt2-sec-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 2px 4px;
+}
+.krt2-sec-divider .label {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--t3);
+  flex-shrink: 0;
+}
+.krt2-sec-divider .line {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.krt2-sec-divider .total {
+  font-size: 11.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.1px;
+  flex-shrink: 0;
+}
+.krt2-sec-divider.in  .total { color: #15803D; }
+.krt2-sec-divider.out .total { color: #B91C1C; }
+[data-theme="dark"] .krt2-sec-divider.in  .total { color: #4ADE80; }
+[data-theme="dark"] .krt2-sec-divider.out .total { color: #F87171; }
+
+/* ── 8. Empty state ─────────────────────────────────────────────── */
+.krt2-empty {
+  text-align: center;
+  padding: 22px 16px;
+  font-size: 12px;
+  color: var(--t4);
+  font-weight: 500;
+}
+
+/* ── 9. Neutralize old .kbs-* red/green left bars (clean look) ── */
+.kbs-card-out,
+.kbs-card-in,
+.kbs-card-awal { border-left: none !important; }
+/* Hide the red bordered outline inherited from older theme */
+#pgKasRT .kbs-card { border-left: 1px solid var(--line) !important; }
+
+/* ── 10. Bottom-nav: refined selected state with green glow ───── */
+#bottomNav .ni { position: relative; }
+#bottomNav .ni .ni-ico { position: relative; z-index: 1; }
+#bottomNav .ni.on .ni-ico {
+  background: linear-gradient(135deg, var(--G-dim), rgba(34,197,94,.10)) !important;
+  box-shadow:
+    0 0 0 1px rgba(22,163,74,.18),
+    0 4px 14px rgba(22,163,74,.22) !important;
+}
+#bottomNav .ni.on::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,.30), transparent 70%);
+  filter: blur(10px);
+  z-index: 0;
+  pointer-events: none;
+  animation: krt2NavGlow .35s var(--e2) both;
+}
+[data-theme="dark"] #bottomNav .ni.on .ni-ico {
+  background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(34,197,94,.08)) !important;
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.24),
+    0 4px 14px rgba(34,197,94,.26) !important;
+}
+@keyframes krt2NavGlow {
+  from { opacity: 0; transform: translateX(-50%) scale(.6); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* ── 11. Kas RT page generous spacing ─────────────────────────── */
+#pgKasRT { padding-top: 14px !important; }
+#pgKasRT .krt2-hero + #kasRTBtns,
+#pgKasRT #kasRTBtns:not(:empty) { margin-bottom: 10px !important; }
+
+/* ── 12. Responsive polish on small screens ──────────────────── */
+@media (max-width: 360px) {
+  .krt2-hero { padding: 20px 18px 16px; border-radius: 24px; }
+  .krt2-hero-amt .krt2-num { font-size: 32px; }
+  .krt2-hero-amt .krt2-rp  { font-size: 17px; }
+  .krt2-tile { min-height: 122px; padding: 14px 14px 12px; }
+  .krt2-tile-amt { font-size: 14.5px; }
+  .krt2-row-cat { font-size: 13px; }
+  .krt2-row-amt { font-size: 13.5px; }
 }
 
 </style>
