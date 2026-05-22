@@ -3590,8 +3590,11 @@ var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
 var rows=sorted.map(function(r,i){
 r.noUrut=i+1;
 tM+=r.totalBayarMasuk;tSB+=r.totalSohibulBait;tK+=r.kasMasuk;
-var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:r.talanganKeluar||0;
-var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:r.jumlahTidakHadir||0;
+/* v12.2 fix: talMap = source of truth (data live "Belum Lunas").
+   Jika tarikan tidak ada di talMap berarti semua sudah lunas → 0,
+   bukan fallback ke r.talanganKeluar (nilai historis dari sheet). */
+var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:0;
+var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:0;
 var livSt=setMap[String(r.noTarikan)]||0;
 var livN=(r.kasMasuk||0)-livT-livSt;
 tT+=livT;tSt+=livSt;tN+=livN;
@@ -3803,7 +3806,7 @@ function buildPDFKas(sm,tm){
 var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
 var rows=kasCache.map(function(r,i){
 tM+=r.totalBayarMasuk;tSB+=r.totalSohibulBait;tK+=r.kasMasuk;
-var livT=tm[r.noTarikan]?tm[r.noTarikan].jumlah:r.talanganKeluar||0;
+var livT=tm[r.noTarikan]?tm[r.noTarikan].jumlah:0;
 var livSt=sm[String(r.noTarikan)]||0;
 var livN=(r.kasMasuk||0)-livT-livSt;
 tT+=livT;tSt+=livSt;tN+=livN;
@@ -12099,8 +12102,8 @@ table.zt thead th{
         tM += r.totalBayarMasuk||0;
         tSB += r.totalSohibulBait||0;
         tK += r.kasMasuk||0;
-        var livT = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : (r.talanganKeluar||0);
-        var livC = talMap[r.noTarikan] ? talMap[r.noTarikan].count : (r.jumlahTidakHadir||0);
+        var livT = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : 0;
+        var livC = talMap[r.noTarikan] ? talMap[r.noTarikan].count : 0;
         var livSt = setMap[String(r.noTarikan)] || 0;
         var livN = (r.kasMasuk||0) - livT - livSt;
         tT+=livT; tSt+=livSt; tN+=livN;
@@ -12282,7 +12285,7 @@ table.zt thead th{
         tM  += r.totalBayarMasuk||0;
         tSB += r.totalSohibulBait||0;
         tK  += r.kasMasuk||0;
-        var livT  = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : (r.talanganKeluar||0);
+        var livT  = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : 0;
         var livSt = setMap[String(r.noTarikan)] || 0;
         var livN  = (r.kasMasuk||0) - livT - livSt;
         tT += livT; tSt += livSt; tN += livN;
@@ -12416,7 +12419,7 @@ table.zt thead th{
         tM  += r.totalBayarMasuk  || 0;
         tSB += r.totalSohibulBait || 0;
         tK  += r.kasMasuk         || 0;
-        var livT  = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : (r.talanganKeluar||0);
+        var livT  = talMap[r.noTarikan] ? talMap[r.noTarikan].jumlah : 0;
         var livSt = setMap[String(r.noTarikan)] || 0;
         var livN  = (r.kasMasuk||0) - livT - livSt;
         tT  += livT;
@@ -19892,5 +19895,211 @@ html[data-theme="dark"] body::before{
 }
 
 </style>
+
+<style id="patch-v12-2-compact-hero-premium-btn">
+/* ════════════════════════════════════════════════════════════════════
+   PATCH v12.2 — COMPACT HERO + PREMIUM SAVE BUTTON
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ─── HERO CARD: compact (lebih pendek) ─────────────────────────────── */
+html[data-theme] body .hero.hero{
+  padding: 14px 16px 14px !important;
+  border-radius: 18px !important;
+  margin: 0 0 10px !important;
+}
+html[data-theme] body .hero.hero .hero-label,
+html[data-theme] body .hero.hero .hero-ey,
+html[data-theme] body .hero.hero [class^="hero-l"]:not([class*="hero-breakdown"]){
+  font-size: 9.5px !important;
+  letter-spacing: 1.4px !important;
+  margin-bottom: 4px !important;
+}
+html[data-theme] body .hero.hero .hero-amt{
+  font-size: 28px !important;
+  line-height: 1 !important;
+  letter-spacing: -1.1px !important;
+  margin-bottom: 2px !important;
+  gap: 3px !important;
+}
+html[data-theme] body .hero.hero .hero-rp{
+  font-size: 14px !important;
+}
+html[data-theme] body .hero.hero .hero-note{
+  font-size: 10.5px !important;
+  margin-bottom: 9px !important;
+  letter-spacing: 0 !important;
+}
+html[data-theme] body .hero.hero .hero-breakdown{
+  border-radius: 11px !important;
+  padding: 8px 11px !important;
+  gap: 0 !important;
+}
+html[data-theme] body .hero.hero .hb-row{
+  padding: 5px 0 !important;
+  font-size: 11px !important;
+}
+html[data-theme] body .hero.hero .hb-row + .hb-row{
+  border-top: 1px solid rgba(255,255,255,.08) !important;
+}
+html[data-theme] body .hero.hero .hb-lbl{
+  font-size: 11px !important;
+}
+html[data-theme] body .hero.hero .hb-val{
+  font-size: 12px !important;
+}
+
+/* Hero-breakdown internal layout fix: ulang baris flex column tanpa gap */
+html[data-theme] body .hero.hero .hero-breakdown{
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* ─── SAVE BAR: pad lebih kompak agar nempel rapih ──────────────────── */
+html[data-theme] body .save-bar{
+  padding: 8px 0 0 !important;
+}
+
+/* ─── PREMIUM SAVE & HITUNG BUTTON ──────────────────────────────────── */
+@keyframes premiumSheen-v122{
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  60%  { transform: translateX(220%)  skewX(-20deg); }
+  100% { transform: translateX(220%)  skewX(-20deg); }
+}
+
+html[data-theme] body .save-bar .btn,
+html[data-theme] body .save-bar .btn.btn-G,
+html[data-theme] body #btnSimpan,
+html[data-theme] body #btnPengeluaran,
+html[data-theme] body #btnInputMasuk,
+html[data-theme] body #btnInputKeluar{
+  position: relative !important;
+  height: 56px !important;
+  border-radius: 16px !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .2px !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.20) !important;
+  transition: transform .12s ease, box-shadow .25s ease, filter .25s ease !important;
+}
+
+/* Premium hijau (Simpan & Hitung Iuran, Simpan Pemasukan) */
+html[data-theme] body .save-bar .btn.btn-G,
+html[data-theme] body #btnSimpan,
+html[data-theme] body #btnInputMasuk{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 50%),
+    linear-gradient(155deg, #22C55E 0%, #16A34A 38%, #0E7B36 75%, #0B5E29 100%) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 1px 2px rgba(13,90,40,.30),
+    0 6px 18px rgba(13,90,40,.30),
+    0 12px 32px rgba(13,90,40,.22),
+    0 0 0 1px rgba(8,55,25,.45) !important;
+}
+
+/* Premium biru (Simpan Setoran) */
+html[data-theme] body #btnPengeluaran,
+html[data-theme] body .save-bar .btn.btn-B{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 50%),
+    linear-gradient(155deg, #3B82F6 0%, #2563EB 38%, #1D4ED8 75%, #1E3A8A 100%) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.32),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 1px 2px rgba(29,78,216,.28),
+    0 6px 18px rgba(29,78,216,.30),
+    0 12px 32px rgba(29,78,216,.20),
+    0 0 0 1px rgba(20,40,110,.45) !important;
+}
+
+/* Premium merah (Simpan Pengeluaran) */
+html[data-theme] body #btnInputKeluar,
+html[data-theme] body .save-bar .btn.btn-R{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 50%),
+    linear-gradient(155deg, #F87171 0%, #EF4444 38%, #B91C1C 75%, #7F1D1D 100%) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    inset 0 -1px 0 rgba(0,0,0,.20),
+    0 1px 2px rgba(153,27,27,.28),
+    0 6px 18px rgba(153,27,27,.30),
+    0 12px 32px rgba(153,27,27,.20),
+    0 0 0 1px rgba(80,14,14,.45) !important;
+}
+
+/* Sheen sweep — ditrigger oleh ::after */
+html[data-theme] body .save-bar .btn::after,
+html[data-theme] body #btnSimpan::after,
+html[data-theme] body #btnPengeluaran::after,
+html[data-theme] body #btnInputMasuk::after,
+html[data-theme] body #btnInputKeluar::after{
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 40% !important; height: 100% !important;
+  background: linear-gradient(110deg,
+    rgba(255,255,255,0)    0%,
+    rgba(255,255,255,.18) 45%,
+    rgba(255,255,255,.42) 50%,
+    rgba(255,255,255,.18) 55%,
+    rgba(255,255,255,0)  100%) !important;
+  transform: translateX(-120%) skewX(-20deg) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  animation: premiumSheen-v122 5.5s ease-in-out infinite !important;
+}
+
+/* Hover/active interaction */
+html[data-theme] body .save-bar .btn:hover,
+html[data-theme] body #btnSimpan:hover,
+html[data-theme] body #btnPengeluaran:hover,
+html[data-theme] body #btnInputMasuk:hover,
+html[data-theme] body #btnInputKeluar:hover{
+  filter: brightness(1.06) saturate(1.05) !important;
+  transform: translateY(-1px) !important;
+}
+html[data-theme] body .save-bar .btn:active,
+html[data-theme] body #btnSimpan:active,
+html[data-theme] body #btnPengeluaran:active,
+html[data-theme] body #btnInputMasuk:active,
+html[data-theme] body #btnInputKeluar:active{
+  transform: translateY(0) scale(.98) !important;
+  filter: brightness(.96) !important;
+}
+
+/* Pastikan label tetap di atas sheen */
+html[data-theme] body .save-bar .btn > *,
+html[data-theme] body #btnSimpan > *,
+html[data-theme] body #btnPengeluaran > *,
+html[data-theme] body #btnInputMasuk > *,
+html[data-theme] body #btnInputKeluar > *{
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Saat loading/disabled — matikan sheen biar tidak nabrak spinner */
+html[data-theme] body .btn.loading::after,
+html[data-theme] body .btn:disabled::after,
+html[data-theme] body .btn[disabled]::after{
+  display: none !important;
+}
+html[data-theme] body .btn.loading,
+html[data-theme] body .btn:disabled,
+html[data-theme] body .btn[disabled]{
+  filter: saturate(.7) brightness(.95) !important;
+  cursor: not-allowed !important;
+}
+
+/* Update debug marker */
+html[data-theme] body::before{ content: 'v12.2' !important; }
+</style>
+
 </body>
 </html>
