@@ -2608,8 +2608,8 @@ btn.textContent=isText?'👁':'🙈';
 btn.style.opacity=isText?'.4':'.8';
 }
 function loginPublic(){isAdmin=false;toast('Mode warga aktif','ok');setTimeout(startApp,200);}
-function showLsErr(m){document.getElementById('lsErr').classList.add('v');document.getElementById('lsErrTxt').textContent=m;}
-function hideLsErr(){document.getElementById('lsErr').classList.remove('v');}
+function showLsErr(m){var el=document.getElementById('lsErr');if(!el)return;el.classList.add('show');var t=document.getElementById('lsErrTxt');if(t)t.textContent=m;}
+function hideLsErr(){var el=document.getElementById('lsErr');if(el)el.classList.remove('show');}
 function startApp(){
 document.getElementById('loginBg').classList.add('out');
 setTimeout(function(){
@@ -4196,7 +4196,7 @@ var manifest={
 name:'Hadiran RT 004/006',
 short_name:'Hadiran RT',
 description:'Aplikasi Absensi & Kas Warga RT 004/006 Tanah Baru, Beji, Kota Depok',
-start_url: window.location.href,
+start_url: window.location.origin + window.location.pathname,
 scope: window.location.origin + window.location.pathname,
 display:'standalone',
 orientation:'portrait-primary',
@@ -4210,8 +4210,8 @@ icons:[
 {src:window._RT_PNG_512||RT_ICON,sizes:'512x512',type:'image/png',purpose:'any maskable'}
 ],
 shortcuts:[
-{name:'Jadwal Pertemuan',short_name:'Jadwal',url:window.location.href+'#absensi',icons:[{src:RT_ICON,sizes:'96x96'}]},
-{name:'Kas Hadiran',short_name:'Kas',url:window.location.href+'#kas',icons:[{src:RT_ICON,sizes:'96x96'}]}
+{name:'Jadwal Pertemuan',short_name:'Jadwal',url:window.location.origin + window.location.pathname + '#absensi',icons:[{src:RT_ICON,sizes:'96x96'}]},
+{name:'Kas Hadiran',short_name:'Kas',url:window.location.origin + window.location.pathname + '#kas',icons:[{src:RT_ICON,sizes:'96x96'}]}
 ]
 };
 try{
@@ -5728,56 +5728,7 @@ function confirmHapusSemuaTalangan(nama, count, totalJumlah) {
     <button class="btn btn-G" id="btnSaveEditAng" onclick="doEditAnggotaStatus()">💾 Simpan Perubahan</button>
   </div>
 </div>
-<!-- ──────── Overlay: Kelola Anggota ──────── -->
-<div class="ov" id="ovKelolaAnggota" onclick="closeOv('ovKelolaAnggota')">
-  <div class="sheet" onclick="event.stopPropagation()">
-    <div class="sh-handle"><div class="sh-bar"></div></div>
-    <div class="sh-title">👥 Kelola Anggota</div>
-    <div class="srch" style="margin-bottom:12px">
-      <span class="srch-ic">🔍</span>
-      <input type="text" id="kelSrch" placeholder="Cari nama anggota..." oninput="renderKelolaAnggota(this.value)" autocomplete="off">
-      <button class="srch-clr" onclick="document.getElementById('kelSrch').value='';renderKelolaAnggota('')">✕</button>
-    </div>
-    <div id="kelolaAngBody" style="max-height:60vh;overflow-y:auto;border:1px solid var(--hairline);border-radius:var(--rsm);background:var(--surf)">
-      <div class="lrow"><div class="lsp"></div>Memuat...</div>
-    </div>
-    <button class="btn btn-G" onclick="openTambahAnggota();closeOv('ovKelolaAnggota')" style="margin-top:12px">
-      👤+ Tambah Anggota Baru
-    </button>
-  </div>
-</div>
-<!-- ──────── Overlay: Edit Anggota ──────── -->
-<div class="ov" id="ovEditAnggota" onclick="closeOv('ovEditAnggota')">
-  <div class="sheet" onclick="event.stopPropagation()">
-    <div class="sh-handle"><div class="sh-bar"></div></div>
-    <div class="sh-title">✎ Edit Anggota</div>
-    <div class="fg">
-      <label class="flbl">Nama Anggota</label>
-      <input type="text" id="eaNama" class="finp" readonly style="opacity:.65;cursor:not-allowed;background:rgba(0,0,0,.03)">
-      <div class="fhint">🔒 Nama tidak bisa diubah karena terhubung ke data historis</div>
-    </div>
-    <div class="fg">
-      <label class="flbl">No HP</label>
-      <input type="tel" id="eaHp" class="finp" placeholder="08xxxxxxxxxx (opsional)" inputmode="tel">
-    </div>
-    <div class="fg">
-      <label class="flbl">Status Keanggotaan</label>
-      <select id="eaStatus" class="finp" onchange="updateEaStatusHint()">
-        <option value="Aktif">🟢 Aktif</option>
-        <option value="Nonaktif">⚪ Nonaktif (sementara tidak aktif)</option>
-        <option value="Mengundurkan Diri">👋 Mengundurkan Diri</option>
-        <option value="Pindah">🚚 Pindah</option>
-        <option value="Almarhum">🕊️ Almarhum</option>
-      </select>
-      <div class="fhint" id="eaStatusHint">Hanya status "Aktif" yang muncul di absensi baru</div>
-    </div>
-    <div class="alert aB" style="margin-bottom:14px;font-size:11.5px">
-      <span class="alert-ic">ℹ️</span>
-      <span>Data historis (Pertemuan, Talangan) tetap aman. Hanya absensi baru ke depan yang terpengaruh.</span>
-    </div>
-    <button class="btn btn-G" id="btnSaveEditAng" onclick="doEditAnggotaStatus()">💾 Simpan Perubahan</button>
-  </div>
-</div>
+<!-- (Duplicate ovKelolaAnggota & ovEditAnggota removed - bug fix v10) -->
 <style id="v91-polish">
 /* ═══════════════════════════════════════════════════════
    HADIRAN v9.1 — POLISH FIX: positioning, missing classes
@@ -19874,21 +19825,913 @@ html[data-theme] body .sc.sc .sc-ic{
   margin-bottom: 8px !important;
 }
 
-/* ─── 5 · ENSURE PATCH IS APPLIED (debug marker hidden) ─────────────── */
+/* ─── 5 · ENSURE PATCH IS APPLIED (debug marker removed) ─────────────── */
 html[data-theme] body::before{
-  content: 'v12.1' !important;
-  position: fixed !important;
-  bottom: 4px !important; right: 4px !important;
-  font-size: 8px !important;
-  color: rgba(15,23,42,.15) !important;
-  pointer-events: none !important;
-  z-index: 9999 !important;
-  font-family: 'SF Mono', Menlo, monospace !important;
-  letter-spacing: 0 !important;
+  content: '' !important;
+  display: none !important;
 }
 
-html[data-theme="dark"] body::before{
-  color: rgba(255,255,255,.12) !important;
+</style>
+
+<style id="ultra-premium-glow-v13">
+/* ════════════════════════════════════════════════════════════════════════
+   HADIRAN RT — ULTRA PREMIUM GLOW v13.0  (FINAL MASTER LAYER)
+   Goal: cinematic glow, aurora background, neon emerald accents,
+         glassmorphism, pulsing halos, bloom buttons.
+   This layer is loaded LAST and uses high specificity to win.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Custom font loader (dengan fallback) ───────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800;900&display=swap');
+
+/* ── Tokens premium ─────────────────────────────────────────────────── */
+:root,[data-theme="light"]{
+  --pg-bg-1: #EAF6EE;
+  --pg-bg-2: #F4FBF7;
+  --pg-glass: rgba(255,255,255,.72);
+  --pg-glass-line: rgba(255,255,255,.85);
+  --pg-emerald: #16A34A;
+  --pg-emerald-2:#0EA655;
+  --pg-emerald-3:#34D399;
+  --pg-mint: #DCF7E6;
+  --pg-deep:  #064E2B;
+  --pg-deepest:#022C16;
+  --pg-gold:  #E8C36B;
+  --pg-glow-strong: 0 0 40px rgba(34,197,94,.45), 0 0 80px rgba(16,185,129,.22);
+  --pg-glow-soft:   0 0 22px rgba(22,163,74,.18), 0 6px 22px rgba(22,163,74,.12);
+  --pg-glow-blue:   0 0 32px rgba(59,130,246,.30);
+  --pg-glow-amber:  0 0 28px rgba(217,119,6,.28);
+  --pg-glow-red:    0 0 30px rgba(239,68,68,.28);
+}
+[data-theme="dark"]{
+  --pg-bg-1: #050B16;
+  --pg-bg-2: #0A1424;
+  --pg-glass: rgba(15,24,38,.72);
+  --pg-glass-line: rgba(255,255,255,.10);
+  --pg-emerald: #22C55E;
+  --pg-emerald-2:#16A34A;
+  --pg-emerald-3:#4ADE80;
+  --pg-mint: #143020;
+  --pg-deep:  #052015;
+  --pg-deepest:#02110B;
+  --pg-glow-strong: 0 0 50px rgba(34,197,94,.55), 0 0 100px rgba(16,185,129,.30);
+  --pg-glow-soft:   0 0 26px rgba(34,197,94,.22), 0 6px 22px rgba(0,0,0,.40);
+}
+
+/* ── Keyframes glow & aurora ───────────────────────────────────────── */
+@keyframes pgPulse{
+  0%,100%{ box-shadow: 0 0 30px rgba(22,163,74,.30), 0 12px 40px rgba(22,163,74,.20); }
+  50%    { box-shadow: 0 0 60px rgba(22,163,74,.55), 0 20px 60px rgba(22,163,74,.35); }
+}
+@keyframes pgPulseDark{
+  0%,100%{ box-shadow: 0 0 40px rgba(34,197,94,.30), 0 12px 50px rgba(34,197,94,.20); }
+  50%    { box-shadow: 0 0 80px rgba(34,197,94,.55), 0 20px 70px rgba(34,197,94,.40); }
+}
+@keyframes pgAurora{
+  0%   { transform: translate3d(0,0,0) rotate(0deg);   opacity:.55; }
+  50%  { transform: translate3d(20px,-30px,0) rotate(180deg); opacity:.85; }
+  100% { transform: translate3d(0,0,0) rotate(360deg); opacity:.55; }
+}
+@keyframes pgShimmerText{
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes pgFloat{
+  0%,100% { transform: translate3d(0,0,0); }
+  50%     { transform: translate3d(0,-6px,0); }
+}
+@keyframes pgRing{
+  0%   { transform: scale(.7);  opacity: .7; }
+  100% { transform: scale(1.6); opacity: 0;  }
+}
+
+/* ── Aurora background (mesh gradient + floating orbs) ─────────────── */
+html[data-theme="light"] body{
+  background:
+    radial-gradient(900px 600px at 88% -10%, rgba(34,197,94,.18), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(16,185,129,.14), transparent 60%),
+    radial-gradient(500px 380px at 50% 50%,  rgba(218,238,228,.40), transparent 60%),
+    linear-gradient(180deg, #EAF6EE 0%, #F4FBF7 60%, #FFFFFF 100%) !important;
+  background-attachment: fixed !important;
+}
+html[data-theme="dark"] body{
+  background:
+    radial-gradient(900px 600px at 88% -10%, rgba(34,197,94,.18), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(59,130,246,.10), transparent 60%),
+    radial-gradient(500px 380px at 50% 50%,  rgba(34,197,94,.06), transparent 60%),
+    linear-gradient(180deg, #050B16 0%, #0A1424 60%, #03070F 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* Floating aurora orbs (fixed background layer) */
+html[data-theme] body{ position: relative; }
+html[data-theme] body::after{
+  content:'' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(280px 280px at 12% 18%, rgba(34,197,94,.28), transparent 60%),
+    radial-gradient(220px 220px at 88% 78%, rgba(16,185,129,.22), transparent 60%),
+    radial-gradient(180px 180px at 50% 92%, rgba(232,195,107,.16), transparent 60%);
+  filter: blur(40px);
+  animation: pgAurora 22s ease-in-out infinite;
+  display: block !important;
+}
+html[data-theme="dark"] body::after{
+  background:
+    radial-gradient(280px 280px at 12% 18%, rgba(34,197,94,.32), transparent 60%),
+    radial-gradient(220px 220px at 88% 78%, rgba(59,130,246,.22), transparent 60%),
+    radial-gradient(180px 180px at 50% 92%, rgba(232,195,107,.10), transparent 60%);
+  filter: blur(48px);
+}
+
+/* ── HERO — cinematic glowing card with halo ──────────────────────── */
+html[data-theme] body .hero.hero{
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 28px !important;
+  padding: 26px 22px 22px !important;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255,255,255,.20) 0%, transparent 55%),
+    radial-gradient(120% 90% at 100% 100%, rgba(0,0,0,.15) 0%, transparent 55%),
+    linear-gradient(135deg,#022C16 0%, #064E2B 35%, #0E8F47 70%, #16A34A 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.22) inset,
+    0 0 30px rgba(34,197,94,.30),
+    0 14px 38px rgba(6,62,35,.42),
+    0 28px 60px rgba(6,62,35,.30) !important;
+  border: none !important;
+  animation: pgPulse 4.5s ease-in-out infinite !important;
+}
+html[data-theme="dark"] body .hero.hero{ animation: pgPulseDark 4.5s ease-in-out infinite !important; }
+
+/* Animated halo behind hero amount */
+html[data-theme] body .hero.hero::after{
+  content:'' !important;
+  position:absolute !important;
+  width: 380px !important; height: 380px !important;
+  top:-180px !important; right:-160px !important;
+  border-radius:50% !important;
+  background: radial-gradient(circle, rgba(134,240,172,.55) 0%, rgba(34,197,94,.18) 30%, transparent 70%) !important;
+  filter: blur(20px) !important;
+  pointer-events:none !important;
+  z-index:0 !important;
+}
+
+html[data-theme] body .hero.hero > *{ position:relative; z-index:1; }
+
+html[data-theme] body .hero.hero .hero-amt,
+html[data-theme] body .hero.hero .hero-rp{
+  font-family:'Manrope','Inter',system-ui,sans-serif !important;
+  letter-spacing:-1.2px !important;
+  text-shadow:
+    0 1px 2px rgba(0,0,0,.30),
+    0 0 24px rgba(134,240,172,.55),
+    0 0 60px rgba(34,197,94,.35) !important;
+}
+html[data-theme] body .hero.hero .hero-amt{ font-size: 42px !important; font-weight: 800 !important; color:#fff !important; }
+html[data-theme] body .hero.hero .hero-rp{ font-size: 22px !important; font-weight:700 !important; color:#A7F3D0 !important; }
+
+html[data-theme] body .hero.hero .hero-label,
+html[data-theme] body .hero.hero .hero-ey{
+  color: rgba(167,243,208,.85) !important;
+  letter-spacing:1.6px !important;
+  text-transform:uppercase !important;
+  text-shadow: 0 0 14px rgba(34,197,94,.50) !important;
+  font-size:10.5px !important;
+  font-weight:800 !important;
+}
+
+html[data-theme] body .hero.hero .hero-note{
+  color: rgba(220,252,231,.78) !important;
+}
+
+html[data-theme] body .hero.hero .hero-breakdown{
+  background: rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(18px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.4) !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 4px 18px rgba(0,0,0,.18) inset !important;
+}
+html[data-theme] body .hero.hero .hb-lbl{ color: rgba(220,252,231,.85) !important; font-weight:600 !important; }
+html[data-theme] body .hero.hero .hb-val{ color: #fff !important; font-weight:800 !important; }
+
+/* ── Public hero (warga view) ──────────────────────────────────────── */
+html[data-theme] body .pub-hero{
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255,255,255,.16) 0%, transparent 55%),
+    linear-gradient(140deg,#053823 0%,#0B6B3C 50%,#16A34A 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.20) inset,
+    0 0 24px rgba(34,197,94,.22),
+    0 12px 36px rgba(6,62,35,.32) !important;
+}
+
+/* ── TOPBAR — glassmorphism + glow underline ─────────────────────── */
+html[data-theme] body #topbar{
+  background: var(--pg-glass) !important;
+  backdrop-filter: saturate(180%) blur(28px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(28px) !important;
+  border-bottom: 1px solid var(--pg-glass-line) !important;
+  position: sticky !important; top: 0 !important; z-index: 200 !important;
+  box-shadow: 0 6px 22px rgba(22,163,74,.10) !important;
+}
+html[data-theme="dark"] body #topbar{
+  background: rgba(10,15,26,.78) !important;
+  border-bottom-color: rgba(255,255,255,.06) !important;
+  box-shadow: 0 6px 22px rgba(0,0,0,.40) !important;
+}
+html[data-theme] body .tb-logo{
+  box-shadow:
+    0 0 0 2px rgba(245,158,11,.30),
+    0 4px 16px rgba(245,158,11,.30),
+    0 0 24px rgba(34,197,94,.22) !important;
+  border-radius: 12px !important;
+}
+html[data-theme] body .tb-badge{
+  background: linear-gradient(135deg,#15803D,#22C55E) !important;
+  color:#fff !important;
+  border: 1px solid rgba(255,255,255,.20) !important;
+  box-shadow: 0 0 14px rgba(34,197,94,.50), 0 2px 6px rgba(22,163,74,.30) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.20) !important;
+  font-weight:800 !important;
+  letter-spacing: .5px !important;
+}
+
+/* ── CARDS — premium glass with inner glow ───────────────────────── */
+html[data-theme] body .card,
+html[data-theme] body .rek-card,
+html[data-theme] body .kb-card,
+html[data-theme] body .tal-card,
+html[data-theme] body .kbs-card{
+  background: var(--pg-glass) !important;
+  border: 1px solid rgba(34,197,94,.10) !important;
+  border-radius: 22px !important;
+  backdrop-filter: blur(14px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.4) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 1px 3px rgba(15,52,30,.06),
+    0 8px 26px rgba(15,52,30,.10),
+    0 0 0 1px rgba(34,197,94,.04) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s !important;
+}
+html[data-theme="dark"] body .card,
+html[data-theme="dark"] body .rek-card,
+html[data-theme="dark"] body .kb-card,
+html[data-theme="dark"] body .tal-card,
+html[data-theme="dark"] body .kbs-card{
+  background: rgba(15,24,38,.72) !important;
+  border-color: rgba(34,197,94,.15) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.04) inset,
+    0 8px 28px rgba(0,0,0,.40),
+    0 0 0 1px rgba(34,197,94,.06),
+    0 0 24px rgba(34,197,94,.06) !important;
+}
+html[data-theme] body .card:hover,
+html[data-theme] body .rek-card:hover,
+html[data-theme] body .kb-card:hover,
+html[data-theme] body .tal-card:hover{
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 12px 36px rgba(22,163,74,.18),
+    0 0 0 1.5px rgba(34,197,94,.18),
+    0 0 30px rgba(34,197,94,.16) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* card top sheen */
+html[data-theme] body .card::before,
+html[data-theme] body .rek-card::before{
+  content:'' !important;
+  position:absolute !important;
+  top:0 !important; left:8% !important; right:8% !important;
+  height:1px !important;
+  background: linear-gradient(90deg, transparent, rgba(34,197,94,.45), transparent) !important;
+  pointer-events:none !important;
+}
+
+/* card header polish */
+html[data-theme] body .card-hdr{
+  background: linear-gradient(180deg, rgba(220,252,231,.55), rgba(255,255,255,0)) !important;
+  border-bottom: 1px solid rgba(34,197,94,.12) !important;
+}
+html[data-theme="dark"] body .card-hdr{
+  background: linear-gradient(180deg, rgba(34,197,94,.06), rgba(255,255,255,0)) !important;
+  border-bottom-color: rgba(34,197,94,.12) !important;
+}
+html[data-theme] body .card-hdr-ic{
+  background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(34,197,94,.04)) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(34,197,94,.18),
+    0 0 10px rgba(34,197,94,.18) !important;
+  color: #15803D !important;
+}
+html[data-theme="dark"] body .card-hdr-ic{ color:#4ADE80 !important; }
+
+/* ── STAT CARDS — neon glow on hover ─────────────────────────────── */
+html[data-theme] body .sc{
+  background: var(--pg-glass) !important;
+  border: 1px solid rgba(34,197,94,.10) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 4px 18px rgba(15,52,30,.08) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s !important;
+}
+html[data-theme] body .sc::after{
+  content:'' !important;
+  position:absolute !important;
+  inset:0 !important;
+  background: radial-gradient(80% 70% at 50% -10%, rgba(34,197,94,.12) 0%, transparent 60%) !important;
+  pointer-events:none !important;
+  opacity:.6 !important;
+  transition: opacity .25s !important;
+}
+html[data-theme] body .sc:hover{
+  transform: translateY(-2px) !important;
+  box-shadow:
+    0 8px 28px rgba(22,163,74,.20),
+    0 0 0 1.5px rgba(34,197,94,.30),
+    0 0 32px rgba(34,197,94,.22) !important;
+}
+html[data-theme] body .sc:hover::after{ opacity:1 !important; }
+html[data-theme] body .sc .sc-val{
+  font-family:'Manrope','Inter',system-ui,sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -.8px !important;
+  font-variant-numeric: tabular-nums !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,.6) !important;
+}
+
+/* ── BUTTONS — bloom glow ─────────────────────────────────────────── */
+html[data-theme] body .btn-G,
+html[data-theme] body .lo-btn-admin,
+html[data-theme] body .save-bar .btn{
+  background: linear-gradient(135deg,#067A38 0%, #0E9F4A 50%, #16A34A 100%) !important;
+  color:#fff !important;
+  border: none !important;
+  font-weight: 800 !important;
+  letter-spacing: -.1px !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.22) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(0,0,0,.10) inset,
+    0 6px 20px rgba(22,163,74,.40),
+    0 0 24px rgba(34,197,94,.30),
+    0 12px 32px rgba(22,163,74,.22) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform .15s ease, box-shadow .25s !important;
+}
+html[data-theme] body .btn-G::after,
+html[data-theme] body .lo-btn-admin::after{
+  content:'' !important;
+  position:absolute !important;
+  top:0 !important; left:-50% !important; right:-50% !important;
+  height:100% !important;
+  background: linear-gradient(120deg,transparent 30%,rgba(255,255,255,.30) 50%,transparent 70%) !important;
+  transform: translateX(-100%) !important;
+  transition: transform .9s cubic-bezier(.2,.8,.2,1) !important;
+  pointer-events:none !important;
+}
+html[data-theme] body .btn-G:hover::after,
+html[data-theme] body .lo-btn-admin:hover::after{ transform: translateX(100%) !important; }
+html[data-theme] body .btn-G:hover,
+html[data-theme] body .lo-btn-admin:hover{
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 8px 26px rgba(22,163,74,.50),
+    0 0 36px rgba(34,197,94,.45),
+    0 14px 40px rgba(22,163,74,.30) !important;
+  transform: translateY(-1px) !important;
+}
+html[data-theme] body .btn-G:active,
+html[data-theme] body .lo-btn-admin:active{
+  transform: scale(.97) !important;
+  box-shadow: 0 4px 14px rgba(22,163,74,.30) !important;
+}
+
+html[data-theme] body .btn-B{
+  background: linear-gradient(135deg,#1E40AF,#2563EB) !important;
+  color:#fff !important;
+  border:none !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.22) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.16) inset,
+    0 6px 20px rgba(37,99,235,.36),
+    0 0 24px rgba(59,130,246,.28) !important;
+}
+
+html[data-theme] body .btn-R{
+  background: linear-gradient(135deg,#991B1B,#DC2626) !important;
+  color:#fff !important;
+  border:none !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.22) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.16) inset,
+    0 6px 20px rgba(220,38,38,.36),
+    0 0 24px rgba(239,68,68,.28) !important;
+}
+
+html[data-theme] body .btn-Y{
+  background: linear-gradient(135deg,#A86A14,#D97706,#F59E0B) !important;
+  color:#fff !important;
+  border:none !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.22) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 6px 20px rgba(217,119,6,.40),
+    0 0 24px rgba(245,158,11,.30) !important;
+}
+
+html[data-theme] body .btn-ghost{
+  background: rgba(255,255,255,.6) !important;
+  border: 1px solid rgba(34,197,94,.18) !important;
+  color: #15803D !important;
+  backdrop-filter: blur(8px) !important;
+}
+html[data-theme="dark"] body .btn-ghost{
+  background: rgba(15,24,38,.6) !important;
+  border-color: rgba(34,197,94,.20) !important;
+  color: #4ADE80 !important;
+}
+
+/* ── BOTTOM NAV — premium glass with glow halo ───────────────────── */
+html[data-theme] body #bottomNav#bottomNav{
+  bottom: calc(18px + env(safe-area-inset-bottom,0px)) !important;
+  height: 66px !important;
+  border-radius: 24px !important;
+  width: calc(100% - 28px) !important;
+  max-width: 460px !important;
+  padding: 0 8px !important;
+  background: rgba(255,255,255,.78) !important;
+  border: 1px solid rgba(255,255,255,.85) !important;
+  backdrop-filter: saturate(180%) blur(28px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(28px) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 8px 24px rgba(15,52,30,.12),
+    0 18px 48px rgba(15,52,30,.14),
+    0 0 30px rgba(34,197,94,.14) !important;
+}
+html[data-theme="dark"] body #bottomNav#bottomNav{
+  background: rgba(10,15,26,.72) !important;
+  border-color: rgba(255,255,255,.10) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.05) inset,
+    0 18px 48px rgba(0,0,0,.55),
+    0 0 36px rgba(34,197,94,.16) !important;
+}
+
+html[data-theme] body .ni{
+  border-radius: 16px !important;
+  transition: background .22s cubic-bezier(.2,.8,.2,1), color .22s, transform .15s !important;
+  color: #4A6553 !important;
+  position: relative !important;
+}
+html[data-theme="dark"] body .ni{ color:#94A3B8 !important; }
+
+html[data-theme] body .ni.on{
+  background: linear-gradient(135deg,#0E7E47 0%, #15803D 50%, #16A34A 100%) !important;
+  color:#fff !important;
+  box-shadow:
+    0 6px 18px rgba(22,163,74,.40),
+    0 0 22px rgba(34,197,94,.40),
+    0 0 0 1px rgba(255,255,255,.18) inset !important;
+}
+html[data-theme] body .ni.on .ni-ico,
+html[data-theme] body .ni.on .ni-ico svg,
+html[data-theme] body .ni.on .ni-lbl{ color:#fff !important; background:transparent !important; box-shadow:none !important; }
+html[data-theme] body .ni.on .ni-ico svg{ filter: drop-shadow(0 0 6px rgba(255,255,255,.6)) !important; }
+html[data-theme] body .ni.on .ni-lbl{ font-weight:800 !important; text-shadow: 0 1px 2px rgba(0,0,0,.20) !important; }
+
+/* Glow ring behind active tab */
+html[data-theme] body .ni.on::before{
+  content:'' !important;
+  position:absolute !important;
+  inset:-4px !important;
+  border-radius:18px !important;
+  background: radial-gradient(circle, rgba(34,197,94,.32), transparent 70%) !important;
+  filter: blur(8px) !important;
+  z-index:-1 !important;
+  pointer-events:none !important;
+  animation: pgFloat 3s ease-in-out infinite !important;
+}
+
+/* ── INPUT & SEARCH — glow focus ─────────────────────────────────── */
+html[data-theme] body .finp,
+html[data-theme] body .srch,
+html[data-theme] body .lo-pw-input,
+html[data-theme] body .lo-field{
+  background: rgba(255,255,255,.85) !important;
+  border: 1.5px solid rgba(34,197,94,.14) !important;
+  border-radius: 14px !important;
+  transition: border-color .2s, box-shadow .2s, background .2s !important;
+}
+html[data-theme="dark"] body .finp,
+html[data-theme="dark"] body .srch{
+  background: rgba(15,24,38,.55) !important;
+  border-color: rgba(34,197,94,.20) !important;
+  color:#F0F8FF !important;
+}
+html[data-theme] body .finp:focus,
+html[data-theme] body .srch:focus-within,
+html[data-theme] body .lo-pw-input:focus,
+html[data-theme] body .lo-field:focus-within{
+  border-color: var(--pg-emerald) !important;
+  box-shadow:
+    0 0 0 4px rgba(34,197,94,.18),
+    0 0 22px rgba(34,197,94,.20),
+    0 4px 14px rgba(15,52,30,.08) !important;
+  background: rgba(255,255,255,1) !important;
+  outline: none !important;
+}
+
+/* ── FILTER PILLS — glowing active ───────────────────────────────── */
+html[data-theme] body .fpill.on,
+html[data-theme] body .pub-tab.on{
+  background: linear-gradient(135deg,#067A38,#0E9F4A) !important;
+  color:#fff !important;
+  border-color: rgba(34,197,94,.40) !important;
+  box-shadow:
+    0 4px 14px rgba(22,163,74,.34),
+    0 0 18px rgba(34,197,94,.30) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  font-weight:800 !important;
+}
+
+/* ── TAGS — softly glowing ────────────────────────────────────────── */
+html[data-theme] body .tag.tG,
+html[data-theme] body .stt-lunas,
+html[data-theme] body .pub-badge.hadir{
+  background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(34,197,94,.06)) !important;
+  color: #15803D !important;
+  border:1px solid rgba(34,197,94,.30) !important;
+  box-shadow: 0 0 12px rgba(34,197,94,.20) !important;
+  font-weight:800 !important;
+}
+html[data-theme] body .tag.tA,
+html[data-theme] body .stt-belum,
+html[data-theme] body .pub-badge.belum{
+  background: linear-gradient(135deg, rgba(245,158,11,.20), rgba(217,119,6,.06)) !important;
+  color: #92400E !important;
+  border:1px solid rgba(245,158,11,.30) !important;
+  box-shadow: 0 0 12px rgba(245,158,11,.18) !important;
+  font-weight:800 !important;
+}
+html[data-theme] body .tag.tR{
+  background: linear-gradient(135deg, rgba(239,68,68,.20), rgba(220,38,38,.06)) !important;
+  color: #991B1B !important;
+  border:1px solid rgba(239,68,68,.30) !important;
+  box-shadow: 0 0 12px rgba(239,68,68,.18) !important;
+}
+html[data-theme] body .tag.tB{
+  background: linear-gradient(135deg, rgba(59,130,246,.20), rgba(37,99,235,.06)) !important;
+  color: #1E40AF !important;
+  border:1px solid rgba(59,130,246,.30) !important;
+  box-shadow: 0 0 12px rgba(59,130,246,.18) !important;
+}
+
+/* ── TOAST — glowing pill ─────────────────────────────────────────── */
+html[data-theme] body #toast.show.ok,
+html[data-theme] body #toast.show.tg{
+  background: linear-gradient(135deg,#0B6B3C,#16A34A) !important;
+  box-shadow:
+    0 8px 28px rgba(22,163,74,.40),
+    0 0 28px rgba(34,197,94,.40),
+    0 1px 0 rgba(255,255,255,.18) inset !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.20) !important;
+}
+html[data-theme] body #toast.show.err,
+html[data-theme] body #toast.show.tr{
+  background: linear-gradient(135deg,#991B1B,#DC2626) !important;
+  box-shadow:
+    0 8px 28px rgba(220,38,38,.40),
+    0 0 28px rgba(239,68,68,.40),
+    0 1px 0 rgba(255,255,255,.18) inset !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.20) !important;
+}
+
+/* ── SECTION TITLE — glowing accent bar ─────────────────────────── */
+html[data-theme] body .sec-ttl{
+  color: #15803D !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.6px !important;
+}
+html[data-theme="dark"] body .sec-ttl{ color:#4ADE80 !important; }
+html[data-theme] body .sec-ttl::before{
+  background: linear-gradient(180deg,#22C55E,#15803D) !important;
+  width: 3.5px !important;
+  height: 14px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 8px rgba(34,197,94,.55), 0 0 16px rgba(34,197,94,.35) !important;
+}
+
+/* ── REKAP CARD numbers — emboss + faint glow ────────────────────── */
+html[data-theme] body .rek-amt,
+html[data-theme] body .rek-stat-v,
+html[data-theme] body .sv,
+html[data-theme] body .kbs-card-nom,
+html[data-theme] body .kb-val{
+  font-family:'Manrope','Inter',system-ui,sans-serif !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -.5px !important;
+}
+html[data-theme="light"] body .rek-amt,
+html[data-theme="light"] body .rek-stat-v,
+html[data-theme="light"] body .sv{
+  text-shadow: 0 1px 0 rgba(255,255,255,.85), 0 -1px 0 rgba(0,40,15,.08) !important;
+}
+
+/* ── PROGRESS BAR — glowing fill ─────────────────────────────────── */
+html[data-theme] body .pbar-f,
+html[data-theme] body .prg-bar{
+  background: linear-gradient(90deg,#0B6B3C,#16A34A,#22C55E) !important;
+  box-shadow:
+    0 0 10px rgba(34,197,94,.55),
+    0 0 20px rgba(34,197,94,.30) !important;
+}
+
+/* ── LOGIN SCREEN — deep glowing background + glass card ─────────── */
+html[data-theme] body #loginBg{
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(34,197,94,.30) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 90%, rgba(59,130,246,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 80%, rgba(245,158,11,.14) 0%, transparent 60%),
+    linear-gradient(175deg,#020A0F 0%,#04141F 50%,#01070C 100%) !important;
+}
+html[data-theme] body .lo-card{
+  background: rgba(15,24,38,.78) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  border-radius: 28px !important;
+  backdrop-filter: blur(28px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.10) inset,
+    0 24px 80px rgba(0,0,0,.60),
+    0 0 60px rgba(34,197,94,.12),
+    0 0 0 1px rgba(34,197,94,.08) !important;
+}
+html[data-theme] body .lo-title{
+  font-family:'Manrope','Inter',system-ui,sans-serif !important;
+  font-weight: 800 !important;
+  color:#F0F8FF !important;
+  text-shadow: 0 0 24px rgba(34,197,94,.35), 0 2px 8px rgba(0,0,0,.40) !important;
+  letter-spacing:-.6px !important;
+}
+html[data-theme] body .lo-subtitle,
+html[data-theme] body .lo-greeting-sub{ color: rgba(220,252,231,.55) !important; }
+html[data-theme] body .lo-greeting-title{ color:#F0F8FF !important; }
+html[data-theme] body .lo-btn-warga{
+  background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(22,163,74,.10)) !important;
+  border: 1.5px solid rgba(34,197,94,.32) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 0 18px rgba(34,197,94,.18),
+    0 4px 18px rgba(0,0,0,.30) !important;
+  color:#fff !important;
+}
+html[data-theme] body .lo-btn-warga:hover{
+  border-color: rgba(34,197,94,.55) !important;
+  box-shadow:
+    0 0 28px rgba(34,197,94,.35),
+    0 6px 24px rgba(0,0,0,.35) !important;
+  transform: translateY(-1px) !important;
+}
+html[data-theme] body .lo-btn-warga-main{ color:#A7F3D0 !important; font-weight:800 !important; text-shadow: 0 0 12px rgba(167,243,208,.35) !important; }
+html[data-theme] body .lo-btn-warga-desc{ color: rgba(167,243,208,.65) !important; }
+html[data-theme] body .lo-btn-arrow{ color: rgba(167,243,208,.60) !important; }
+html[data-theme] body .lo-btn-warga-ic{
+  background: rgba(34,197,94,.20) !important;
+  border-color: rgba(34,197,94,.40) !important;
+  color: #86EFAC !important;
+}
+html[data-theme] body .lo-divider-chip{
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.10) !important;
+  color: rgba(220,252,231,.55) !important;
+}
+html[data-theme] body .lo-field{
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.10) !important;
+}
+html[data-theme] body .lo-pw-input{
+  background: transparent !important;
+  border: none !important;
+  color: #F0F8FF !important;
+  box-shadow: none !important;
+}
+html[data-theme] body .lo-pw-input::placeholder{ color: rgba(220,252,231,.30) !important; }
+html[data-theme] body .lo-handle-bar{ background: rgba(255,255,255,.16) !important; }
+
+/* Login error pill - glowing red */
+html[data-theme] body .ls-err.show{
+  display:flex !important;
+  background: rgba(239,68,68,.16) !important;
+  border:1px solid rgba(239,68,68,.30) !important;
+  color: #FCA5A5 !important;
+  box-shadow: 0 0 18px rgba(239,68,68,.20) !important;
+  padding: 11px 14px !important;
+  border-radius: 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+html[data-theme] body .ls-err{ display:none; }
+
+/* ── SPLASH SCREEN — deep glowing center ─────────────────────────── */
+html[data-theme] body #splash{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(34,197,94,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 70%, rgba(245,158,11,.18) 0%, transparent 60%),
+    linear-gradient(180deg,#020A0F 0%,#04141F 60%,#01070C 100%) !important;
+}
+html[data-theme] body .sp-name{
+  font-family:'Manrope','Inter',system-ui,sans-serif !important;
+  font-weight: 800 !important;
+  color:#F0F8FF !important;
+  text-shadow: 0 0 36px rgba(34,197,94,.45), 0 4px 14px rgba(0,0,0,.55) !important;
+  letter-spacing: -.6px !important;
+}
+html[data-theme] body .sp-logo{
+  filter: drop-shadow(0 0 32px rgba(34,197,94,.55)) drop-shadow(0 8px 24px rgba(0,0,0,.50)) !important;
+}
+html[data-theme] body .sp-ring{
+  border-color: rgba(34,197,94,.18) !important;
+  border-top-color: #22C55E !important;
+  box-shadow: 0 0 20px rgba(34,197,94,.35) !important;
+}
+
+/* Splash logo glowing pulse */
+html[data-theme] body .sp-logo::after{
+  background: radial-gradient(circle, rgba(34,197,94,.30), transparent 65%) !important;
+  filter: blur(20px) !important;
+  inset:-40px !important;
+}
+
+/* ── BISMILLAH BANNER — deeper green with shimmer ─────────────────── */
+html[data-theme] body .bismillah-top{
+  background: linear-gradient(135deg,#022C16 0%, #064E2B 50%, #0E8F47 100%) !important;
+  border-bottom-color: rgba(255,255,255,.10) !important;
+  box-shadow: 0 4px 18px rgba(6,62,35,.40), 0 0 24px rgba(34,197,94,.18) !important;
+}
+html[data-theme] body .bm-text{
+  color:#fff !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,.30), 0 0 20px rgba(167,243,208,.30) !important;
+}
+
+/* ── SHEET / OVERLAY — glassmorphism + glow ───────────────────────── */
+html[data-theme] body .ov{
+  background: rgba(2,12,8,.68) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+html[data-theme] body .sheet{
+  background: rgba(255,255,255,.94) !important;
+  border: none !important;
+  border-top: 1px solid rgba(34,197,94,.18) !important;
+  border-radius: 28px 28px 0 0 !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  box-shadow:
+    0 -12px 60px rgba(15,52,30,.20),
+    0 -4px 24px rgba(34,197,94,.18) !important;
+}
+html[data-theme="dark"] body .sheet{
+  background: rgba(15,24,38,.92) !important;
+  border-top-color: rgba(34,197,94,.18) !important;
+  box-shadow:
+    0 -12px 60px rgba(0,0,0,.60),
+    0 -4px 24px rgba(34,197,94,.16) !important;
+}
+html[data-theme] body .sh-bar{
+  background: linear-gradient(90deg,#22C55E,#15803D) !important;
+  box-shadow: 0 0 8px rgba(34,197,94,.50) !important;
+}
+
+/* ── ABSENSI ROW HIGHLIGHTS ──────────────────────────────────────── */
+html[data-theme] body .ab-item.H,
+html[data-theme] body .ab-row.H{
+  background: linear-gradient(135deg, rgba(34,197,94,.10), rgba(220,252,231,.40)) !important;
+  border-left:3px solid #16A34A !important;
+  box-shadow: 0 0 14px rgba(34,197,94,.10) !important;
+}
+html[data-theme] body .ab-item.T,
+html[data-theme] body .ab-row.T{
+  background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(254,243,199,.40)) !important;
+  border-left:3px solid #D97706 !important;
+  box-shadow: 0 0 14px rgba(245,158,11,.10) !important;
+}
+html[data-theme] body .ab-item.SB,
+html[data-theme] body .ab-row.SB{
+  background: linear-gradient(135deg, rgba(245,158,11,.16), rgba(254,243,199,.50)) !important;
+  border-left:3px solid #F59E0B !important;
+  box-shadow: 0 0 16px rgba(245,158,11,.18) !important;
+}
+html[data-theme] body .ab-chip.sel,
+html[data-theme] body .ab-chip.ch.sel{
+  box-shadow:
+    0 4px 14px rgba(22,163,74,.30),
+    0 0 20px rgba(34,197,94,.30) !important;
+  transform: scale(1.04) !important;
+}
+
+/* ── KAS HADIRAN BUTTONS — glowing ────────────────────────────────── */
+html[data-theme] body .kh-btn,
+html[data-theme] body .krt-btn-primary,
+html[data-theme] body .krt-btn-util{
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform .15s, box-shadow .25s !important;
+}
+html[data-theme] body .kh-btn:hover,
+html[data-theme] body .krt-btn-primary:hover{
+  transform: translateY(-1px) !important;
+}
+html[data-theme] body .krt-btn-masuk{
+  box-shadow:
+    0 6px 18px rgba(22,163,74,.32),
+    0 0 22px rgba(34,197,94,.18),
+    0 1px 0 rgba(255,255,255,.20) inset !important;
+}
+html[data-theme] body .krt-btn-keluar{
+  box-shadow:
+    0 6px 18px rgba(220,38,38,.22),
+    0 0 22px rgba(239,68,68,.14),
+    0 1px 0 rgba(255,255,255,.10) inset !important;
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────────────── */
+html[data-theme] body *::-webkit-scrollbar{ width:5px !important; height:5px !important; }
+html[data-theme] body *::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg,#22C55E,#15803D) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 6px rgba(34,197,94,.35) !important;
+}
+
+/* ── SELECTION ───────────────────────────────────────────────────── */
+html[data-theme] body ::selection{
+  background: rgba(34,197,94,.32) !important;
+  color: #022C16 !important;
+}
+html[data-theme="dark"] body ::selection{
+  background: rgba(34,197,94,.40) !important;
+  color: #F0F8FF !important;
+}
+
+/* ── PWA BAR ────────────────────────────────────────────────────── */
+html[data-theme] body #pwaBar{
+  background: linear-gradient(135deg,#0B6B3C,#16A34A) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 12px 36px rgba(0,0,0,.30),
+    0 0 32px rgba(34,197,94,.30),
+    0 1px 0 rgba(255,255,255,.16) inset !important;
+  color:#fff !important;
+}
+
+/* ── REDUCED MOTION & MOBILE PERFORMANCE ─────────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  html[data-theme] body .hero.hero,
+  html[data-theme] body body::after,
+  html[data-theme] body .ni.on::before{
+    animation: none !important;
+  }
+}
+@media (max-width: 380px){
+  html[data-theme] body .hero.hero{ padding: 22px 18px 18px !important; }
+  html[data-theme] body .hero.hero .hero-amt{ font-size: 36px !important; }
+  html[data-theme] body .hero.hero .hero-rp{ font-size: 19px !important; }
+}
+
+/* ── PRINT (PDF clean — no glow) ──────────────────────────────────── */
+@media print{
+  html body, html body *{
+    text-shadow: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color:#000 !important;
+    animation: none !important;
+  }
+  html body #topbar, html body #bottomNav, html body #pwaBar, html body .bismillah-top,
+  html body .save-bar, html body .ov, html body #toast, html body #splash, html body #loginBg,
+  html body::after{ display:none !important; }
 }
 
 </style>
