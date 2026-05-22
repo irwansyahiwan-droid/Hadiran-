@@ -2204,8 +2204,8 @@ Masuk sebagai Bendahara
 <div class="hero-amt"><span class="hero-rp">Rp</span><span id="talTot">0</span></div>
 <div class="hero-note" id="talHeroNote">0 belum lunas · 0 sudah lunas</div>
 <div class="hero-breakdown">
-<div class="hb-row"><span class="hb-lbl">📋 Belum Lunas</span><span class="hb-val" style="color:#FCA5A5"><span id="talCntH">0</span> orang</span></div>
-<div class="hb-row"><span class="hb-lbl">✅ Sudah Lunas</span><span class="hb-val" style="color:#86EFAC"><span id="talLunasCntH">0</span> orang</span></div>
+<div class="hb-row"><span class="hb-lbl"><span class="hb-ic r">📋</span>Belum Lunas</span><span class="hb-val" style="color:#FCA5A5"><span id="talCntH">0</span> orang</span></div>
+<div class="hb-row"><span class="hb-lbl"><span class="hb-ic g">✅</span>Sudah Lunas</span><span class="hb-val" style="color:#86EFAC"><span id="talLunasCntH">0</span> orang</span></div>
 </div>
 </div>
 <div class="sg sg2">
@@ -2932,9 +2932,9 @@ function(e){var msg=esc(e&&e.message||'');if(msg.indexOf('not a function')>=0)ms
 function renderDash(d){
 var h='<div class="hero"><div class="hero-ey">Saldo Kas Hadiran</div><div class="hero-amt"><span class="hero-rp">Rp</span>'+fmtN(d.saldoKas)+'</div>'+
 '<div class="hero-note">'+d.totalPertemuan+' tarikan terlaksana · '+d.totalAnggota+' anggota aktif</div>'+
-'<div class="hero-breakdown"><div class="hb-row"><span class="hb-lbl">📈 Total Iuran Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(d.totalTerkumpul||0)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">🏦 Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(d.sisaTalangan||0)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">🏛️ Setoran ke Kas Besar RT</span><span class="hb-val" id="hbSetoran">'+fmtRp(d.totalPengeluaran||0)+'</span></div></div></div>';
+'<div class="hero-breakdown"><div class="hb-row"><span class="hb-lbl"><span class="hb-ic g">📈</span>Total Iuran Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(d.totalTerkumpul||0)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic r">🏦</span>Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(d.sisaTalangan||0)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic gold">🏛️</span>Setoran ke Kas Besar RT</span><span class="hb-val" id="hbSetoran">'+fmtRp(d.totalPengeluaran||0)+'</span></div></div></div>';
 h+='<div class="sg sg3"><div class="sc b"><div class="sc-ic">👥</div><div class="sc-val">'+d.totalAnggota+'</div><div class="sc-lbl">Anggota</div></div>'+
 '<div class="sc s"><div class="sc-ic">📅</div><div class="sc-val">'+d.totalPertemuan+'</div><div class="sc-lbl">Tarikan</div></div>'+
 '<div class="sc g"><div class="sc-ic">📋</div><div class="sc-val">'+(d.jadwalBerikutnya?d.jadwalBerikutnya.length:0)+'</div><div class="sc-lbl">Terjadwal</div></div></div>';
@@ -3315,9 +3315,9 @@ heroEl.innerHTML = '<div class="hero" style="margin-bottom:14px">'+
 '<div class="hero-amt"><span class="hero-rp">Rp</span><span>'+fmtN(saldo)+'</span></div>'+
 '<div class="hero-note">'+sorted.length+' tarikan terlaksana</div>'+
 '<div class="hero-breakdown">'+
-'<div class="hb-row"><span class="hb-lbl">💰 Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(totKas)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">🏦 Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(totTal)+'</span></div>'+
-'<div class="hb-row"><span class="hb-lbl">📤 Setoran ke Kas Besar</span><span class="hb-val" style="color:#FDE68A">'+fmtRp(totSetor)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic g">💰</span>Kas Terkumpul</span><span class="hb-val" style="color:#86EFAC">'+fmtRp(totKas)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic r">🏦</span>Talangan Belum Lunas</span><span class="hb-val" style="color:#FCA5A5">'+fmtRp(totTal)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic gold">📤</span>Setoran ke Kas Besar</span><span class="hb-val" style="color:#FDE68A">'+fmtRp(totSetor)+'</span></div>'+
 '</div>'+
 '</div>';
 }
@@ -3637,18 +3637,29 @@ gas('getSaldoKas',undefined,function(saldo){
 gas('getRekapPertemuan',undefined,function(data){
 if(!data||!data.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:var(--k4)">Belum ada data</td></tr>';if(ft)ft.style.display='none';return;}
 kasCache=data.slice();
-_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap||{},window._setMap||{},tbody,ft,saldo||0);
+// v10.1 FIX: fetch talangan list di fallback agar talMap akurat (bukan stale {})
+gas('getTalanganList',undefined,function(tl){
+window._talMap=_buildTalMap(tl);
+_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap,window._setMap||{},tbody,ft,saldo||0);
+},function(){
+// Tidak bisa ambil talangan: kirim null supaya hasLiveTal=false dan fallback ke stored value
+_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),null,window._setMap||{},tbody,ft,saldo||0);
+});
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 });
 }
 function _renderKasTable(sorted,talMap,setMap,tbody,ft,curSaldo){
 var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
+// v10.1 FIX: talMap adalah source of truth untuk Talangan "Belum Lunas".
+// Jika tarikan tidak ada di talMap → semua sudah lunas → 0 (jangan fallback ke r.talanganKeluar
+// yang merupakan nilai asli saat tarikan dibuat dan tidak pernah diupdate setelah pembayaran).
+var hasLiveTal=(talMap&&typeof talMap==='object');
 var rows=sorted.map(function(r,i){
 r.noUrut=i+1;
 tM+=r.totalBayarMasuk;tSB+=r.totalSohibulBait;tK+=r.kasMasuk;
-var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:r.talanganKeluar||0;
-var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:r.jumlahTidakHadir||0;
+var livT=hasLiveTal?(talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:0):(r.talanganKeluar||0);
+var livC=hasLiveTal?(talMap[r.noTarikan]?talMap[r.noTarikan].count:0):(r.jumlahTidakHadir||0);
 var livSt=setMap[String(r.noTarikan)]||0;
 var livN=(r.kasMasuk||0)-livT-livSt;
 tT+=livT;tSt+=livSt;tN+=livN;
@@ -19987,9 +19998,9 @@ html[data-theme="dark"] body::before{
 /* ── 3. Hero card: green, glassmorphism, premium typography ─────── */
 .krt2-hero {
   position: relative;
-  margin-bottom: 18px;
-  padding: 22px 22px 18px;
-  border-radius: 28px;
+  margin-bottom: 12px;
+  padding: 16px 20px 14px;
+  border-radius: 24px;
   background:
     linear-gradient(160deg, #0B5132 0%, #0F6B3F 38%, #16A34A 100%);
   box-shadow:
@@ -20022,10 +20033,10 @@ html[data-theme="dark"] body::before{
 
 .krt2-arabic {
   font-family: 'Amiri Quran','Scheherazade New','Amiri','Traditional Arabic',serif !important;
-  font-size: 16px;
+  font-size: 14px;
   color: rgba(255,255,255,.55);
   line-height: 1;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   text-align: right;
   letter-spacing: 0;
   text-shadow: 0 1px 2px rgba(0,0,0,.18);
@@ -20033,33 +20044,33 @@ html[data-theme="dark"] body::before{
 
 .krt2-hero-label {
   font-family: 'Inter', system-ui, sans-serif !important;
-  font-size: 10.5px !important;
+  font-size: 10px !important;
   font-weight: 700 !important;
-  letter-spacing: 1.8px !important;
+  letter-spacing: 1.6px !important;
   text-transform: uppercase !important;
   color: rgba(255,255,255,.62) !important;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .krt2-hero-amt {
   display: flex;
   align-items: baseline;
   gap: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 3px;
   color: #fff;
-  letter-spacing: -1.6px;
+  letter-spacing: -1.4px;
   line-height: 1;
 }
 .krt2-hero-amt .krt2-rp {
   font-family: 'Inter','SF Pro Display',sans-serif !important;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 600;
   opacity: .68;
   letter-spacing: -.2px;
 }
 .krt2-hero-amt .krt2-num {
   font-family: 'Inter','SF Pro Display',system-ui,sans-serif !important;
-  font-size: 38px;
+  font-size: 32px;
   font-weight: 700;
   font-feature-settings: 'tnum' 1, 'cv11' 1;
   font-variant-numeric: tabular-nums;
@@ -20067,40 +20078,40 @@ html[data-theme="dark"] body::before{
 }
 
 .krt2-hero-date {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
   color: rgba(255,255,255,.58);
   letter-spacing: .15px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
-/* Breakdown — clean lines with subtle glass panel */
+/* Breakdown — clean lines with subtle glass panel (compact) */
 .krt2-breakdown {
   background: rgba(255,255,255,.075);
   border: 1px solid rgba(255,255,255,.14);
-  border-radius: 18px;
+  border-radius: 16px;
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  padding: 2px 14px;
+  padding: 0 12px;
 }
 .krt2-bd-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px 0;
+  gap: 11px;
+  padding: 9px 0;
   border-bottom: 1px solid rgba(255,255,255,.10);
 }
 .krt2-bd-row:last-child { border-bottom: none; }
 .krt2-bd-ic {
-  width: 30px; height: 30px;
-  border-radius: 9px;
+  width: 26px; height: 26px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   color: #fff;
 }
-.krt2-bd-ic svg { width: 16px; height: 16px; }
+.krt2-bd-ic svg { width: 14px; height: 14px; }
 .krt2-bd-ic.gold {
   background: linear-gradient(135deg,#F59E0B,#D97706);
   box-shadow: 0 2px 8px rgba(217,119,6,.45), inset 0 1px 0 rgba(255,255,255,.20);
@@ -20129,23 +20140,23 @@ html[data-theme="dark"] body::before{
 .krt2-bd-val.up   { color: #BBF7D0; }
 .krt2-bd-val.down { color: #FCA5A5; }
 
-/* ── 4. Quick-action tiles (Pemasukan / Pengeluaran) ────────────── */
+/* ── 4. Quick-action tiles (Pemasukan / Pengeluaran) — compact ─── */
 .krt2-tiles {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 .krt2-tile {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-  min-height: 132px;
-  padding: 16px 16px 14px;
+  gap: 3px;
+  min-height: 104px;
+  padding: 12px 14px 11px;
   border: 1.5px solid var(--line);
-  border-radius: 22px;
+  border-radius: 18px;
   background: var(--surf);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -20166,29 +20177,29 @@ html[data-theme="dark"] body::before{
 .krt2-tile > * { position: relative; z-index: 1; }
 .krt2-tile:active { transform: scale(.96); }
 .krt2-tile-ic {
-  width: 38px; height: 38px;
-  border-radius: 12px;
+  width: 32px; height: 32px;
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: #fff;
 }
-.krt2-tile-ic svg { width: 20px; height: 20px; }
+.krt2-tile-ic svg { width: 17px; height: 17px; }
 .krt2-tile-amt {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: -.5px;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
 .krt2-tile-lbl {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--t0);
   letter-spacing: -.1px;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 .krt2-tile-desc {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 500;
   color: var(--t3);
 }
@@ -20236,10 +20247,10 @@ html[data-theme="dark"] body::before{
   gap: 7px;
   background: none;
   border: none;
-  padding: 8px 8px;
-  margin: 0 0 10px -4px;
+  padding: 6px 8px;
+  margin: 0 0 6px -4px;
   font-family: 'Inter', system-ui, sans-serif !important;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--t2);
   cursor: pointer;
@@ -20434,21 +20445,172 @@ html[data-theme="dark"] body::before{
   to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
-/* ── 11. Kas RT page generous spacing ─────────────────────────── */
-#pgKasRT { padding-top: 14px !important; }
+/* ── 11. Kas RT page generous spacing (compact) ─────────────────── */
+#pgKasRT { padding-top: 10px !important; }
 #pgKasRT .krt2-hero + #kasRTBtns,
-#pgKasRT #kasRTBtns:not(:empty) { margin-bottom: 10px !important; }
+#pgKasRT #kasRTBtns:not(:empty) { margin-bottom: 6px !important; }
+#pgKasRT .krt2-sec { margin: 14px 2px 8px !important; }
 
 /* ── 12. Responsive polish on small screens ──────────────────── */
 @media (max-width: 360px) {
-  .krt2-hero { padding: 20px 18px 16px; border-radius: 24px; }
-  .krt2-hero-amt .krt2-num { font-size: 32px; }
-  .krt2-hero-amt .krt2-rp  { font-size: 17px; }
-  .krt2-tile { min-height: 122px; padding: 14px 14px 12px; }
-  .krt2-tile-amt { font-size: 14.5px; }
+  .krt2-hero { padding: 14px 16px 12px; border-radius: 22px; }
+  .krt2-hero-amt .krt2-num { font-size: 28px; }
+  .krt2-hero-amt .krt2-rp  { font-size: 15px; }
+  .krt2-tile { min-height: 96px; padding: 11px 12px 10px; }
+  .krt2-tile-amt { font-size: 14px; }
   .krt2-row-cat { font-size: 13px; }
   .krt2-row-amt { font-size: 13.5px; }
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   13. PREMIUM SAVE BUTTON — "Simpan & Hitung Iuran"
+   Multi-stop emerald gradient, gloss highlight, animated shimmer,
+   layered glow shadow, refined press feedback
+   ════════════════════════════════════════════════════════════════════ */
+.save-bar .btn.btn-G {
+  height: 56px !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.1px !important;
+  border-radius: 18px !important;
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(135deg,#0E6B36 0%, #15803D 35%, #16A34A 70%, #22C55E 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.22) inset,
+    0 -2px 0 rgba(0,0,0,.10) inset,
+    0 10px 28px rgba(22,163,74,.42),
+    0 4px 12px rgba(11,81,50,.30),
+    0 0 0 1px rgba(22,163,74,.45) !important;
+  transition: transform .18s var(--e2), box-shadow .25s, filter .25s !important;
+  overflow: hidden;
+}
+.save-bar .btn.btn-G::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.save-bar .btn.btn-G::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -60%;
+  width: 50%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255,255,255,.35) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 1;
+  animation: krt2SaveShimmer 3.4s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+.save-bar .btn.btn-G > * { position: relative; z-index: 2; }
+.save-bar .btn.btn-G:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.26) inset,
+    0 -2px 0 rgba(0,0,0,.10) inset,
+    0 14px 36px rgba(22,163,74,.50),
+    0 6px 14px rgba(11,81,50,.34),
+    0 0 0 1px rgba(22,163,74,.55) !important;
+}
+.save-bar .btn.btn-G:active {
+  transform: translateY(1px) scale(.985) !important;
+  filter: brightness(.96);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.16) inset,
+    0 -1px 0 rgba(0,0,0,.16) inset,
+    0 4px 14px rgba(22,163,74,.32),
+    0 2px 6px rgba(11,81,50,.22),
+    0 0 0 1px rgba(22,163,74,.45) !important;
+}
+.save-bar .btn.btn-G.loading::after,
+.save-bar .btn.btn-G:disabled::after { animation: none; }
+.save-bar .btn.btn-G.ok {
+  background: linear-gradient(135deg,#15803D,#22C55E) !important;
+}
+.save-bar .btn.btn-G.shk {
+  animation: krt2SaveShake .38s var(--e1);
+}
+@keyframes krt2SaveShimmer {
+  0%   { left: -60%; }
+  55%  { left: 130%; }
+  100% { left: 130%; }
+}
+@keyframes krt2SaveShake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+[data-theme="dark"] .save-bar .btn.btn-G {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -2px 0 rgba(0,0,0,.20) inset,
+    0 10px 28px rgba(22,163,74,.34),
+    0 4px 12px rgba(0,0,0,.40),
+    0 0 0 1px rgba(34,197,94,.45) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   14. COLORFUL ICON PILLS for HERO BREAKDOWN ROWS
+   Apply Kas-RT-style gradient pills to Dashboard / Kas / Talangan heros
+   ════════════════════════════════════════════════════════════════════ */
+.hero-breakdown .hb-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.hero-breakdown .hb-lbl {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  font-size: 12.5px !important;
+  color: rgba(255,255,255,.78) !important;
+  font-weight: 500 !important;
+  letter-spacing: .1px !important;
+}
+.hero-breakdown .hb-val {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -.1px !important;
+}
+.hb-ic {
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: #fff;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.20);
+  text-shadow: 0 1px 1px rgba(0,0,0,.10);
+}
+.hb-ic.g     { background: linear-gradient(135deg,#22C55E,#16A34A); box-shadow: 0 2px 8px rgba(22,163,74,.40), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.r     { background: linear-gradient(135deg,#F87171,#DC2626); box-shadow: 0 2px 8px rgba(220,38,38,.40), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.b     { background: linear-gradient(135deg,#60A5FA,#2563EB); box-shadow: 0 2px 8px rgba(37,99,235,.40), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.gold  { background: linear-gradient(135deg,#FBBF24,#D97706); box-shadow: 0 2px 8px rgba(217,119,6,.42), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.purple{ background: linear-gradient(135deg,#A78BFA,#7C3AED); box-shadow: 0 2px 8px rgba(124,58,237,.42), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.teal  { background: linear-gradient(135deg,#5EEAD4,#0D9488); box-shadow: 0 2px 8px rgba(13,148,136,.42), inset 0 1px 0 rgba(255,255,255,.22); }
+.hb-ic.pink  { background: linear-gradient(135deg,#F472B6,#DB2777); box-shadow: 0 2px 8px rgba(219,39,119,.40), inset 0 1px 0 rgba(255,255,255,.22); }
 
 </style>
 </body>
