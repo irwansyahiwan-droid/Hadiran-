@@ -3590,8 +3590,10 @@ var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
 var rows=sorted.map(function(r,i){
 r.noUrut=i+1;
 tM+=r.totalBayarMasuk;tSB+=r.totalSohibulBait;tK+=r.kasMasuk;
-var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:r.talanganKeluar||0;
-var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:r.jumlahTidakHadir||0;
+/* v15: fallback ke 0 (bukan r.talanganKeluar/r.jumlahTidakHadir historis)
+   karena talMap = live unpaid only. Konsisten dgn Beranda & rekapCardHTML. */
+var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:0;
+var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:0;
 var livSt=setMap[String(r.noTarikan)]||0;
 var livN=(r.kasMasuk||0)-livT-livSt;
 tT+=livT;tSt+=livSt;tN+=livN;
@@ -19876,7 +19878,7 @@ html[data-theme] body .sc.sc .sc-ic{
 
 /* ─── 5 · ENSURE PATCH IS APPLIED (debug marker hidden) ─────────────── */
 html[data-theme] body::before{
-  content: 'v12.1' !important;
+  content: 'v15.0' !important;
   position: fixed !important;
   bottom: 4px !important; right: 4px !important;
   font-size: 8px !important;
@@ -19890,6 +19892,524 @@ html[data-theme] body::before{
 html[data-theme="dark"] body::before{
   color: rgba(255,255,255,.12) !important;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN RT — PATCH V15.0 — KAS HADIRAN PREMIUM FINTECH 2026
+   ────────────────────────────────────────────────────────────────────
+   Scope:  #pgKas — "Alur Kas Hadiran Per Tarikan"
+   Bug fix: livT/livC fallback (sinkron dgn Beranda)
+   Visual : Glassmorphism · Frosted header · Glow-on-hover ·
+            Tabular-nums · Gold Setoran · Emerald tfoot ·
+            Animated shimmer · Apple Wallet / Linear / Wise feel.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── V15 · Card container (glassmorphism + gradient hairline) ───────── */
+#pgKas .sec-ttl{
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  color: var(--pr-G-deep) !important;
+  margin: 18px 4px 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+#pgKas .sec-ttl::before{
+  content: '' !important;
+  width: 3px !important; height: 14px !important;
+  background: linear-gradient(180deg, #0E8F4D, #C8A96B) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 8px rgba(14,143,77,.45) !important;
+}
+
+#pgKas .card{
+  position: relative !important;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,.92) 0%,
+    rgba(252,254,253,.88) 50%,
+    rgba(244,250,246,.92) 100%) !important;
+  backdrop-filter: saturate(180%) blur(16px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(16px) !important;
+  border: 1px solid rgba(14,143,77,.10) !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.7) inset,
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 2px 6px rgba(15,23,42,.04),
+    0 12px 32px -8px rgba(14,143,77,.10),
+    0 24px 60px -12px rgba(15,23,42,.08) !important;
+  transition: box-shadow .35s var(--pr-ease), transform .35s var(--pr-ease) !important;
+}
+#pgKas .card::before{
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: 22px !important;
+  padding: 1px !important;
+  background: linear-gradient(135deg,
+    rgba(14,143,77,.18),
+    rgba(200,169,107,.14) 45%,
+    rgba(14,143,77,.06) 80%) !important;
+  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000) !important;
+  -webkit-mask-composite: xor !important;
+          mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+#pgKas .card::after{
+  content: '' !important;
+  position: absolute !important;
+  inset: -2px !important;
+  background: radial-gradient(60% 100% at 50% 0%, rgba(14,143,77,.12), transparent 60%) !important;
+  filter: blur(20px) !important;
+  z-index: -1 !important;
+  opacity: .8 !important;
+  pointer-events: none !important;
+}
+
+/* ── V15 · Tbl-wrap with edge-fade (premium swipe affordance) ───────── */
+#pgKas .tbl-wrap{
+  position: relative !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(14,143,77,.20) transparent !important;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.40)) !important;
+}
+#pgKas .tbl-wrap::-webkit-scrollbar{ height: 6px !important; }
+#pgKas .tbl-wrap::-webkit-scrollbar-thumb{
+  background: linear-gradient(90deg, rgba(14,143,77,.30), rgba(200,169,107,.30)) !important;
+  border-radius: 999px !important;
+}
+
+/* ── V15 · Table base (premium typography) ──────────────────────────── */
+#pgKas .zt{
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-size: 12.5px !important;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'cv11' on !important;
+}
+
+/* ── V15 · Frosted gradient header ──────────────────────────────────── */
+#pgKas .zt thead tr{
+  background: linear-gradient(180deg,
+    rgba(245,251,247,.98) 0%,
+    rgba(232,245,237,.92) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+#pgKas .zt th{
+  position: sticky !important;
+  top: 0 !important;
+  padding: 13px 11px !important;
+  font-size: 9.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1.1px !important;
+  text-transform: uppercase !important;
+  color: var(--pr-G-deep) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6) !important;
+  border-bottom: 1.5px solid rgba(14,143,77,.18) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 -1px 0 rgba(14,143,77,.06) inset !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  z-index: 5 !important;
+}
+#pgKas .zt th.r{ text-align: right !important; }
+#pgKas .zt th.c{ text-align: center !important; }
+
+/* ── V15 · Body rows (zebra + glow on hover) ────────────────────────── */
+#pgKas .zt tbody tr{
+  transition: all .22s var(--pr-ease) !important;
+}
+#pgKas .zt tbody tr:nth-child(odd){
+  background: rgba(255,255,255,.55) !important;
+}
+#pgKas .zt tbody tr:nth-child(even){
+  background: rgba(244,250,246,.55) !important;
+}
+#pgKas .zt tbody tr:hover{
+  background: linear-gradient(90deg,
+    rgba(14,143,77,.06) 0%,
+    rgba(220,242,229,.50) 50%,
+    rgba(200,169,107,.05) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(14,143,77,.12) inset,
+    0 4px 18px -6px rgba(14,143,77,.18) !important;
+  transform: translateZ(0) !important;
+}
+#pgKas .zt td{
+  padding: 12px 11px !important;
+  border-bottom: 1px solid rgba(14,143,77,.05) !important;
+  vertical-align: middle !important;
+  color: var(--pr-t1) !important;
+  font-weight: 600 !important;
+}
+#pgKas .zt tbody tr:last-child td{ border-bottom: none !important; }
+#pgKas .zt td.c{ text-align: center !important; }
+#pgKas .zt td.r{
+  text-align: right !important;
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: 'tnum' on, 'lnum' on !important;
+  font-weight: 700 !important;
+  letter-spacing: -.1px !important;
+}
+
+/* ── V15 · Premium color glow (numbers & emphasis) ──────────────────── */
+#pgKas .zt .cG{
+  color: #0E8F4D !important;
+  text-shadow: 0 0 12px rgba(14,143,77,.18) !important;
+}
+#pgKas .zt .cR{
+  color: #B91C1C !important;
+  text-shadow: 0 0 12px rgba(185,28,28,.16) !important;
+}
+#pgKas .zt .cS{
+  color: #B45309 !important;
+  text-shadow: 0 0 14px rgba(217,119,6,.22) !important;
+  font-weight: 800 !important;
+}
+#pgKas .zt .cB{
+  color: #1E40AF !important;
+  text-shadow: 0 0 12px rgba(30,64,175,.16) !important;
+}
+
+/* ── V15 · Tar (No Tarikan) — premium chip ──────────────────────────── */
+#pgKas .zt td.cB strong{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 26px !important; height: 26px !important;
+  padding: 0 8px !important;
+  background: linear-gradient(135deg, #DCF2E5, #ECF8F1) !important;
+  color: var(--pr-G-deep) !important;
+  border: 1px solid rgba(14,143,77,.18) !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.7) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 1px 3px rgba(14,143,77,.14) !important;
+}
+
+/* ── V15 · Tag pills (Hadir / Belum Bayar) — soft glow ──────────────── */
+#pgKas .zt .tag{
+  padding: 4px 11px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .2px !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 0 0 1px rgba(255,255,255,.6) inset !important;
+}
+#pgKas .zt .tag.tG{
+  background: linear-gradient(180deg, #ECF8F1, #DCF2E5) !important;
+  color: var(--pr-G-deep) !important;
+  border-color: rgba(14,143,77,.20) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5) !important;
+}
+#pgKas .zt .tag.tS{
+  background: linear-gradient(180deg, #FEF3C7, #FDE68A) !important;
+  color: #92400E !important;
+  border-color: rgba(217,119,6,.28) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.4) !important;
+  box-shadow: 0 1px 2px rgba(217,119,6,.10), 0 0 12px rgba(217,119,6,.16),
+              0 0 0 1px rgba(255,255,255,.6) inset !important;
+}
+#pgKas .zt .tag.tN{
+  background: linear-gradient(180deg, #F8FAFC, #F1F5F9) !important;
+  color: #64748B !important;
+  border-color: rgba(15,23,42,.08) !important;
+}
+
+/* ── V15 · Tanggal cell (refined) ───────────────────────────────────── */
+#pgKas .zt td:nth-child(3) strong{
+  color: var(--pr-t0) !important;
+  font-weight: 700 !important;
+  letter-spacing: -.1px !important;
+}
+
+/* ── V15 · Saldo Akhir column (last col emphasized) ─────────────────── */
+#pgKas .zt td:last-child{
+  background: linear-gradient(90deg, transparent 0%, rgba(220,242,229,.30) 100%) !important;
+  border-left: 1px solid rgba(14,143,77,.06) !important;
+}
+#pgKas .zt td:last-child strong{
+  font-size: 13px !important;
+  letter-spacing: -.2px !important;
+}
+#pgKas .zt th:last-child{
+  background: linear-gradient(180deg,
+    rgba(220,242,229,.85),
+    rgba(187,247,208,.55)) !important;
+  color: var(--pr-G-deep) !important;
+}
+
+/* ── V15 · Setoran column (gold accent) ─────────────────────────────── */
+#pgKas .zt td:nth-child(11){
+  font-weight: 800 !important;
+}
+
+/* ── V15 · Premium tfoot (emerald gradient + sheen) ─────────────────── */
+#pgKas .zt tfoot tr{
+  position: relative !important;
+  background: linear-gradient(180deg,
+    #DCF2E5 0%,
+    #BBF7D0 60%,
+    #A7F3D0 100%) !important;
+}
+#pgKas .zt tfoot td{
+  padding: 14px 11px !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  border-top: 2px solid var(--pr-G) !important;
+  color: var(--pr-G-deep) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 -1px 0 rgba(14,143,77,.10) inset !important;
+}
+#pgKas .zt tfoot td:first-child{
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  font-size: 10px !important;
+}
+#pgKas .zt tfoot td.r{
+  font-variant-numeric: tabular-nums !important;
+  font-size: 12px !important;
+}
+#pgKas .zt tfoot td.r strong{
+  background: linear-gradient(135deg, #0B6B3C, #0E8F4D) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.5)) !important;
+}
+#pgKas .zt tfoot td.r .cR{
+  background: linear-gradient(135deg, #991B1B, #DC2626) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* ── V15 · Tbl-hint (fintech floating chip) ─────────────────────────── */
+#pgKas .tbl-hint{
+  position: relative !important;
+  background: linear-gradient(180deg,
+    rgba(245,251,247,.85),
+    rgba(232,245,237,.95)) !important;
+  border-top: 1px solid rgba(14,143,77,.10) !important;
+  padding: 10px 12px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .6px !important;
+  text-transform: uppercase !important;
+  color: var(--pr-G-deep) !important;
+  text-align: center !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6) !important;
+}
+#pgKas .tbl-hint::before,
+#pgKas .tbl-hint::after{
+  content: '' !important;
+  display: inline-block !important;
+  width: 18px !important; height: 1.5px !important;
+  background: linear-gradient(90deg, transparent, var(--pr-G), transparent) !important;
+  vertical-align: middle !important;
+  margin: 0 8px !important;
+  opacity: .55 !important;
+}
+
+/* ── V15 · Hero card (Saldo Kas Hadiran) — refined glow ─────────────── */
+#pgKas #kasHadiranHero .hero{
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(14,143,77,.55), transparent 55%),
+    radial-gradient(120% 80% at 100% 100%, rgba(200,169,107,.30), transparent 55%),
+    linear-gradient(135deg, #0B6B3C 0%, #0E8F4D 50%, #14A05A 100%) !important;
+  border-radius: 22px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10) inset,
+    0 1px 0 rgba(255,255,255,.20) inset,
+    0 20px 50px -10px rgba(14,143,77,.45),
+    0 8px 24px -8px rgba(14,143,77,.30) !important;
+}
+#pgKas #kasHadiranHero .hero::after{
+  content: '' !important;
+  position: absolute !important;
+  top: -50% !important; left: -10% !important;
+  width: 60% !important; height: 200% !important;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.10), transparent) !important;
+  transform: rotate(8deg) !important;
+  pointer-events: none !important;
+  animation: v15HeroShimmer 7s ease-in-out infinite !important;
+}
+@keyframes v15HeroShimmer{
+  0%, 100%{ transform: translateX(-30%) rotate(8deg); opacity: 0; }
+  50%     { transform: translateX(180%) rotate(8deg); opacity: 1; }
+}
+
+/* ── V15 · Action buttons (kh-btn) — fintech polish ─────────────────── */
+#pgKas .kh-btn-wrap{
+  display: flex !important;
+  gap: 10px !important;
+  margin-bottom: 14px !important;
+}
+#pgKas .kh-btn{
+  flex: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 14px 14px !important;
+  background: linear-gradient(180deg, #FFFFFF, #FAFCFD) !important;
+  border: 1px solid rgba(14,143,77,.14) !important;
+  border-radius: 16px !important;
+  color: var(--pr-G-deep) !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .2px !important;
+  cursor: pointer !important;
+  transition: all .2s var(--pr-ease) !important;
+  -webkit-tap-highlight-color: transparent !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 1px 2px rgba(15,23,42,.04),
+    0 4px 14px -6px rgba(14,143,77,.18) !important;
+}
+#pgKas .kh-btn:hover{
+  border-color: rgba(14,143,77,.28) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 2px 4px rgba(15,23,42,.05),
+    0 8px 22px -8px rgba(14,143,77,.30) !important;
+  transform: translateY(-1px) !important;
+}
+#pgKas .kh-btn:active{
+  transform: scale(.97) !important;
+  background: linear-gradient(180deg, #ECF8F1, #DCF2E5) !important;
+}
+#pgKas .kh-btn-ic{
+  font-size: 17px !important;
+  filter: drop-shadow(0 1px 2px rgba(14,143,77,.20)) !important;
+}
+
+/* ── V15 · DARK MODE ────────────────────────────────────────────────── */
+[data-theme="dark"] #pgKas .card{
+  background: linear-gradient(180deg,
+    rgba(13,26,18,.92),
+    rgba(21,32,25,.88)) !important;
+  border-color: rgba(110,231,183,.10) !important;
+  box-shadow:
+    0 0 0 1px rgba(110,231,183,.04) inset,
+    0 12px 32px -8px rgba(0,0,0,.50),
+    0 2px 6px rgba(0,0,0,.30) !important;
+}
+[data-theme="dark"] #pgKas .card::before{
+  background: linear-gradient(135deg,
+    rgba(110,231,183,.18),
+    rgba(252,211,77,.10) 45%,
+    rgba(110,231,183,.04) 80%) !important;
+}
+[data-theme="dark"] #pgKas .zt thead tr{
+  background: linear-gradient(180deg,
+    rgba(20,32,25,.95),
+    rgba(13,26,18,.88)) !important;
+}
+[data-theme="dark"] #pgKas .zt th{
+  color: #6EE7B7 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.4) !important;
+  border-bottom-color: rgba(110,231,183,.18) !important;
+}
+[data-theme="dark"] #pgKas .zt tbody tr:nth-child(odd){ background: rgba(13,26,18,.55) !important; }
+[data-theme="dark"] #pgKas .zt tbody tr:nth-child(even){ background: rgba(21,32,25,.45) !important; }
+[data-theme="dark"] #pgKas .zt tbody tr:hover{
+  background: linear-gradient(90deg,
+    rgba(110,231,183,.10) 0%,
+    rgba(20,40,28,.40) 50%,
+    rgba(252,211,77,.06) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(110,231,183,.18) inset,
+    0 4px 18px -6px rgba(0,0,0,.40) !important;
+}
+[data-theme="dark"] #pgKas .zt td{
+  border-bottom-color: rgba(110,231,183,.05) !important;
+  color: #E2E8F0 !important;
+}
+[data-theme="dark"] #pgKas .zt .cG{ color: #6EE7B7 !important; text-shadow: 0 0 12px rgba(110,231,183,.30) !important; }
+[data-theme="dark"] #pgKas .zt .cR{ color: #FCA5A5 !important; text-shadow: 0 0 12px rgba(252,165,165,.25) !important; }
+[data-theme="dark"] #pgKas .zt .cS{ color: #FCD34D !important; text-shadow: 0 0 14px rgba(252,211,77,.30) !important; }
+[data-theme="dark"] #pgKas .zt .cB{ color: #93C5FD !important; text-shadow: 0 0 12px rgba(147,197,253,.25) !important; }
+[data-theme="dark"] #pgKas .zt td.cB strong{
+  background: linear-gradient(135deg, rgba(110,231,183,.18), rgba(20,40,28,.40)) !important;
+  color: #6EE7B7 !important;
+  border-color: rgba(110,231,183,.24) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.40) !important;
+}
+[data-theme="dark"] #pgKas .zt .tag.tG{
+  background: linear-gradient(180deg, rgba(20,40,28,.65), rgba(15,30,22,.45)) !important;
+  color: #6EE7B7 !important;
+  border-color: rgba(110,231,183,.30) !important;
+}
+[data-theme="dark"] #pgKas .zt .tag.tS{
+  background: linear-gradient(180deg, rgba(120,53,15,.45), rgba(146,64,14,.30)) !important;
+  color: #FCD34D !important;
+  border-color: rgba(252,211,77,.30) !important;
+  box-shadow: 0 0 12px rgba(252,211,77,.22), 0 0 0 1px rgba(255,255,255,.04) inset !important;
+}
+[data-theme="dark"] #pgKas .zt tfoot tr{
+  background: linear-gradient(180deg, #14532D 0%, #166534 60%, #15803D 100%) !important;
+}
+[data-theme="dark"] #pgKas .zt tfoot td{
+  color: #BBF7D0 !important;
+  border-top-color: #6EE7B7 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.40) !important;
+}
+[data-theme="dark"] #pgKas .zt tfoot td.r strong{
+  background: linear-gradient(135deg, #6EE7B7, #34D399) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+[data-theme="dark"] #pgKas .tbl-hint{
+  background: linear-gradient(180deg, rgba(13,26,18,.85), rgba(20,32,25,.95)) !important;
+  border-top-color: rgba(110,231,183,.14) !important;
+  color: #6EE7B7 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.40) !important;
+}
+[data-theme="dark"] #pgKas .kh-btn{
+  background: linear-gradient(180deg, rgba(20,32,25,.85), rgba(13,26,18,.75)) !important;
+  border-color: rgba(110,231,183,.18) !important;
+  color: #6EE7B7 !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.04) inset,
+    0 1px 2px rgba(0,0,0,.30),
+    0 4px 14px -6px rgba(0,0,0,.40) !important;
+}
+
+/* ── V15 · Reduce-motion respect ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  #pgKas #kasHadiranHero .hero::after{ animation: none !important; }
+  #pgKas .zt tbody tr,
+  #pgKas .kh-btn{ transition: none !important; }
+}
+
+/* ── V15 · Mobile fine-tuning ───────────────────────────────────────── */
+@media (max-width: 480px){
+  #pgKas .zt{ font-size: 12px !important; }
+  #pgKas .zt th{ padding: 11px 9px !important; font-size: 9px !important; }
+  #pgKas .zt td{ padding: 11px 9px !important; }
+  #pgKas .zt tfoot td{ padding: 12px 9px !important; }
+  #pgKas .zt td:last-child strong{ font-size: 12.5px !important; }
+}
+
+/* ── V15 · END ──────────────────────────────────────────────────────── */
+
 
 </style>
 </body>
