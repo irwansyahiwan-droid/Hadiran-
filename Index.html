@@ -3335,15 +3335,18 @@ var totSetor = totals.tSt || 0;
 talMap = talMap || (window._talMap||{});
 setMap = setMap || (window._setMap||{});
 // ── Hero card — refined typography, alert for Talangan, manual note ──
-heroEl.innerHTML = '<div class="hero kh2-hero" style="margin-bottom:14px">'+
+var hasPending = (totTal||0) > 0;
+heroEl.innerHTML = '<div class="hero kh2-hero kh2-hero-v3" style="margin-bottom:14px">'+
 '<div class="hero-label">SALDO KAS HADIRAN</div>'+
 '<div class="hero-amt"><span class="hero-rp">Rp</span><span class="kh2-amt-num">'+fmtN(saldo)+'</span></div>'+
 '<div class="hero-note kh2-hero-sub">Saldo saat ini untuk perputaran talangan</div>'+
 '<div class="hero-breakdown kh2-bd">'+
-'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic g">'+KH2_SVG.trend+'</span>Kas Hadiran Terkumpul</span><span class="hb-val kh2-val-up">'+fmtRp(totKas)+'</span></div>'+
-'<div class="hb-row kh2-bd-alert"><span class="hb-lbl"><span class="hb-ic kh2-ic-alert">'+KH2_SVG.alert+'</span>Talangan Belum Lunas</span><span class="hb-val kh2-val-alert">'+fmtRp(totTal)+'</span></div>'+
+'<div class="hb-row"><span class="hb-lbl"><span class="hb-ic g">'+KH2_SVG.trend+'</span>Kas Terkumpul</span><span class="hb-val kh2-val-up">'+fmtRp(totKas)+'</span></div>'+
+'<div class="hb-row kh2-bd-alert"><span class="hb-lbl"><span class="hb-ic kh2-ic-alert">'+KH2_SVG.alert+'</span>Talangan Belum Lunas'+(hasPending?'<span class="kh2-pending-dot" aria-hidden="true"></span>':'')+'</span><span class="hb-val kh2-val-alert">'+fmtRp(totTal)+'</span></div>'+
+'<div class="kh2-bd-setor">'+
 '<div class="hb-row"><span class="hb-lbl"><span class="hb-ic gold">'+KH2_SVG.bank+'</span>Setoran ke Kas Besar</span><span class="hb-val kh2-val-neutral">'+fmtRp(totSetor)+'</span></div>'+
 '<div class="kh2-bd-note">(Manual di akhir bulan)</div>'+
+'</div>'+
 '</div>'+
 '</div>';
 // ── Quick-access tiles + minimal PDF link ──
@@ -3365,10 +3368,11 @@ var pengeluaranTile = '<button class="krt2-tile out kh2-tile" type="button" oncl
 btnsEl.innerHTML='<div class="krt2-tiles kh2-tiles">'+pemasukanTile+pengeluaranTile+'</div>'+
 '<button class="krt2-pdf-link kh2-pdf-link" onclick="cetakPDF()">'+KH2_SVG.pdf+'<span>Cetak PDF</span></button>';
 }
-// ── Alur Kas Hadiran header — title + count tile ──
+// ── Alur Kas Hadiran header — eyebrow + title + count tile ──
 var nTarikan = sorted.length;
 if(hdrEl){
-hdrEl.innerHTML='<div class="kh2-alur-header">'+
+hdrEl.innerHTML='<div class="kh2-eyebrow">ALUR KAS HADIRAN PER TARIKAN</div>'+
+'<div class="kh2-alur-header kh2-alur-header-v3">'+
 '<div class="kh2-alur-title-wrap">'+
 '<div class="kh2-alur-title">Alur Kas Hadiran</div>'+
 '<div class="kh2-alur-sub">'+nTarikan+' tarikan terlaksana</div>'+
@@ -3402,18 +3406,19 @@ if(nTarikan){
 html += '<div class="krt2-sec-divider kh2-divider"><span class="label">Tarikan Terbaru</span><span class="line"></span><span class="total">'+nTarikan+' total</span></div>';
 // Latest 3 tarikan (newest first by noTarikan desc)
 var latest = sorted.slice().sort(function(a,b){return b.noTarikan-a.noTarikan;}).slice(0,3);
-latest.forEach(function(r){
+latest.forEach(function(r,i){
 var livT = (talMap && talMap[r.noTarikan]) ? talMap[r.noTarikan].jumlah : 0;
 var livSt = setMap[String(r.noTarikan)] || 0;
 var kasMasuk = r.kasMasuk || 0;
-// Big entry: Tarikan #N
-html += '<div class="kh2-row kh2-row-tarikan">'+
+var featCls = (i===0) ? ' kh2-row-feat' : '';
+// Big entry: Tarikan #N (first one is featured/larger)
+html += '<div class="kh2-row kh2-row-tarikan'+featCls+'">'+
 '<div class="kh2-row-ic blue kh2-ic-num">#'+r.noTarikan+'</div>'+
 '<div class="kh2-row-info">'+
 '<div class="kh2-row-cat">'+esc(r.sohibulBait||'Sohibul Bait')+'</div>'+
 '<div class="kh2-row-tgl">Tarikan #'+r.noTarikan+' · '+_kh2FmtTglShort(r.tanggal)+'</div>'+
 '</div>'+
-'<div class="kh2-row-amt up">+'+fmtRp(kasMasuk)+'</div>'+
+'<div class="kh2-row-amt up'+(i===0?' large':'')+'">+'+fmtRp(kasMasuk)+'</div>'+
 '</div>';
 // Sub-entry: Talangan diberikan (smaller, alert)
 if(livT>0){
@@ -21475,6 +21480,267 @@ html[data-theme="dark"] body::before{
 @media (prefers-reduced-motion: reduce) {
   .krt2-tile::after,
   .ni.on::before { animation: none !important; transition: none !important; }
+}
+
+</style>
+<style id="kh2-polish-v3-2026">
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN RT — KAS HADIRAN POLISH v3 (May 2026)
+   Final refinement layer over kh2-polish-2026:
+   - Bolder hero amount with optical-size tracking
+   - Red-orange pending dot pulse next to "Talangan Belum Lunas"
+   - Setoran row + manual note grouped as a sub-block
+   - "ALUR KAS HADIRAN PER TARIKAN" eyebrow heading
+   - Even more minimal Cetak PDF text-link
+   - Featured (latest) tarikan row carries visual weight
+   - Tightened breathing-room rhythm
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── A. Hero — bolder amount, refined breakdown ──────────────────── */
+.kh2-hero-v3 .hero-amt {
+  font-size: 44px !important;
+  font-weight: 900 !important;
+  letter-spacing: -2px !important;
+  line-height: .95 !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.06);
+}
+.kh2-hero-v3 .hero-amt .kh2-amt-num {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+.kh2-hero-v3 .kh2-hero-sub {
+  font-size: 12px !important;
+  color: rgba(255,255,255,.66) !important;
+  font-weight: 500 !important;
+  margin-bottom: 14px !important;
+}
+.kh2-hero-v3 .kh2-bd { padding: 12px 14px 10px !important; gap: 8px !important; }
+.kh2-hero-v3 .kh2-bd .hb-row { gap: 10px !important; }
+.kh2-hero-v3 .kh2-bd .hb-lbl { font-size: 12px !important; }
+.kh2-hero-v3 .kh2-bd .hb-val { font-size: 13.5px !important; }
+.kh2-hero-v3 .hb-row.kh2-bd-alert .hb-val {
+  font-size: 14px !important;
+  color: #FFB47A !important;
+  text-shadow: 0 0 14px rgba(251,146,60,.30);
+}
+.kh2-hero-v3 .kh2-pending-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #FB923C;
+  margin-left: 6px;
+  position: relative;
+  box-shadow: 0 0 0 0 rgba(251,146,60,.65);
+  animation: kh2PendingPulse 1.6s ease-out infinite;
+}
+@keyframes kh2PendingPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(251,146,60,.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(251,146,60,0); }
+  100% { box-shadow: 0 0 0 0 rgba(251,146,60,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kh2-hero-v3 .kh2-pending-dot { animation: none !important; }
+}
+
+/* Setoran row + manual note as a coherent sub-block */
+.kh2-hero-v3 .kh2-bd-setor {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255,255,255,.14);
+}
+.kh2-hero-v3 .kh2-bd-setor .hb-row { margin-bottom: 2px; }
+.kh2-hero-v3 .kh2-bd-note {
+  margin-top: 2px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,.50);
+  text-align: right;
+  font-style: italic;
+  letter-spacing: .15px;
+}
+
+/* ── B. Pemasukan / Pengeluaran tiles — slight refinement ────────── */
+.kh2-tile {
+  border-radius: 18px !important;
+  transition: transform .18s var(--e2), box-shadow .18s !important;
+}
+.kh2-tile:active { transform: scale(.985) !important; }
+.kh2-tile .krt2-tile-amt {
+  letter-spacing: -.3px !important;
+  font-weight: 800 !important;
+}
+.kh2-tile .krt2-tile-lbl {
+  letter-spacing: .15px !important;
+  font-weight: 700 !important;
+}
+.kh2-tile .krt2-tile-desc {
+  letter-spacing: .15px !important;
+  opacity: .76 !important;
+}
+
+/* ── C. Cetak PDF — minimal text link + refined icon ──────────────── */
+.kh2-pdf-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 4px 0 14px 0 !important;
+  padding: 8px 4px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--t2) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: .15px !important;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color .15s, transform .15s var(--e2);
+}
+.kh2-pdf-link svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke-width: 1.7 !important;
+  opacity: .78;
+  transition: opacity .15s;
+}
+.kh2-pdf-link span {
+  text-decoration: underline;
+  text-decoration-color: rgba(15,23,42,.18);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color .15s;
+}
+.kh2-pdf-link:hover { color: var(--G) !important; }
+.kh2-pdf-link:hover svg { opacity: 1; }
+.kh2-pdf-link:hover span { text-decoration-color: rgba(22,163,74,.50); }
+.kh2-pdf-link:active { transform: translateY(1px) !important; }
+[data-theme="dark"] .kh2-pdf-link span {
+  text-decoration-color: rgba(255,255,255,.20);
+}
+[data-theme="dark"] .kh2-pdf-link:hover span {
+  text-decoration-color: rgba(74,222,128,.55);
+}
+
+/* ── D. Eyebrow heading "ALUR KAS HADIRAN PER TARIKAN" ───────────── */
+.kh2-eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--t4);
+  margin: 18px 4px 8px;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kh2-eyebrow::before,
+.kh2-eyebrow::after {
+  content: '';
+  height: 1px;
+  flex: 0 0 14px;
+  background: linear-gradient(90deg, transparent, var(--line));
+}
+.kh2-eyebrow::after {
+  flex: 1 1 auto;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+[data-theme="dark"] .kh2-eyebrow { color: var(--t3); }
+
+/* Tighten alur header now that an eyebrow sits above it */
+.kh2-alur-header-v3 { margin-top: 4px !important; margin-bottom: 10px !important; }
+
+/* ── E. Featured (latest) tarikan row — visual lead in the list ── */
+.kh2-row-feat {
+  background: linear-gradient(160deg, rgba(34,197,94,.05) 0%, transparent 70%);
+  border-bottom: 1px solid rgba(22,163,74,.16) !important;
+  border-left: 3px solid #22C55E;
+  border-radius: 0 12px 12px 0;
+  padding-left: 9px !important;
+  margin-left: -3px;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  position: relative;
+}
+.kh2-row-feat .kh2-row-ic {
+  width: 42px !important; height: 42px !important;
+  border-radius: 13px !important;
+  font-size: 14px !important;
+}
+.kh2-row-feat .kh2-row-cat { font-size: 14.5px !important; }
+.kh2-row-feat .kh2-row-tgl { font-size: 11.5px !important; margin-top: 4px !important; }
+.kh2-row-feat .kh2-row-amt.large {
+  font-size: 18px !important;
+  letter-spacing: -.5px !important;
+  font-weight: 900 !important;
+}
+.kh2-row-feat::after {
+  content: 'TERBARU';
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  color: #15803D;
+  background: rgba(22,163,74,.10);
+  padding: 2px 6px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+[data-theme="dark"] .kh2-row-feat {
+  background: linear-gradient(160deg, rgba(34,197,94,.08) 0%, transparent 70%);
+  border-left-color: #22C55E;
+}
+[data-theme="dark"] .kh2-row-feat::after {
+  color: #86EFAC;
+  background: rgba(34,197,94,.16);
+}
+
+/* Sub rows under a featured tarikan get tighter visual link */
+.kh2-row-feat + .kh2-row-sub {
+  padding-left: 32px !important;
+  position: relative;
+}
+.kh2-row-feat + .kh2-row-sub::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 50%;
+  width: 1px;
+  background: rgba(15,23,42,.12);
+}
+[data-theme="dark"] .kh2-row-feat + .kh2-row-sub::before {
+  background: rgba(255,255,255,.14);
+}
+
+/* ── F. Summary rows — clearer red-orange context label ──────────── */
+.kh2-row-sum.kh2-row-alert .kh2-row-cat { color: #C2410C; }
+.kh2-row-sum.kh2-row-alert .kh2-row-tgl { color: rgba(194,65,12,.78); }
+[data-theme="dark"] .kh2-row-sum.kh2-row-alert .kh2-row-cat { color: #FDBA74; }
+[data-theme="dark"] .kh2-row-sum.kh2-row-alert .kh2-row-tgl { color: rgba(253,186,116,.70); }
+.kh2-row-sum.kh2-row-up    .kh2-row-cat { color: #15803D; }
+.kh2-row-sum.kh2-row-up    .kh2-row-tgl { color: rgba(21,128,61,.74); }
+[data-theme="dark"] .kh2-row-sum.kh2-row-up    .kh2-row-cat { color: #86EFAC; }
+[data-theme="dark"] .kh2-row-sum.kh2-row-up    .kh2-row-tgl { color: rgba(134,239,172,.70); }
+
+/* ── G. Page rhythm — refined spacing for readability ────────────── */
+#pgKas {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+#kasHadiranAlurList { padding: 0 !important; }
+
+/* ── H. Responsive fine-tuning ───────────────────────────────────── */
+@media (max-width: 360px) {
+  .kh2-hero-v3 .hero-amt { font-size: 38px !important; letter-spacing: -1.6px !important; }
+  .kh2-eyebrow { font-size: 9px; letter-spacing: 1.6px; }
+  .kh2-row-feat .kh2-row-amt.large { font-size: 16px !important; }
+  .kh2-row-feat .kh2-row-cat { font-size: 13.5px !important; }
+  .kh2-row-feat::after { font-size: 8px; padding: 2px 5px; }
 }
 
 </style>
