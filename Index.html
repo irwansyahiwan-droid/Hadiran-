@@ -2506,7 +2506,16 @@ var cKey='page_'+page;
 var sCached=sCache.get(cKey);
 if(sCached){if(typeof ok==='function')ok(sCached);
  setTimeout(function(){gas('getPageData',page,function(res){
- if(res&&!res.error){lsCache.set(cKey,res,22000);sCache.set(cKey,res,300000);}
+ if(res&&!res.error){lsCache.set(cKey,res,22000);sCache.set(cKey,res,300000);
+   /* v32: Re-render dgn data segar bila berbeda dari yg di-cache —
+      memastikan halaman selalu konsisten dgn server (tidak stale). */
+   try{
+     if(typeof ok==='function'){
+       var a=JSON.stringify(res),b=JSON.stringify(sCached);
+       if(a!==b)ok(res);
+     }
+   }catch(e){if(typeof ok==='function')ok(res);}
+ }
  },function(){});},100);
  return;}
 var cached=lsCache.get(cKey);
@@ -2848,7 +2857,11 @@ el.innerHTML='<div class="alert aR"><span class="alert-ic">❌</span><span>Gagal
 });
 }
 /* ═══════════ REFRESH ═══════════ */
-function doRefresh(){lsCache.clear();
+function doRefresh(){
+/* v32: bersihkan kedua layer cache + reset map live agar tarikan refresh
+   benar-benar mengambil data segar dari server. */
+lsCache.clear();sCache.clear();
+window._talMap=null;window._setMap=null;window._kasStale=true;
 var btn=document.getElementById('btnRefresh');btn.classList.add('spinning');btn.disabled=true;
 var cur=document.querySelector('.page.on');var nm=cur?cur.id.replace('pg',''):'Dash';
 if(nm==='Dash')loadDash();else if(nm==='Kas')loadKas();else if(nm==='KasRT')loadKasRT();
@@ -3284,16 +3297,19 @@ var btn=document.getElementById('btnBayarTal');btn.classList.add('loading');btn.
 gasWrite('bayarTalangan',{id:curTalId,tanggalBayar:tgl},function(r){
 btn.classList.remove('loading');btn.disabled=false;
 if(r&&r.success){
+/* v32: Bersihkan SEMUA cache (lsCache + sCache) supaya angka talangan
+   di Alur Kas Hadiran Per Tarikan ikut ter-update, sama dgn Beranda. */
 lsCache.del('page_talangan');lsCache.del('page_kas');lsCache.del('page_dash');
+sCache.del('page_talangan');sCache.del('page_kas');sCache.del('page_dash');
+/* Reset map live supaya render berikutnya pakai data segar */
+window._talMap=null;window._setMap=null;window._kasStale=true;
 toast('Talangan lunas!','ok');
 closeOv('ovBayarTal');
 // Optimistic: hapus entri dari _talMap supaya tabel langsung update
 _syncTalMapAfterBayar(curTalId);
 loadTalangan();loadDash();loadRekap();
-// Selalu reload kas (bukan hanya jika pgKas visible)
-// karena user akan navigasi ke sana setelah ini
-lsCache.del('page_kas');
-window._kasStale=true;
+// Reload kas table jika sedang dibuka — kalau tidak,
+// cache yg dibersihkan tadi memastikan navigasi berikutnya selalu fresh.
 if(document.getElementById('pgKas').classList.contains('on')){loadKas();}
 }
 else{toast((r&&r.message)||'Gagal','err');}
@@ -19890,6 +19906,363 @@ html[data-theme] body::before{
 html[data-theme="dark"] body::before{
   color: rgba(255,255,255,.12) !important;
 }
+
+</style>
+<style id="v32-fintech-2026-polish">
+/* ════════════════════════════════════════════════════════════════════
+   v32 — FINTECH 2026 POLISH
+   Bug-fix bundle dari user feedback:
+   1. Bottom nav lebih turun ke tepi bawah (cleaner edge)
+   2. Tombol Simpan lebih premium (depth + glow + tipografi)
+   3. Jadwal anggota mode warga: kartu lebih rapi, hierarki jelas
+   4. Konsistensi Inter (system) + tabular-nums utk angka
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1 · BOTTOM NAV — turun ke bawah (8px dari edge, bukan 20px) ── */
+html[data-theme] body #bottomNav#bottomNav#bottomNav{
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  height: 64px !important;
+  border-radius: 22px !important;
+  width: calc(100% - 28px) !important;
+  max-width: 440px !important;
+}
+html[data-theme] body #bottomNav#bottomNav#bottomNav .ni-lbl{
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: .15px !important;
+}
+html[data-theme] body #bottomNav#bottomNav#bottomNav .ni{
+  padding: 4px 4px !important;
+  border-radius: 16px !important;
+}
+/* Konten tidak ketutupan nav baru — turunkan padding bottom sedikit */
+html[data-theme] body .page,
+html[data-theme] body #pgBeranda,
+html[data-theme] body #pgAbsensi,
+html[data-theme] body #pgTalangan,
+html[data-theme] body #pgKas,
+html[data-theme] body #pgKasRT,
+html[data-theme] body #pgRiwayat{
+  padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px) + 20px) !important;
+}
+
+/* PWA bar mengikuti nav baru */
+html[data-theme] body #pwaBar{
+  bottom: calc(74px + env(safe-area-inset-bottom, 0px) + 8px) !important;
+}
+
+/* ─── 2 · SAVE BAR + TOMBOL SIMPAN — premium fintech ──────────────── */
+html[data-theme] body .save-bar{
+  position: fixed !important;
+  left: 14px !important; right: 14px !important;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px) + 10px) !important;
+  padding: 0 !important;
+  z-index: 60 !important;
+  background: transparent !important;
+  pointer-events: none;
+}
+html[data-theme] body .save-bar > *{ pointer-events: auto; }
+
+html[data-theme] body .save-bar .btn-G,
+html[data-theme] body .save-bar .btn.btn-G,
+html[data-theme] body #btnSimpan.btn-G{
+  width: 100% !important;
+  height: 56px !important;
+  border-radius: 18px !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.1px !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  /* Refined gradient — deep emerald → vivid green, with subtle highlight */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 38%),
+    linear-gradient(135deg, #15803D 0%, #16A34A 55%, #22C55E 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.30) inset,
+    0 -1px 0 rgba(0,0,0,.10) inset,
+    0 8px 24px rgba(22,163,74,.30),
+    0 3px 8px rgba(22,163,74,.18),
+    0 0 0 0.5px rgba(15,80,40,.20) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.18) !important;
+  transition:
+    transform .14s cubic-bezier(.2,.8,.2,1),
+    box-shadow .22s ease,
+    filter .18s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+html[data-theme] body .save-bar .btn-G::after{
+  /* glossy sweep highlight */
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.18) 50%, transparent 65%) !important;
+  transform: translateX(-100%);
+  transition: transform .9s ease !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+}
+html[data-theme] body .save-bar .btn-G:hover{
+  filter: brightness(1.04) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.30) inset,
+    0 -1px 0 rgba(0,0,0,.10) inset,
+    0 12px 30px rgba(22,163,74,.38),
+    0 4px 10px rgba(22,163,74,.22),
+    0 0 0 0.5px rgba(15,80,40,.22) !important;
+}
+html[data-theme] body .save-bar .btn-G:hover::after{
+  transform: translateX(120%);
+}
+html[data-theme] body .save-bar .btn-G:active{
+  transform: scale(.985) translateY(1px) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.20) inset,
+    0 4px 12px rgba(22,163,74,.30),
+    0 0 0 0.5px rgba(15,80,40,.24) !important;
+  filter: brightness(.98) !important;
+}
+html[data-theme] body .save-bar .btn-G.ok{
+  background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+}
+html[data-theme] body .save-bar .btn-G:disabled,
+html[data-theme] body .save-bar .btn-G.loading{
+  filter: saturate(.7) brightness(.95) !important;
+  cursor: progress !important;
+}
+
+[data-theme="dark"] body .save-bar .btn-G,
+html[data-theme="dark"] body #btnSimpan.btn-G{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0) 40%),
+    linear-gradient(135deg, #166534 0%, #15803D 50%, #22C55E 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 8px 26px rgba(34,197,94,.32),
+    0 3px 8px rgba(0,0,0,.40),
+    0 0 0 0.5px rgba(0,0,0,.30) !important;
+}
+
+/* Body trick: ketika ada save bar, tambahkan ruang ekstra di atas nav */
+html[data-theme] body.has-savebar #pgAbsensi{
+  padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px) + 10px) !important;
+}
+
+/* ─── 3 · JADWAL WARGA (mode anggota) — kartu rapi & modern ──────── */
+html[data-theme] body #pubTabJadwal .jdw-wrap{
+  overflow: visible !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+html[data-theme] body #pubTabJadwal .jdw-tbl,
+html[data-theme] body #pubTabJadwal .jdw-tbl tbody{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+html[data-theme] body #pubTabJadwal .jdw-tbl thead{ display: none !important; }
+
+html[data-theme] body #pubTabJadwal .jdw-tbl tr{
+  display: grid !important;
+  grid-template-columns: 26px 44px 1fr !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: var(--surf, #FFFFFF) !important;
+  border: 1px solid var(--line, #E4EAF4) !important;
+  border-left: 3px solid #93C5FD !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.04),
+    0 4px 12px rgba(15,23,42,.05) !important;
+  transition: transform .14s ease, box-shadow .2s ease, border-color .2s ease !important;
+}
+html[data-theme] body #pubTabJadwal .jdw-tbl tr:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.05),
+    0 8px 22px rgba(15,23,42,.08) !important;
+}
+html[data-theme] body #pubTabJadwal .jdw-tbl tr.jdw-row-done{
+  border-left-color: #16A34A !important;
+  background: linear-gradient(135deg, #F6FCF9, #FFFFFF) !important;
+}
+
+html[data-theme="dark"] body #pubTabJadwal .jdw-tbl tr{
+  background: var(--surf2, #162030) !important;
+  border-color: var(--line, #1E2E46) !important;
+  border-left-color: #3B82F6 !important;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.30),
+    0 4px 14px rgba(0,0,0,.32) !important;
+}
+html[data-theme="dark"] body #pubTabJadwal .jdw-tbl tr.jdw-row-done{
+  background: linear-gradient(135deg, rgba(34,197,94,.08), var(--surf2)) !important;
+  border-left-color: #22C55E !important;
+}
+
+html[data-theme] body #pubTabJadwal .jdw-tbl td{
+  display: block !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Kolom 1 — nomor urut */
+html[data-theme] body #pubTabJadwal .jdw-tbl td:nth-child(1){
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums !important;
+  color: var(--t3, #6B7A96) !important;
+  text-align: center !important;
+}
+/* Kolom 2 — badge tarikan */
+html[data-theme] body #pubTabJadwal .jdw-tbl td:nth-child(2) > div{
+  width: 42px !important; height: 42px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center; justify-content: center;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  border-width: 1px !important;
+}
+html[data-theme] body #pubTabJadwal .jdw-tbl td:nth-child(2) > div > span{
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.2px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+/* Kolom 3 — info row (nama + meta) */
+html[data-theme] body #pubTabJadwal .jdw-tbl td:nth-child(3){
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+html[data-theme] body #pubTabJadwal .v30-info-row{
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+html[data-theme] body #pubTabJadwal .v30-av{
+  flex: 0 0 36px !important;
+  width: 36px !important; height: 36px !important;
+  border-radius: 10px !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.16), 0 0 0 1px rgba(255,255,255,.12) inset !important;
+}
+html[data-theme] body #pubTabJadwal .v30-info-text{
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+html[data-theme] body #pubTabJadwal .v30-name{
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.2px !important;
+  color: var(--t0, #0A0F1E) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  line-height: 1.25 !important;
+}
+html[data-theme="dark"] body #pubTabJadwal .v30-name{ color: #F0F4FC !important; }
+html[data-theme] body #pubTabJadwal .v30-meta{
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 0 !important;
+}
+html[data-theme] body #pubTabJadwal .v30-date{
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--t3, #6B7A96) !important;
+  letter-spacing: .05px !important;
+  white-space: nowrap !important;
+}
+html[data-theme="dark"] body #pubTabJadwal .v30-date{ color: #96A7C2 !important; }
+
+html[data-theme] body #pubTabJadwal .v30-status{
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 3px 9px !important;
+  border-radius: 999px !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .1px !important;
+  white-space: nowrap !important;
+  line-height: 1.4 !important;
+  border: 1px solid transparent !important;
+}
+html[data-theme] body #pubTabJadwal .v30-status.selesai{
+  background: #DCFCE7 !important;
+  color: #14532D !important;
+  border-color: #86EFAC !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset !important;
+}
+html[data-theme] body #pubTabJadwal .v30-status.terjadwal{
+  background: #EFF6FF !important;
+  color: #1E3A8A !important;
+  border-color: #BFDBFE !important;
+}
+html[data-theme="dark"] body #pubTabJadwal .v30-status.selesai{
+  background: rgba(34,197,94,.16) !important;
+  color: #4ADE80 !important;
+  border-color: rgba(34,197,94,.28) !important;
+}
+html[data-theme="dark"] body #pubTabJadwal .v30-status.terjadwal{
+  background: rgba(59,130,246,.16) !important;
+  color: #93C5FD !important;
+  border-color: rgba(59,130,246,.28) !important;
+}
+
+/* Stat cards di atas tabel jadwal — typography fintech */
+html[data-theme] body #pubTabJadwal > div:nth-child(2) > div{
+  border-radius: 14px !important;
+  border-width: 1px !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 1px 2px rgba(15,23,42,.04),
+    0 2px 8px rgba(15,23,42,.04) !important;
+}
+html[data-theme] body #pubTabJadwal > div:nth-child(2) > div > div:first-child{
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
+  font-weight: 700 !important;
+  letter-spacing: -.5px !important;
+  font-size: 22px !important;
+}
+
+/* ─── 4 · NUMBER COLUMNS — tabular-nums everywhere (fintech standard) ── */
+html[data-theme] body .hero-amt,
+html[data-theme] body .hb-val,
+html[data-theme] body .sc-val,
+html[data-theme] body .rek-amt,
+html[data-theme] body .rek-saldo,
+html[data-theme] body .tal-card-amt,
+html[data-theme] body td.r,
+html[data-theme] body td.c{
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" on, "lnum" on !important;
+}
+
+/* ─── 5 · Hide v12.1 debug marker (terlihat amatir) ─────────────── */
+html[data-theme] body::before{ display: none !important; }
 
 </style>
 </body>
