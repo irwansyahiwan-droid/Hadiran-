@@ -19892,5 +19892,417 @@ html[data-theme="dark"] body::before{
 }
 
 </style>
+
+<style id="patch-v13-kasrt-nav-savebar-2026">
+/* ════════════════════════════════════════════════════════════════════
+   PATCH v13 · KAS RT PREMIUM RESTORE + NAV LOWER + SAVE-BAR FIX
+   ────────────────────────────────────────────────────────────────────
+   Issues addressed (post-talangan-sync regression):
+   1. Halaman Kas RT lost its premium look → restore krt-* / kbs-* with
+      higher specificity so it survives v12 cascade.
+   2. Bottom nav floats too high → lower it closer to the screen edge.
+   3. "Simpan & Hitung Iuran" button looks undersized → enlarge,
+      strengthen typography, refine glow.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1 · BOTTOM NAV — push closer to screen edge ──────────────────── */
+html[data-theme] body #bottomNav#bottomNav{
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  height: 64px !important;
+  border-radius: 22px !important;
+}
+
+/* Re-balance page bottom padding so content clears the lowered nav */
+html[data-theme] body .page,
+html[data-theme] body #pgBeranda,
+html[data-theme] body #pgAbsensi,
+html[data-theme] body #pgTalangan,
+html[data-theme] body #pgKas,
+html[data-theme] body #pgKasRT,
+html[data-theme] body #pgRiwayat{
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 24px) !important;
+}
+
+/* ─── 2 · SAVE BAR — bigger, more confident primary CTA ────────────── */
+html[data-theme] body .save-bar.save-bar{
+  position: sticky !important;
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 12px) !important;
+  z-index: 50 !important;
+  padding: 12px 0 0 !important;
+  background: transparent !important;
+}
+html[data-theme] body .save-bar.save-bar .btn{
+  width: 100% !important;
+  height: 58px !important;
+  border-radius: 16px !important;
+  font-size: 15.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.2px !important;
+  gap: 8px !important;
+  padding: 0 22px !important;
+}
+html[data-theme] body .save-bar.save-bar .btn-G{
+  background: linear-gradient(180deg, #1AC25C, #15803D) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 1px 2px rgba(22,163,74,.20),
+    0 10px 28px rgba(22,163,74,.32) !important;
+}
+html[data-theme] body .save-bar.save-bar .btn-G:active{
+  transform: scale(.985) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 1px 2px rgba(22,163,74,.18),
+    0 4px 12px rgba(22,163,74,.22) !important;
+}
+
+/* ─── 3 · KAS RT — card-body padding reset (kbs cards live raw) ────── */
+html[data-theme] body #pgKasRT #kasBesarBody.card-body,
+html[data-theme] body #pgKasRT .card-body{
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* ─── 4 · KAS RT ACTION BUTTONS — premium gradient pair ────────────── */
+html[data-theme] body #kasRTBtns .krt-actions{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-bottom: 8px !important;
+}
+html[data-theme] body #kasRTBtns .krt-row-primary{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-primary{
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 16px 10px !important;
+  min-height: 88px !important;
+  border: 1px solid transparent !important;
+  border-radius: 18px !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition: transform .14s cubic-bezier(.34,1.2,.36,1), box-shadow .18s ease !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-primary:active{
+  transform: scale(.96) !important;
+}
+html[data-theme="light"] body #kasRTBtns .krt-btn-masuk,
+html:not([data-theme="dark"]) body #kasRTBtns .krt-btn-masuk{
+  background: linear-gradient(160deg, #DCFCE7 0%, #BBF7D0 100%) !important;
+  border-color: rgba(22,163,74,.28) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 1px 2px rgba(22,163,74,.10),
+    0 6px 16px rgba(22,163,74,.14) !important;
+}
+html[data-theme="light"] body #kasRTBtns .krt-btn-keluar,
+html:not([data-theme="dark"]) body #kasRTBtns .krt-btn-keluar{
+  background: linear-gradient(160deg, #FEE2E2 0%, #FECACA 100%) !important;
+  border-color: rgba(220,38,38,.22) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 1px 2px rgba(220,38,38,.08),
+    0 6px 16px rgba(220,38,38,.12) !important;
+}
+html[data-theme="dark"] body #kasRTBtns .krt-btn-masuk{
+  background: linear-gradient(160deg, rgba(34,197,94,.22), rgba(34,197,94,.10)) !important;
+  border-color: rgba(34,197,94,.32) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 6px 16px rgba(0,0,0,.32) !important;
+}
+html[data-theme="dark"] body #kasRTBtns .krt-btn-keluar{
+  background: linear-gradient(160deg, rgba(248,113,113,.22), rgba(248,113,113,.10)) !important;
+  border-color: rgba(248,113,113,.32) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 6px 16px rgba(0,0,0,.32) !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-ic{
+  font-size: 26px !important;
+  line-height: 1 !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-label{
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.2px !important;
+  color: var(--ink0, #08090C) !important;
+}
+html[data-theme="dark"] body #kasRTBtns .krt-btn-label{
+  color: #F3F5FB !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-desc{
+  font-size: 10.5px !important;
+  font-weight: 500 !important;
+  color: var(--ink3, #5A6271) !important;
+  letter-spacing: 0 !important;
+}
+html[data-theme="dark"] body #kasRTBtns .krt-btn-desc{
+  color: #B8BFCC !important;
+}
+
+/* Util row — Setor / Cetak */
+html[data-theme] body #kasRTBtns .krt-row-util{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-util{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  background: var(--surf, #fff) !important;
+  border: 1px solid var(--line, #E8ECF2) !important;
+  border-radius: 13px !important;
+  color: var(--ink1, #1A1E27) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.1px !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+  transition: transform .14s ease, background .15s, border-color .15s !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-util:hover{
+  border-color: var(--line2, #DDE2EB) !important;
+  background: var(--surf2, #F4F6FA) !important;
+}
+html[data-theme] body #kasRTBtns .krt-btn-util:active{
+  transform: scale(.96) !important;
+}
+html[data-theme] body #kasRTBtns .krt-util-ic{
+  font-size: 15px !important;
+  line-height: 1 !important;
+}
+
+/* ─── 5 · KAS RT TRANSACTIONS — kbs-* premium list ─────────────────── */
+html[data-theme] body #pgKasRT .kbs-section{
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  margin-bottom: 8px !important;
+}
+html[data-theme] body #pgKasRT .kbs-section-hdr{
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 14px 4px 10px !important;
+  border-bottom: 1px solid var(--line, #E8ECF2) !important;
+  margin-bottom: 10px !important;
+  background: transparent !important;
+}
+html[data-theme] body #pgKasRT .kbs-section-ic{
+  font-size: 15px !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+}
+html[data-theme] body #pgKasRT .kbs-section-ttl{
+  flex: 1 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.1px !important;
+  text-transform: uppercase !important;
+  color: var(--ink0, #08090C) !important;
+}
+html[data-theme="dark"] body #pgKasRT .kbs-section-ttl{
+  color: #F3F5FB !important;
+}
+html[data-theme] body #pgKasRT .kbs-section-cnt{
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: var(--ink3, #5A6271) !important;
+  background: var(--surf2, #F4F6FA) !important;
+  border: 1px solid var(--line, #E8ECF2) !important;
+  padding: 3px 9px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0 !important;
+}
+html[data-theme] body #pgKasRT .kbs-section-tot{
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -.3px !important;
+}
+html[data-theme] body #pgKasRT .kbs-sec-in  .kbs-section-tot{ color: #15803D !important; }
+html[data-theme] body #pgKasRT .kbs-sec-out .kbs-section-tot{ color: #B91C1C !important; }
+html[data-theme="dark"] body #pgKasRT .kbs-sec-in  .kbs-section-tot{ color: #4ADE80 !important; }
+html[data-theme="dark"] body #pgKasRT .kbs-sec-out .kbs-section-tot{ color: #F87171 !important; }
+
+/* Card groups */
+html[data-theme] body #pgKasRT .kbs-group-in,
+html[data-theme] body #pgKasRT .kbs-group-out{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Individual cards */
+html[data-theme] body #pgKasRT .kbs-card{
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 13px 14px !important;
+  background: var(--surf, #fff) !important;
+  border: 1px solid var(--line, #E8ECF2) !important;
+  border-radius: 14px !important;
+  position: relative !important;
+  box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+  transition: transform .14s ease, box-shadow .18s !important;
+}
+html[data-theme] body #pgKasRT .kbs-card:active{
+  transform: scale(.99) !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-awal{
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%) !important;
+  border-color: rgba(59,130,246,.25) !important;
+}
+html[data-theme="dark"] body #pgKasRT .kbs-card-awal{
+  background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(59,130,246,.08)) !important;
+  border-color: rgba(59,130,246,.32) !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-in{
+  border-left: 3px solid var(--G, #16A34A) !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-out{
+  border-left: 3px solid #DC2626 !important;
+}
+
+/* Card icon pill */
+html[data-theme] body #pgKasRT .kbs-card-icon{
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  flex-shrink: 0 !important;
+  background: var(--surf2, #F4F6FA) !important;
+  line-height: 1 !important;
+}
+
+/* Card text */
+html[data-theme] body #pgKasRT .kbs-card-info{
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-cat{
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .8px !important;
+  text-transform: uppercase !important;
+  color: var(--ink2, #3C424E) !important;
+  margin-bottom: 2px !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-ket{
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ink0, #08090C) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-bottom: 2px !important;
+  letter-spacing: -.1px !important;
+}
+html[data-theme="dark"] body #pgKasRT .kbs-card-ket{
+  color: #F3F5FB !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-tgl{
+  font-size: 10.5px !important;
+  color: var(--ink4, #8A93A4) !important;
+  font-weight: 500 !important;
+}
+html[data-theme] body #pgKasRT .kbs-card-nom{
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  letter-spacing: -.3px !important;
+}
+
+/* Edit button */
+html[data-theme] body #pgKasRT .kbs-edit-btn{
+  background: var(--surf2, #F4F6FA) !important;
+  border: 1px solid var(--line, #E8ECF2) !important;
+  border-radius: 9px !important;
+  padding: 5px 9px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  color: var(--ink2, #3C424E) !important;
+  transition: transform .14s ease, background .15s, border-color .15s !important;
+  flex-shrink: 0 !important;
+  margin-left: 4px !important;
+}
+html[data-theme] body #pgKasRT .kbs-edit-btn:hover{
+  background: var(--G-tint, #ECFDF5) !important;
+  border-color: var(--G-line, #A7F3D0) !important;
+  color: var(--G2, #15803D) !important;
+}
+html[data-theme] body #pgKasRT .kbs-edit-btn:active{
+  transform: scale(.9) !important;
+}
+
+/* Footer summary */
+html[data-theme] body #pgKasRT .kbs-footer{
+  margin-top: 14px !important;
+  padding: 14px 16px !important;
+  background: var(--surf, #fff) !important;
+  border: 1px solid var(--line, #E8ECF2) !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+}
+html[data-theme] body #pgKasRT .kbs-footer-row{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--ink1, #1A1E27) !important;
+  letter-spacing: 0 !important;
+}
+html[data-theme="dark"] body #pgKasRT .kbs-footer-row{
+  color: #D7DCE6 !important;
+}
+html[data-theme] body #pgKasRT .kbs-footer-total{
+  margin-top: 4px !important;
+  padding-top: 12px !important;
+  border-top: 1.5px solid var(--line, #E8ECF2) !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  color: var(--ink0, #08090C) !important;
+  letter-spacing: -.2px !important;
+}
+html[data-theme="dark"] body #pgKasRT .kbs-footer-total{
+  color: #F3F5FB !important;
+}
+html[data-theme] body #pgKasRT .kbs-footer-total span:last-child{
+  color: var(--G, #16A34A) !important;
+  font-size: 15.5px !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -.4px !important;
+}
+
+/* ─── 6 · Marker bump (so we know v13 is active) ────────────────────── */
+html[data-theme] body::before{
+  content: 'v13' !important;
+}
+</style>
+
 </body>
 </html>
