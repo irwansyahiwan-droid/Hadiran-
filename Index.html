@@ -2102,10 +2102,10 @@ Masuk sebagai Bendahara
 <div class="tb-name">Hadiran RT</div>
 <div class="tb-role" id="tbRole">—</div>
 </div>
-<button class="tb-refresh" id="btnTheme" onclick="toggleTheme()" title="Ganti Tema"><span id="themeIco">🌙</span></button>
-<button class="tb-refresh" id="btnRefresh" onclick="doRefresh()" title="Refresh">↻</button>
-<button class="tb-refresh" id="btnPwaInstall" onclick="showPwaGuide()" title="Install Aplikasi" style="display:none;font-size:15px">📲</button>
-<button class="tb-refresh" id="btnAbout" onclick="openOv('ovAbout')" title="Tentang Aplikasi">ℹ</button>
+<button class="tb-refresh" id="btnTheme" onclick="toggleTheme()" title="Ganti Tema" aria-label="Ganti Tema"><span id="themeIco"><svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></button>
+<button class="tb-refresh" id="btnRefresh" onclick="doRefresh()" title="Refresh" aria-label="Refresh"><svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg></button>
+<button class="tb-refresh" id="btnPwaInstall" onclick="showPwaGuide()" title="Install Aplikasi" aria-label="Install Aplikasi" style="display:none"><svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/><path d="M9 6h6"/></svg></button>
+<button class="tb-refresh" id="btnAbout" onclick="openOv('ovAbout')" title="Tentang Aplikasi" aria-label="Tentang Aplikasi"><svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>
 <div class="tb-badge" id="tbBadge">—</div>
 </div>
 </div>
@@ -2559,7 +2559,7 @@ gas('getDashboardData',undefined,ok,fail);
 }
 /* ═══════════ THEME ═══════════ */
 function initTheme(){var t=localStorage.getItem('hadiranRT_theme_v7')||'light';applyTheme(t);}
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);var ico=document.getElementById('themeIco');if(ico)ico.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('hadiranRT_theme_v7',t);}
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);var ico=document.getElementById('themeIco');if(ico){ico.innerHTML=(t==='dark')?'<svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.6" y1="4.6" x2="6.4" y2="6.4"/><line x1="17.6" y1="17.6" x2="19.4" y2="19.4"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.6" y1="19.4" x2="6.4" y2="17.6"/><line x1="17.6" y1="6.4" x2="19.4" y2="4.6"/></svg>':'<svg class="tb-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';}localStorage.setItem('hadiranRT_theme_v7',t);}
 function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'light';applyTheme(c==='dark'?'light':'dark');}
 /* ═══════════ INIT ═══════════ */
 /* Pull-to-refresh disabled — ganggu scroll */
@@ -20611,6 +20611,438 @@ html[data-theme="dark"] body::before{
 .hb-ic.purple{ background: linear-gradient(135deg,#A78BFA,#7C3AED); box-shadow: 0 2px 8px rgba(124,58,237,.42), inset 0 1px 0 rgba(255,255,255,.22); }
 .hb-ic.teal  { background: linear-gradient(135deg,#5EEAD4,#0D9488); box-shadow: 0 2px 8px rgba(13,148,136,.42), inset 0 1px 0 rgba(255,255,255,.22); }
 .hb-ic.pink  { background: linear-gradient(135deg,#F472B6,#DB2777); box-shadow: 0 2px 8px rgba(219,39,119,.40), inset 0 1px 0 rgba(255,255,255,.22); }
+
+</style>
+<style id="krt2-polish-2026-v2">
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN RT — KAS RT POLISH v2 (2026)
+   Sharp topbar SVG icons, refined hero glass, square micro-interactive
+   tiles, premium bottom-nav glow, generous breathing room
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── A. Topbar — crisp SVG icon buttons ──────────────────────────── */
+.tb-refresh .tb-ico,
+.tb-refresh > svg.tb-ico {
+  width: 19px; height: 19px;
+  stroke: currentColor;
+  display: block;
+  transition: transform .22s var(--e2);
+}
+.tb-refresh #themeIco { display:flex; align-items:center; justify-content:center; }
+.tb-refresh #themeIco .tb-ico { width:19px; height:19px; }
+.tb-refresh:active .tb-ico { transform: scale(.86); }
+#btnRefresh:active .tb-ico { transform: rotate(-180deg) scale(.92); transition: transform .35s var(--e2); }
+.tb-refresh {
+  color: var(--t2) !important;
+  border-radius: 11px !important;
+  position: relative;
+}
+.tb-refresh::after {
+  content:'';
+  position:absolute; inset:0;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgba(22,163,74,.0), transparent 70%);
+  transition: background .25s;
+  pointer-events:none;
+}
+.tb-refresh:active::after {
+  background: radial-gradient(circle at center, rgba(22,163,74,.18), transparent 70%);
+}
+[data-theme="dark"] .tb-refresh { color: var(--t2) !important; }
+
+/* ── B. Hero card — subtler Arabic, more refined glass ─────────── */
+.krt2-hero {
+  padding: 18px 22px 16px !important;
+  border-radius: 26px !important;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(34,197,94,.18), transparent 55%),
+    linear-gradient(160deg, #084528 0%, #0E6B3D 42%, #15A04A 100%) !important;
+  box-shadow:
+    0 18px 48px rgba(8,69,40,.36),
+    0 3px 12px rgba(8,69,40,.20),
+    inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+.krt2-arabic {
+  font-size: 12.5px !important;
+  color: rgba(255,255,255,.42) !important;
+  margin-bottom: 12px !important;
+  letter-spacing: 0 !important;
+  font-weight: 400 !important;
+  text-shadow: none !important;
+}
+.krt2-hero-label {
+  font-size: 9.5px !important;
+  letter-spacing: 1.9px !important;
+  color: rgba(255,255,255,.55) !important;
+  margin-bottom: 6px !important;
+}
+.krt2-hero-amt { margin-bottom: 4px !important; }
+.krt2-hero-amt .krt2-num {
+  font-size: 34px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1.6px !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.18) !important;
+}
+.krt2-hero-amt .krt2-rp {
+  font-size: 16px !important;
+  opacity: .62 !important;
+  font-weight: 500 !important;
+}
+.krt2-hero-date {
+  font-size: 11px !important;
+  color: rgba(255,255,255,.50) !important;
+  font-weight: 500 !important;
+  margin-bottom: 14px !important;
+  letter-spacing: .3px !important;
+}
+
+/* Breakdown rows — more spacious vertical padding, cleaner lines */
+.krt2-breakdown {
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  border-radius: 18px !important;
+  padding: 2px 14px !important;
+  backdrop-filter: blur(18px) saturate(1.3) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.3) !important;
+}
+.krt2-bd-row {
+  padding: 12px 0 !important;
+  gap: 12px !important;
+  border-bottom: 1px solid rgba(255,255,255,.07) !important;
+}
+.krt2-bd-row:last-child { border-bottom: none !important; }
+.krt2-bd-ic {
+  width: 28px !important; height: 28px !important;
+  border-radius: 9px !important;
+}
+.krt2-bd-ic svg { width: 14px !important; height: 14px !important; }
+.krt2-bd-lbl {
+  font-size: 12px !important;
+  color: rgba(255,255,255,.72) !important;
+  font-weight: 500 !important;
+  letter-spacing: .15px !important;
+}
+.krt2-bd-val {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.15px !important;
+}
+
+/* ── C. Tiles — squarer, richer micro-interactions ─────────────── */
+.krt2-tiles {
+  gap: 12px !important;
+  margin-bottom: 10px !important;
+  margin-top: 14px !important;
+}
+.krt2-tile {
+  min-height: 124px !important;
+  padding: 14px 16px 13px !important;
+  border-radius: 22px !important;
+  border-width: 1.5px !important;
+  transition:
+    transform .22s var(--e2),
+    box-shadow .28s var(--e2),
+    border-color .22s,
+    background .22s !important;
+  will-change: transform;
+}
+.krt2-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.5), transparent 50%);
+  opacity: .35;
+  pointer-events: none;
+  z-index: 0;
+}
+.krt2-tile::after {
+  content: '';
+  position: absolute;
+  width: 0; height: 0;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.55), transparent 60%);
+  transform: translate(-50%,-50%);
+  opacity: 0;
+  transition: width .55s var(--e2), height .55s var(--e2), opacity .65s ease-out;
+  pointer-events: none;
+  z-index: 0;
+}
+.krt2-tile:active::after {
+  width: 240px; height: 240px;
+  opacity: 1;
+  transition: width 0s, height 0s, opacity 0s;
+}
+.krt2-tile:active {
+  transform: scale(.965) !important;
+}
+.krt2-tile-ic {
+  width: 38px !important; height: 38px !important;
+  border-radius: 12px !important;
+  margin-bottom: 8px !important;
+}
+.krt2-tile-ic svg { width: 19px !important; height: 19px !important; }
+.krt2-tile-amt {
+  font-size: 16.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.6px !important;
+  margin-top: 2px !important;
+}
+.krt2-tile-lbl {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  margin-top: 3px !important;
+}
+.krt2-tile-desc {
+  font-size: 10.5px !important;
+  color: var(--t3) !important;
+  margin-top: 1px !important;
+  letter-spacing: .1px !important;
+}
+.krt2-tile.in {
+  background: linear-gradient(160deg, #ECFDF5 0%, #FFFFFF 65%) !important;
+  border-color: rgba(22,163,74,.20) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 6px 20px rgba(22,163,74,.10) !important;
+}
+.krt2-tile.in:active {
+  border-color: rgba(22,163,74,.50) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 10px 28px rgba(22,163,74,.28) !important;
+}
+.krt2-tile.in .krt2-tile-ic {
+  background: linear-gradient(135deg, #34D399, #15803D) !important;
+  box-shadow:
+    0 8px 18px rgba(22,163,74,.35),
+    inset 0 1px 0 rgba(255,255,255,.30) !important;
+}
+.krt2-tile.out {
+  background: linear-gradient(160deg, #FEF2F2 0%, #FFFFFF 65%) !important;
+  border-color: rgba(220,38,38,.18) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 6px 20px rgba(220,38,38,.08) !important;
+}
+.krt2-tile.out:active {
+  border-color: rgba(220,38,38,.50) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 10px 28px rgba(220,38,38,.26) !important;
+}
+.krt2-tile.out .krt2-tile-ic {
+  background: linear-gradient(135deg, #FB7185, #DC2626) !important;
+  box-shadow:
+    0 8px 18px rgba(220,38,38,.32),
+    inset 0 1px 0 rgba(255,255,255,.30) !important;
+}
+[data-theme="dark"] .krt2-tile.in {
+  background: linear-gradient(160deg, rgba(22,163,74,.16) 0%, var(--surf) 65%) !important;
+  border-color: rgba(34,197,94,.30) !important;
+}
+[data-theme="dark"] .krt2-tile.out {
+  background: linear-gradient(160deg, rgba(220,38,38,.16) 0%, var(--surf) 65%) !important;
+  border-color: rgba(239,68,68,.30) !important;
+}
+[data-theme="dark"] .krt2-tile::before { opacity: .12; }
+
+/* ── D. PDF link — even more minimal ─────────────────────────── */
+.krt2-pdf-link {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: .1px !important;
+  color: var(--t3) !important;
+  padding: 7px 9px !important;
+  margin: 2px 0 8px -4px !important;
+}
+.krt2-pdf-link svg {
+  width: 14px !important; height: 14px !important;
+  opacity: .7 !important;
+  transition: opacity .15s, transform .15s;
+}
+.krt2-pdf-link:hover {
+  color: var(--G) !important;
+  background: var(--G-dim) !important;
+}
+.krt2-pdf-link:hover svg { opacity: 1; }
+.krt2-pdf-link:active svg { transform: scale(.92); }
+
+/* ── E. List rows — generous spacing, no right bars, refined ──── */
+.krt2-list { gap: 0 !important; margin-bottom: 14px !important; }
+.krt2-row {
+  padding: 16px 4px !important;
+  gap: 14px !important;
+  border-bottom: 1px solid var(--line) !important;
+  /* Defensive: ensure NO right-side decoration leaks in */
+  border-right: none !important;
+  border-top: none !important;
+}
+.krt2-row::after, .krt2-row::before { content:none !important; }
+.krt2-row-ic {
+  width: 38px !important; height: 38px !important;
+  border-radius: 12px !important;
+}
+.krt2-row-ic svg { width: 17px !important; height: 17px !important; }
+.krt2-row-cat {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.1px !important;
+}
+.krt2-row-saldo .krt2-row-cat {
+  font-size: 12px !important;
+  letter-spacing: 1px !important;
+  font-weight: 800 !important;
+}
+.krt2-row-tgl {
+  font-size: 11px !important;
+  color: var(--t3) !important;
+  margin-top: 4px !important;
+  font-weight: 500 !important;
+  letter-spacing: .2px !important;
+}
+.krt2-row-amt {
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.25px !important;
+}
+.krt2-row-edit {
+  width: 30px; height: 30px;
+  padding: 0 !important;
+  border-radius: 10px !important;
+}
+
+/* Section dividers — slightly more breathing room */
+.krt2-sec-divider {
+  margin: 22px 4px 6px !important;
+  gap: 14px !important;
+}
+.krt2-sec-divider .label {
+  font-size: 10px !important;
+  letter-spacing: 1.6px !important;
+}
+.krt2-sec-divider .total {
+  font-size: 12px !important;
+}
+
+/* MUTASI section title — generous spacing */
+#pgKasRT .krt2-sec {
+  margin: 22px 2px 12px !important;
+}
+#pgKasRT .krt2-sec-t {
+  font-size: 10.5px !important;
+  letter-spacing: 1.8px !important;
+}
+
+/* Hide any legacy red right-bar from old kbs design that might leak in */
+#pgKasRT .kbs-card-in,
+#pgKasRT .kbs-card-out,
+#pgKasRT .kbs-card-awal,
+#pgKasRT .kbs-card {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* ── F. Bottom nav — minimal integrated, polished selected glow ── */
+#bottomNav {
+  height: 64px !important;
+  padding: 0 6px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.78) !important;
+  backdrop-filter: blur(34px) saturate(1.7) !important;
+  -webkit-backdrop-filter: blur(34px) saturate(1.7) !important;
+  border: 1px solid rgba(255,255,255,.55) !important;
+  box-shadow:
+    0 12px 36px rgba(15,23,42,.10),
+    0 2px 10px rgba(15,23,42,.06),
+    0 0 0 0.5px rgba(15,23,42,.04) !important;
+}
+[data-theme="dark"] #bottomNav {
+  background: rgba(10,16,28,.84) !important;
+  border-color: rgba(255,255,255,.08) !important;
+}
+.ni .ni-ico {
+  width: 30px !important; height: 30px !important;
+  border-radius: 11px !important;
+}
+.ni .ni-ico svg {
+  width: 20px !important; height: 20px !important;
+  stroke-width: 1.7 !important;
+  transition: transform .25s var(--e2), filter .25s !important;
+}
+.ni-lbl {
+  font-size: 9px !important;
+  letter-spacing: .2px !important;
+  font-weight: 600 !important;
+}
+/* Refined selected state */
+.ni.on { color: var(--G) !important; }
+.ni.on .ni-ico {
+  background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(34,197,94,.06)) !important;
+  box-shadow:
+    0 0 0 1px rgba(22,163,74,.20),
+    0 6px 18px rgba(22,163,74,.28),
+    inset 0 1px 0 rgba(255,255,255,.40) !important;
+}
+.ni.on .ni-ico svg {
+  stroke: var(--G) !important;
+  transform: translateY(-.5px) scale(1.06) !important;
+  filter: drop-shadow(0 1px 4px rgba(22,163,74,.45)) !important;
+}
+.ni.on .ni-lbl {
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+/* Subtle, clear green glow halo around selected icon */
+.ni.on::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 2px !important; left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 42px !important; height: 42px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(34,197,94,.32), transparent 65%) !important;
+  filter: blur(8px) !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  animation: krt2NavGlowV2 .4s var(--e2) both !important;
+}
+[data-theme="dark"] .ni.on .ni-ico {
+  background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(34,197,94,.08)) !important;
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.30),
+    0 6px 18px rgba(34,197,94,.32),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+@keyframes krt2NavGlowV2 {
+  from { opacity: 0; transform: translateX(-50%) scale(.4); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* ── G. Page generous spacing for premium feel ─────────────────── */
+#pgKasRT {
+  padding: 14px 18px calc(var(--nav) + env(safe-area-inset-bottom,0px) + 32px) !important;
+}
+#pgKasRT .krt2-hero { margin-bottom: 14px !important; }
+#pgKasRT #kasRTBtns { margin-bottom: 8px !important; }
+
+/* ── H. Responsive fine-tuning ─────────────────────────────────── */
+@media (max-width: 360px) {
+  .krt2-hero { padding: 16px 18px 14px !important; }
+  .krt2-hero-amt .krt2-num { font-size: 30px !important; }
+  .krt2-tile { min-height: 116px !important; padding: 12px 13px 11px !important; }
+  .krt2-tile-amt { font-size: 15px !important; }
+  .krt2-row-cat { font-size: 13.5px !important; }
+  .krt2-row-amt { font-size: 14px !important; }
+  #pgKasRT { padding: 12px 14px calc(var(--nav) + env(safe-area-inset-bottom,0px) + 28px) !important; }
+}
+
+/* Reduced motion: disable shimmer/ripple animations */
+@media (prefers-reduced-motion: reduce) {
+  .krt2-tile::after,
+  .ni.on::before { animation: none !important; transition: none !important; }
+}
 
 </style>
 </body>
