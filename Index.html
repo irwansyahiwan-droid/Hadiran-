@@ -386,7 +386,7 @@ a{color:var(--G);text-decoration:none}
 #bottomNav{
   display:none;
   position:fixed;
-  bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  bottom:calc(4px + env(safe-area-inset-bottom,0px));
   left:50%;transform:translateX(-50%);
   z-index:300;
   width:calc(100% - 32px);
@@ -3284,7 +3284,9 @@ var btn=document.getElementById('btnBayarTal');btn.classList.add('loading');btn.
 gasWrite('bayarTalangan',{id:curTalId,tanggalBayar:tgl},function(r){
 btn.classList.remove('loading');btn.disabled=false;
 if(r&&r.success){
+// v40: hapus BOTH lsCache & sCache supaya hero/tabel Kas Hadiran ikut update
 lsCache.del('page_talangan');lsCache.del('page_kas');lsCache.del('page_dash');
+sCache.del('page_talangan');sCache.del('page_kas');sCache.del('page_dash');
 toast('Talangan lunas!','ok');
 closeOv('ovBayarTal');
 // Optimistic: hapus entri dari _talMap supaya tabel langsung update
@@ -3292,7 +3294,6 @@ _syncTalMapAfterBayar(curTalId);
 loadTalangan();loadDash();loadRekap();
 // Selalu reload kas (bukan hanya jika pgKas visible)
 // karena user akan navigasi ke sana setelah ini
-lsCache.del('page_kas');
 window._kasStale=true;
 if(document.getElementById('pgKas').classList.contains('on')){loadKas();}
 }
@@ -3580,18 +3581,22 @@ gas('getSaldoKas',undefined,function(saldo){
 gas('getRekapPertemuan',undefined,function(data){
 if(!data||!data.length){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:var(--k4)">Belum ada data</td></tr>';if(ft)ft.style.display='none';return;}
 kasCache=data.slice();
-_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap||{},window._setMap||{},tbody,ft,saldo||0);
+_renderKasTable(kasCache.slice().sort(function(a,b){return a.noTarikan-b.noTarikan;}),window._talMap||null,window._setMap||{},tbody,ft,saldo||0);
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 },function(){tbody.innerHTML='<tr><td colspan="12" style="text-align:center;padding:20px;color:#DC2626">Gagal memuat data</td></tr>';});
 });
 }
 function _renderKasTable(sorted,talMap,setMap,tbody,ft,curSaldo){
 var tM=0,tSB=0,tK=0,tT=0,tSt=0,tN=0;
+// v40: talMap selalu hasil _buildTalMap (objek live, bisa kosong).
+// Key tidak ada = SEMUA TALANGAN UNTUK TARIKAN ITU SUDAH LUNAS → 0,
+// JANGAN fallback ke r.talanganKeluar (nilai historis/tersimpan).
+var hasLive=talMap&&typeof talMap==='object';
 var rows=sorted.map(function(r,i){
 r.noUrut=i+1;
 tM+=r.totalBayarMasuk;tSB+=r.totalSohibulBait;tK+=r.kasMasuk;
-var livT=talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:r.talanganKeluar||0;
-var livC=talMap[r.noTarikan]?talMap[r.noTarikan].count:r.jumlahTidakHadir||0;
+var livT=hasLive?(talMap[r.noTarikan]?talMap[r.noTarikan].jumlah:0):(r.talanganKeluar||0);
+var livC=hasLive?(talMap[r.noTarikan]?talMap[r.noTarikan].count:0):(r.jumlahTidakHadir||0);
 var livSt=setMap[String(r.noTarikan)]||0;
 var livN=(r.kasMasuk||0)-livT-livSt;
 tT+=livT;tSt+=livSt;tN+=livN;
