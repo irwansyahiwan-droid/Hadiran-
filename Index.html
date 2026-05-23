@@ -19891,6 +19891,722 @@ html[data-theme="dark"] body::before{
   color: rgba(255,255,255,.12) !important;
 }
 
+<style id="premium-2026-luxe-overlay">
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN RT — PREMIUM 2026 LUXE OVERLAY  (cosmetic-only, JS-safe)
+   ─────────────────────────────────────────────────────────────────────
+   Aesthetic : Deep Forest Green · Copper · Cool Neutrals
+   Type      : Plus Jakarta Sans (body) + Fraunces (display numerics)
+   Strategy  : append-only restyle. NO HTML changes, NO JS changes.
+               Re-themes existing CSS vars (--G, --gold, --A, …) plus
+               surgical polish on heroes, cards, buttons, nav, sheets.
+               Highest-specificity to win over every prior patch.
+   ════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* ── 1. RE-THEME DESIGN TOKENS ─────────────────────────────────────── */
+html[data-theme="light"] body,
+html:not([data-theme="dark"]) body {
+  /* Forest green (replaces Apple green) */
+  --G:         #0E5C44 !important;
+  --G2:        #0A3D2E !important;
+  --G3:        #14785A !important;
+  --G-dim:     #E8F5EE !important;
+  --G-soft:    #C7EBDB !important;
+  --G-tint:    #F4FAF6 !important;
+  --G-line:    #8DD4B8 !important;
+  --G-glow:    rgba(14,92,68,.16) !important;
+  --G-ghost:   rgba(14,92,68,.08) !important;
+  --G-muted:   #4DB892 !important;
+  --GL:        #1F9970 !important;
+  --GM:        #14785A !important;
+
+  /* Copper / antique gold (replaces orange-gold) */
+  --gold:      #B8732E !important;
+  --gold2:     #C9924E !important;
+  --gold-deep: #8A5220 !important;
+  --gold-glow: rgba(201,146,78,.22) !important;
+
+  /* Amber → warm copper */
+  --A:         #B8732E !important;
+  --A2:        #C9924E !important;
+  --A-dim:     #FAF1DC !important;
+  --A-tint:    #FAF1DC !important;
+  --A-line:    #F0DEB6 !important;
+
+  /* Cool neutral canvas */
+  --bg:        #F6F8F6 !important;
+  --bg2:       #FFFFFF !important;
+  --surf:      #FFFFFF !important;
+  --surf2:     #FAFBFA !important;
+  --surf3:     #F4F6F4 !important;
+  --elev:      #FFFFFF !important;
+
+  /* Soft hairlines */
+  --line:      #E8ECEA !important;
+  --line2:     #DDE2DE !important;
+  --hair:      rgba(10,30,22,.06) !important;
+  --hairline:  rgba(10,30,22,.06) !important;
+
+  /* Ink ladder — warmer cool */
+  --ink0:      #0E1311 !important;
+  --ink1:      #1F2624 !important;
+  --ink2:      #3D4744 !important;
+  --ink3:      #5E6864 !important;
+  --ink4:      #8A938E !important;
+  --ink5:      #B8C0BB !important;
+  --t0:        #0E1311 !important;
+  --t1:        #1F2624 !important;
+  --t2:        #3D4744 !important;
+  --t3:        #5E6864 !important;
+  --t4:        #8A938E !important;
+  --t5:        #B8C0BB !important;
+
+  /* Premium soft elevation */
+  --ev0:       0 1px 2px rgba(10,30,22,.04) !important;
+  --ev1:       0 2px 6px rgba(10,30,22,.05), 0 1px 2px rgba(10,30,22,.04) !important;
+  --ev2:       0 8px 24px rgba(10,30,22,.07), 0 2px 6px rgba(10,30,22,.04) !important;
+  --ev3:       0 18px 48px rgba(10,30,22,.10), 0 4px 12px rgba(10,30,22,.05) !important;
+  --ev-pop:    0 24px 64px rgba(10,61,46,.18), 0 8px 24px rgba(10,61,46,.12) !important;
+
+  /* Refined typography stack */
+  --ff:        'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
+  --ff-body:   'Plus Jakarta Sans', 'Inter', system-ui, sans-serif !important;
+  --ff-d:      'Fraunces', 'Plus Jakarta Sans', serif !important;
+  --ff-deco:   'Fraunces', 'Plus Jakarta Sans', serif !important;
+}
+
+/* ── 2. GLOBAL TYPE & BACKGROUND ───────────────────────────────────── */
+html body {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #F6F8F6 !important;
+  font-feature-settings: 'cv11','ss01','ss03' !important;
+}
+
+/* Display headings & big numbers → Fraunces serif */
+html body .hero-amt,
+html body .hero-rp,
+html body #talTot,
+html body .sv,
+html body .sc-val,
+html body .stat-n,
+html body .about-name,
+html body .lo-title,
+html body .sp-name,
+html body .tb-name,
+html body .sh-title,
+html body .card-hdr-t,
+html body .sec-ttl {
+  font-family: 'Fraunces', 'Plus Jakarta Sans', serif !important;
+  letter-spacing: -0.02em !important;
+  font-feature-settings: 'ss01','ss02' !important;
+}
+
+/* Even tighter for the very large numbers */
+html body .hero-amt {
+  letter-spacing: -0.04em !important;
+  font-weight: 600 !important;
+}
+
+/* ── 3. SPLASH ─────────────────────────────────────────────────────── */
+html body #splash {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, #0E5C44 0%, #052016 60%, #020806 100%) !important;
+}
+html body #splash .sp-name {
+  color: #F4FAF6 !important;
+  font-family: 'Fraunces', serif !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 600 !important;
+}
+html body #splash .sp-sub {
+  color: rgba(244,250,246,.45) !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+html body #splash .sp-ring {
+  border-color: rgba(201,146,78,.20) !important;
+  border-top-color: #D4B062 !important;
+}
+
+/* ── 4. LOGIN — luxe glass card ────────────────────────────────────── */
+html body #loginBg {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,120,90,.32), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(201,146,78,.16), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 0% 80%, rgba(31,153,112,.14), transparent 60%),
+    linear-gradient(180deg, #04130D 0%, #082218 50%, #030A07 100%) !important;
+}
+html body #loginBg .lo-orb1 { background: rgba(20,120,90,.32) !important; }
+html body #loginBg .lo-orb2 { background: rgba(201,146,78,.20) !important; }
+html body #loginBg .lo-orb3 { background: rgba(31,153,112,.18) !important; }
+html body #loginBg .lo-orb4 { background: rgba(212,176,98,.14) !important; }
+
+html body #loginBg .lo-title {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: #F4FAF6 !important;
+}
+
+html body #loginBg .lo-card {
+  background: rgba(8,18,14,.72) !important;
+  border: 1px solid rgba(212,176,98,.14) !important;
+  backdrop-filter: blur(28px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.4) !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.04) inset !important;
+  border-radius: 28px !important;
+}
+
+html body #loginBg .lo-greeting-title { color: #F4FAF6 !important; }
+html body #loginBg .lo-greeting-sub   { color: rgba(244,250,246,.50) !important; }
+
+html body #loginBg .lo-btn-warga {
+  background: rgba(212,176,98,.08) !important;
+  border: 1px solid rgba(212,176,98,.18) !important;
+}
+html body #loginBg .lo-btn-warga-main { color: #E5CB94 !important; }
+html body #loginBg .lo-btn-warga-desc { color: rgba(229,203,148,.55) !important; }
+html body #loginBg .lo-btn-arrow      { color: rgba(229,203,148,.5) !important; }
+
+html body #loginBg .lo-divider-line { background: rgba(255,255,255,.08) !important; }
+html body #loginBg .lo-divider-chip {
+  background: rgba(212,176,98,.10) !important;
+  border: 1px solid rgba(212,176,98,.20) !important;
+  color: #E5CB94 !important;
+}
+
+html body #loginBg .lo-field {
+  background: rgba(255,255,255,.04) !important;
+  border: 1.5px solid rgba(255,255,255,.08) !important;
+  border-radius: 16px !important;
+}
+html body #loginBg .lo-field:focus-within {
+  border-color: rgba(212,176,98,.45) !important;
+  background: rgba(212,176,98,.06) !important;
+  box-shadow: 0 0 0 4px rgba(212,176,98,.10) !important;
+}
+html body #loginBg .lo-pw-input { color: #F4FAF6 !important; }
+html body #loginBg .lo-pw-input::placeholder { color: rgba(244,250,246,.30) !important; }
+
+html body #loginBg .lo-btn-admin {
+  background: linear-gradient(135deg, #0E5C44, #14785A, #1F9970) !important;
+  background-size: 200% 200% !important;
+  border: none !important;
+  color: #F4FAF6 !important;
+  border-radius: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  box-shadow: 0 8px 24px rgba(20,120,90,.40), 0 1px 0 rgba(255,255,255,.10) inset !important;
+}
+
+html body #loginBg .lo-card-footer {
+  color: rgba(255,255,255,.32) !important;
+}
+
+/* ── 5. TOPBAR ─────────────────────────────────────────────────────── */
+html body #topbar {
+  background: rgba(246,248,246,.85) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  border-bottom: 1px solid rgba(10,30,22,.06) !important;
+}
+html body #topbar .tb-name {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  color: #0E1311 !important;
+}
+html body #topbar .tb-role { color: #5E6864 !important; }
+
+html body #topbar .tb-refresh {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  color: #3D4744 !important;
+  border-radius: 12px !important;
+  transition: all .2s cubic-bezier(.2,.8,.2,1) !important;
+}
+html body #topbar .tb-refresh:hover {
+  color: #0E5C44 !important;
+  border-color: #C7EBDB !important;
+}
+
+html body #topbar .tb-badge {
+  background: linear-gradient(135deg, #0A3D2E, #0E5C44) !important;
+  color: #F4FAF6 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 4px 14px rgba(10,61,46,.22) !important;
+}
+
+/* ── 6. HERO BALANCE CARDS — the headline element ──────────────────── */
+html body .hero,
+html body #pgTalangan .hero,
+html body #kasHadiranHero .hero,
+html body #kasRTHero .hero,
+html body #pubHeroWrap .hero {
+  position: relative !important;
+  background:
+    radial-gradient(ellipse 110% 80% at 80% -20%, rgba(212,176,98,.22), transparent 50%),
+    radial-gradient(ellipse 80% 60% at -10% 110%, rgba(31,153,112,.30), transparent 60%),
+    linear-gradient(155deg, #052016 0%, #0A3D2E 40%, #0E5C44 100%) !important;
+  border-radius: 32px !important;
+  border: 1px solid rgba(212,176,98,.10) !important;
+  box-shadow: 0 24px 64px rgba(10,61,46,.28), 0 8px 24px rgba(10,61,46,.18) !important;
+  color: #F4FAF6 !important;
+  overflow: hidden !important;
+  padding: 24px 22px !important;
+}
+
+html body .hero::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -60px !important; right: -40px !important;
+  width: 220px !important; height: 220px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(212,176,98,.10), transparent 65%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+html body .hero > * { position: relative; z-index: 1; }
+
+html body .hero-amt {
+  font-family: 'Fraunces', serif !important;
+  font-size: 40px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+  color: #F4FAF6 !important;
+  line-height: 1 !important;
+}
+html body .hero-rp {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #E5CB94 !important;
+  letter-spacing: 0 !important;
+}
+html body .hero-note {
+  color: rgba(244,250,246,.55) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+}
+html body .hero-breakdown {
+  border-top: 1px solid rgba(212,176,98,.16) !important;
+  padding-top: 14px !important;
+  margin-top: 14px !important;
+}
+html body .hero .hb-row { color: #F4FAF6 !important; }
+html body .hero .hb-lbl { color: rgba(244,250,246,.55) !important; }
+
+/* ── 7. CARDS — refined surface ────────────────────────────────────── */
+html body .card {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 6px rgba(10,30,22,.05), 0 1px 2px rgba(10,30,22,.04) !important;
+  overflow: hidden !important;
+}
+html body .card-hdr {
+  border-bottom: 1px solid #E8ECEA !important;
+  background: linear-gradient(180deg, #FAFBFA, #FFFFFF) !important;
+  padding: 14px 16px !important;
+}
+html body .card-hdr-t {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  color: #0E1311 !important;
+}
+
+/* ── 8. STAT CARDS (sg / sc) ───────────────────────────────────────── */
+html body .sc {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 6px rgba(10,30,22,.04) !important;
+  padding: 14px !important;
+}
+html body .sc-val {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: #0E1311 !important;
+}
+html body .sc.g .sc-val,
+html body .sc.G  .sc-val { color: #0E5C44 !important; }
+html body .sc.s  .sc-val,
+html body .sc.A  .sc-val { color: #B8732E !important; }
+html body .sc.r  .sc-val,
+html body .sc.R  .sc-val { color: #B43F3F !important; }
+html body .sc-lbl { color: #5E6864 !important; font-weight: 500 !important; }
+
+html body .sum-bar {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 6px rgba(10,30,22,.04) !important;
+}
+html body .sum-bar .sv {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: #0E1311 !important;
+}
+html body .sum-bar .sl { color: #5E6864 !important; font-weight: 500 !important; }
+
+/* ── 9. SECTION TITLES ─────────────────────────────────────────────── */
+html body .sec-ttl {
+  font-family: 'Fraunces', serif !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: #0E1311 !important;
+  margin: 18px 2px 12px !important;
+}
+
+/* ── 10. BUTTONS ───────────────────────────────────────────────────── */
+html body .btn {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.005em !important;
+  border-radius: 14px !important;
+  transition: all .22s cubic-bezier(.2,.8,.2,1) !important;
+}
+html body .btn:active { transform: scale(.97) !important; }
+
+html body .btn-G,
+html body .btn-B {
+  background: linear-gradient(135deg, #0A3D2E, #0E5C44, #14785A) !important;
+  color: #F4FAF6 !important;
+  border: none !important;
+  box-shadow: 0 6px 20px rgba(10,61,46,.28), 0 1px 0 rgba(255,255,255,.10) inset !important;
+}
+html body .btn-R {
+  background: linear-gradient(135deg, #8B2929, #B43F3F) !important;
+  color: #F4FAF6 !important;
+  border: none !important;
+  box-shadow: 0 6px 20px rgba(180,63,63,.22) !important;
+}
+html body .btn-A,
+html body button.btn[class*="gold"] {
+  background: linear-gradient(135deg, #8A5220, #B8732E, #C9924E) !important;
+  color: #F4FAF6 !important;
+  border: none !important;
+  box-shadow: 0 6px 20px rgba(184,115,46,.24), 0 1px 0 rgba(255,255,255,.10) inset !important;
+}
+html body .btn-ghost {
+  background: #F4F6F4 !important;
+  color: #1F2624 !important;
+  border: 1px solid #E8ECEA !important;
+}
+html body .btn-ghost:hover {
+  background: #FFFFFF !important;
+  border-color: #C7EBDB !important;
+  color: #0E5C44 !important;
+}
+
+/* Save bar */
+html body .save-bar {
+  background: rgba(255,255,255,.92) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  border-top: 1px solid rgba(10,30,22,.06) !important;
+}
+
+/* ── 11. BOTTOM NAV — floating glass ───────────────────────────────── */
+html body #bottomNav {
+  background: rgba(255,255,255,.78) !important;
+  backdrop-filter: blur(28px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
+  border: 1px solid rgba(255,255,255,.7) !important;
+  border-radius: 999px !important;
+  box-shadow:
+    0 12px 32px rgba(10,30,22,.12),
+    0 2px 8px rgba(10,30,22,.06),
+    0 0 0 1px rgba(10,30,22,.04) !important;
+}
+html body #bottomNav .ni {
+  color: #5E6864 !important;
+  transition: all .25s cubic-bezier(.2,.8,.2,1) !important;
+}
+html body #bottomNav .ni.on {
+  color: #0A3D2E !important;
+}
+html body #bottomNav .ni.on .ni-ico {
+  filter: drop-shadow(0 2px 4px rgba(20,120,90,.22)) !important;
+}
+html body #bottomNav .ni.on .ni-lbl {
+  font-weight: 700 !important;
+  color: #0A3D2E !important;
+}
+html body #bottomNav .ni-dot {
+  background: #C9924E !important;
+  box-shadow: 0 0 8px rgba(201,146,78,.6) !important;
+}
+
+/* ── 12. OVERLAYS / SHEETS ─────────────────────────────────────────── */
+html body .ov {
+  background: rgba(8,18,14,.45) !important;
+  backdrop-filter: blur(4px) !important;
+}
+html body .sheet {
+  background: #FFFFFF !important;
+  border-radius: 32px 32px 0 0 !important;
+  box-shadow: 0 -16px 48px rgba(10,30,22,.18) !important;
+}
+html body .sh-bar { background: #DDE2DE !important; }
+html body .sh-title {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: #0E1311 !important;
+}
+
+/* Form inputs */
+html body .finp {
+  background: #FAFBFA !important;
+  border: 1.5px solid #E8ECEA !important;
+  border-radius: 12px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #0E1311 !important;
+  transition: all .2s !important;
+}
+html body .finp:focus {
+  border-color: #4DB892 !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 4px rgba(31,153,112,.10) !important;
+  outline: none !important;
+}
+html body .flbl {
+  font-weight: 600 !important;
+  color: #3D4744 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* ── 13. PILLS / CHIPS / TAGS ──────────────────────────────────────── */
+html body .fpill {
+  background: #FFFFFF !important;
+  color: #5E6864 !important;
+  border: 1px solid #E8ECEA !important;
+  font-weight: 600 !important;
+  border-radius: 999px !important;
+  transition: all .2s !important;
+}
+html body .fpill.on {
+  background: #0A3D2E !important;
+  color: #F4FAF6 !important;
+  border-color: #0A3D2E !important;
+  box-shadow: 0 4px 12px rgba(10,61,46,.22) !important;
+}
+
+html body .tag,
+html body .tag.tB,
+html body .tag.tG,
+html body .tag.tR,
+html body .tag.tA {
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 999px !important;
+}
+html body .tag.tB { background: #E8F5EE !important; color: #0E5C44 !important; }
+html body .tag.tG { background: #E8F5EE !important; color: #0E5C44 !important; }
+html body .tag.tA { background: #FAF1DC !important; color: #B8732E !important; }
+html body .tag.tR { background: #FBEAEA !important; color: #B43F3F !important; }
+
+/* ── 14. SEARCH BAR ────────────────────────────────────────────────── */
+html body .srch {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 14px !important;
+  transition: all .2s !important;
+}
+html body .srch:focus-within {
+  border-color: #4DB892 !important;
+  box-shadow: 0 0 0 4px rgba(31,153,112,.10) !important;
+}
+
+/* ── 15. ALERTS ────────────────────────────────────────────────────── */
+html body .alert {
+  border-radius: 14px !important;
+  font-weight: 500 !important;
+}
+html body .alert.aB { background: #E8F5EE !important; color: #0E5C44 !important; border: 1px solid #C7EBDB !important; }
+html body .alert.aG { background: #E8F5EE !important; color: #0E5C44 !important; border: 1px solid #C7EBDB !important; }
+html body .alert.aR { background: #FBEAEA !important; color: #B43F3F !important; border: 1px solid #F4C7C7 !important; }
+html body .alert.aA { background: #FAF1DC !important; color: #B8732E !important; border: 1px solid #F0DEB6 !important; }
+
+/* ── 16. TOAST ─────────────────────────────────────────────────────── */
+html body #toast {
+  background: rgba(14,19,17,.95) !important;
+  color: #F4FAF6 !important;
+  border-radius: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 16px 48px rgba(10,30,22,.30) !important;
+  border: 1px solid rgba(212,176,98,.20) !important;
+}
+
+/* ── 17. SOHIBUL BAIT PICKER ───────────────────────────────────────── */
+html body .sb-sel-box {
+  background: linear-gradient(135deg, #F4FAF6, #FFFFFF) !important;
+  border: 1px solid #C7EBDB !important;
+  border-radius: 16px !important;
+}
+html body .sb-sel-name {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  color: #0E1311 !important;
+}
+html body .sb-sel-av {
+  background: linear-gradient(135deg, #C9924E, #B8732E) !important;
+  color: #F4FAF6 !important;
+  font-family: 'Fraunces', serif !important;
+  box-shadow: 0 4px 14px rgba(184,115,46,.22) !important;
+}
+html body .sb-change {
+  background: #FFFFFF !important;
+  border: 1px solid #E8ECEA !important;
+  color: #3D4744 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+
+/* ── 18. ABOUT MODAL ───────────────────────────────────────────────── */
+html body .about-hero {
+  background:
+    radial-gradient(ellipse 80% 70% at 100% 0%, rgba(212,176,98,.22), transparent 60%),
+    linear-gradient(155deg, #0A3D2E, #0E5C44) !important;
+  border-radius: 24px !important;
+  color: #F4FAF6 !important;
+  border: 1px solid rgba(212,176,98,.14) !important;
+}
+html body .about-name {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: #F4FAF6 !important;
+}
+html body .about-tag    { color: rgba(244,250,246,.55) !important; }
+html body .about-ver    { color: rgba(229,203,148,.7) !important; letter-spacing: 0.04em !important; }
+html body .about-section-ttl {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  color: #0E1311 !important;
+}
+html body .about-card {
+  background: linear-gradient(180deg, #FAFBFA, #FFFFFF) !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 16px !important;
+}
+html body .about-role {
+  color: #B8732E !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.10em !important;
+}
+html body .about-nm {
+  font-family: 'Fraunces', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: #0E1311 !important;
+}
+
+/* ── 19. TABLE (Kas Hadiran ledger) ────────────────────────────────── */
+html body table.zt thead tr {
+  background: linear-gradient(135deg, #0A3D2E, #0E5C44) !important;
+  color: #F4FAF6 !important;
+}
+html body table.zt thead th {
+  color: #F4FAF6 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 10.5px !important;
+}
+html body table.zt tbody tr { transition: background .15s; }
+html body table.zt tbody tr:hover { background: #FAFBFA !important; }
+html body table.zt tbody td {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  border-bottom: 1px solid #E8ECEA !important;
+}
+html body table.zt tfoot tr {
+  background: #F4FAF6 !important;
+  border-top: 2px solid #C7EBDB !important;
+  font-weight: 700 !important;
+}
+html body table.zt tfoot td.cG { color: #0E5C44 !important; }
+html body table.zt tfoot td.cB { color: #14785A !important; }
+html body table.zt tfoot td.cS { color: #B8732E !important; }
+
+/* ── 20. ABSENSI ROWS ──────────────────────────────────────────────── */
+html body .ab-list .lrow:hover { background: #FAFBFA !important; }
+
+html body .bulk-bar {
+  background: #FAFBFA !important;
+  border: 1px solid #E8ECEA !important;
+  border-radius: 14px !important;
+}
+html body .bulk-h { background: linear-gradient(135deg, #0E5C44, #14785A) !important; color: #F4FAF6 !important; }
+html body .bulk-t { background: linear-gradient(135deg, #14785A, #1F9970) !important; color: #F4FAF6 !important; }
+html body .bulk-r { background: #FFFFFF !important; color: #3D4744 !important; border: 1px solid #E8ECEA !important; }
+
+/* ── 21. BISMILLAH BAR — copper accent ─────────────────────────────── */
+html body #bismillahTop {
+  background: linear-gradient(180deg, #FAF1DC, #FDF7E8) !important;
+  border-bottom: 1px solid #F0DEB6 !important;
+  color: #8A5220 !important;
+  font-weight: 600 !important;
+}
+html body #bismillahTop .bm-text {
+  color: #5A3413 !important;
+}
+html body .bm-deco { color: #B8732E !important; }
+
+/* ── 22. NUMERIC COLORS — semantic ─────────────────────────────────── */
+html body .cG, html body td.cG { color: #0E5C44 !important; }
+html body .cB, html body td.cB { color: #14785A !important; }
+html body .cS, html body td.cS { color: #B8732E !important; }
+html body .cR, html body td.cR { color: #B43F3F !important; }
+
+/* ── 23. EMPTY STATES ──────────────────────────────────────────────── */
+html body .empty {
+  color: #5E6864 !important;
+}
+html body .empty-d {
+  font-weight: 600 !important;
+  color: #3D4744 !important;
+}
+
+/* ── 24. SKELETON ──────────────────────────────────────────────────── */
+html body .skel,
+html body .skeleton {
+  background: linear-gradient(90deg, #F4F6F4 0%, #ECEFEC 50%, #F4F6F4 100%) !important;
+  background-size: 200% 100% !important;
+  border-radius: 14px !important;
+}
+
+/* ── 25. SCROLLBAR ─────────────────────────────────────────────────── */
+html body ::-webkit-scrollbar       { width: 4px !important; height: 4px !important; }
+html body ::-webkit-scrollbar-thumb { background: #DDE2DE !important; border-radius: 4px !important; }
+html body ::-webkit-scrollbar-track { background: transparent !important; }
+
+/* ── 26. SUBTLE PREMIUM ENTRANCE ANIMATIONS ────────────────────────── */
+@keyframes hadiranFadeUp {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+html body .page.on > * { animation: hadiranFadeUp .4s cubic-bezier(.2,.8,.2,1) both; }
+html body .page.on > *:nth-child(1) { animation-delay: 0ms; }
+html body .page.on > *:nth-child(2) { animation-delay: 40ms; }
+html body .page.on > *:nth-child(3) { animation-delay: 80ms; }
+html body .page.on > *:nth-child(4) { animation-delay: 120ms; }
+html body .page.on > *:nth-child(5) { animation-delay: 160ms; }
+html body .page.on > *:nth-child(6) { animation-delay: 200ms; }
+
+/* ── END ──────────────────────────────────────────────────────────── */
 </style>
 </body>
 </html>
