@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0A3D2E">
+<meta name="description" content="Hadiran — Premium Financial App 2026">
+<title>Hadiran · Premium 2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ════════════════════════════════════════════════════════════════════
+   HADIRAN · PREMIUM 2026
+   Aesthetic: Deep Forest Green · Copper · Cool Neutrals
+   Inspired by: high-end fintech, Apple Wallet, Linear, Revolut Ultra
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: light;
+
+  /* ── Forest Green (primary) ─────────────────────────────────── */
+  --g-900: #052016;   /* deepest */
+  --g-800: #0A3D2E;   /* primary */
+  --g-700: #0E5C44;
+  --g-600: #14785A;
+  --g-500: #1F9970;
+  --g-400: #4DB892;
+  --g-300: #8DD4B8;
+  --g-200: #C7EBDB;
+  --g-100: #E8F5EE;
+  --g-050: #F4FAF6;
+
+  /* ── Copper / Gold accent ───────────────────────────────────── */
+  --c-900: #5A3413;
+  --c-800: #8A5220;
+  --c-700: #A06B2C;
+  --c-600: #B8732E;
+  --c-500: #C9924E;   /* hero copper */
+  --c-400: #D4B062;   /* soft gold */
+  --c-300: #E5CB94;
+  --c-200: #F0DEB6;
+  --c-100: #FAF1DC;
+
+  /* ── Cool neutrals ──────────────────────────────────────────── */
+  --n-000: #FFFFFF;
+  --n-050: #FAFBFA;
+  --n-100: #F4F6F4;
+  --n-200: #ECEFEC;
+  --n-300: #DDE2DE;
+  --n-400: #B8C0BB;
+  --n-500: #8A938E;
+  --n-600: #5E6864;
+  --n-700: #3D4744;
+  --n-800: #1F2624;
+  --n-900: #0E1311;
+
+  /* ── Semantic ───────────────────────────────────────────────── */
+  --ok:     #14785A;
+  --ok-bg:  #E8F5EE;
+  --warn:   #B8732E;
+  --warn-bg:#FAF1DC;
+  --bad:    #B43F3F;
+  --bad-bg: #FBEAEA;
+  --info:   #2C5282;
+  --info-bg:#E6EEF7;
+
+  /* ── Backgrounds ────────────────────────────────────────────── */
+  --bg:     #F6F8F6;
+  --surf:   #FFFFFF;
+  --surf-2: #FAFBFA;
+  --hairline: rgba(14, 31, 25, 0.06);
+  --line:   #E8ECEA;
+  --line-2: #DDE2DE;
+
+  /* ── Text ladder ────────────────────────────────────────────── */
+  --t-0: #0E1311;
+  --t-1: #1F2624;
+  --t-2: #3D4744;
+  --t-3: #5E6864;
+  --t-4: #8A938E;
+  --t-5: #B8C0BB;
+
+  /* ── Shadows (premium soft) ─────────────────────────────────── */
+  --sh-0: 0 1px 2px rgba(10,30,22,.04);
+  --sh-1: 0 2px 6px rgba(10,30,22,.04), 0 1px 2px rgba(10,30,22,.04);
+  --sh-2: 0 8px 24px rgba(10,30,22,.06), 0 2px 6px rgba(10,30,22,.04);
+  --sh-3: 0 18px 48px rgba(10,30,22,.10), 0 4px 12px rgba(10,30,22,.05);
+  --sh-hero: 0 24px 64px rgba(10,61,46,.28), 0 8px 24px rgba(10,61,46,.18);
+  --sh-copper: 0 8px 28px rgba(184,115,46,.22);
+
+  /* ── Geometry ───────────────────────────────────────────────── */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-2xl: 36px;
+  --r-pill: 999px;
+
+  /* ── Typography ─────────────────────────────────────────────── */
+  --ff-body: 'Plus Jakarta Sans','Inter',system-ui,-apple-system,sans-serif;
+  --ff-display: 'Fraunces','Plus Jakarta Sans',serif;
+  --ff-mono: 'SF Mono', ui-monospace, monospace;
+
+  /* ── Motion ─────────────────────────────────────────────────── */
+  --e-out: cubic-bezier(.2,.8,.2,1);
+  --e-in: cubic-bezier(.4,0,1,1);
+  --e-spring: cubic-bezier(.16,1,.3,1);
+
+  /* ── Layout ─────────────────────────────────────────────────── */
+  --app-w: 440px;
+  --nav-h: 72px;
+}
+
+/* ── Reset ───────────────────────────────────────────────────────── */
+*,*::before,*::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--ff-body);
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--t-1);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11','ss01','ss03';
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.005em;
+}
+button,input,select,textarea { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+input,textarea { -webkit-appearance: none; appearance: none; outline: none; }
+img,svg { display: block; max-width: 100%; }
+a { color: var(--g-700); text-decoration: none; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { background: var(--n-300); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ── Keyframes ──────────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp { from { opacity:0; transform: translate3d(0,16px,0); } to { opacity:1; transform: none; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes scaleIn { from { opacity:0; transform: scale(.94); } to { opacity:1; transform: scale(1); } }
+@keyframes shimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+@keyframes drift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(18px,-22px)} }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.08);opacity:.85} }
+@keyframes sheetUp { from { transform: translate3d(0,100%,0); } to { transform: none; } }
+@keyframes balReveal { from { opacity:0; transform: translateY(8px); letter-spacing: 0.08em; } to { opacity:1; transform:none; letter-spacing: -0.04em; } }
+@keyframes lineGrow { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+@keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes ringRot { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+/* ════════════════════════════════════════════════════════════════
+   SPLASH
+   ════════════════════════════════════════════════════════════════ */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 30%, #0E5C44 0%, #052016 60%, #020806 100%);
+  transition: opacity .55s var(--e-out);
+}
+#splash.out { opacity: 0; pointer-events: none; }
+.sp-mark {
+  position: relative;
+  width: 88px; height: 88px;
+  display: flex; align-items: center; justify-content: center;
+  filter: drop-shadow(0 12px 32px rgba(31,153,112,.35));
+  animation: pulse 2.6s var(--e-out) infinite;
+}
+.sp-mark::after {
+  content: ''; position: absolute; inset: -36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,176,98,.15), transparent 65%);
+}
+.sp-name {
+  font-family: var(--ff-display);
+  font-size: 28px; font-weight: 600;
+  color: #F4FAF6; letter-spacing: -0.02em;
+  margin-top: 24px;
+}
+.sp-sub {
+  font-size: 11px; font-weight: 500;
+  color: rgba(244,250,246,.45);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-top: 6px;
+}
+.sp-ring {
+  width: 24px; height: 24px;
+  border: 2px solid rgba(212,176,98,.18);
+  border-top-color: var(--c-400);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin-top: 32px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   LOGIN
+   ════════════════════════════════════════════════════════════════ */
+#login {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,120,90,.30), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(201,146,78,.14), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 0% 80%, rgba(31,153,112,.12), transparent 60%),
+    linear-gradient(180deg, #04130D 0%, #082218 50%, #030A07 100%);
+  transition: opacity .45s var(--e-out);
+}
+#login.out { opacity: 0; pointer-events: none; }
+
+.lo-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(48px); pointer-events: none;
+  animation: drift 14s ease-in-out infinite;
+}
+.lo-orb.a { width: 280px; height: 280px; top: -90px; left: -70px; background: rgba(20,120,90,.30); }
+.lo-orb.b { width: 220px; height: 220px; bottom: -70px; right: -40px; background: rgba(201,146,78,.18); animation-delay: -5s; }
+.lo-orb.c { width: 160px; height: 160px; top: 50%; left: 70%; background: rgba(31,153,112,.16); animation-delay: -9s; }
+
+.lo-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(212,176,98,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,176,98,.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%);
+}
+
+.lo-wrap {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 420px;
+  padding: 32px 24px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+.lo-brand { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.lo-brand-mark {
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  filter: drop-shadow(0 10px 28px rgba(31,153,112,.4));
+}
+.lo-brand-name {
+  font-family: var(--ff-display);
+  font-size: 32px; font-weight: 600;
+  color: #F4FAF6; letter-spacing: -0.025em;
+}
+.lo-brand-tag {
+  font-size: 11px; font-weight: 500;
+  color: rgba(212,176,98,.7);
+  letter-spacing: 0.22em; text-transform: uppercase;
+}
+
+.lo-card {
+  background: rgba(8,18,14,.72);
+  border: 1px solid rgba(212,176,98,.14);
+  border-radius: 28px;
+  padding: 28px 24px;
+  backdrop-filter: blur(28px) saturate(1.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.04) inset;
+  animation: fadeUp .6s var(--e-spring) both;
+}
+.lo-greet {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 24px; padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.lo-greet-ic {
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(20,120,90,.30), rgba(212,176,98,.18));
+  border: 1px solid rgba(212,176,98,.20);
+  display: flex; align-items: center; justify-content: center;
+}
+.lo-greet-t { font-size: 16px; font-weight: 700; color: #F4FAF6; letter-spacing: -0.01em; }
+.lo-greet-s { font-size: 12px; color: rgba(244,250,246,.42); margin-top: 2px; }
+
+.lo-form { display: flex; flex-direction: column; gap: 14px; }
+.lo-field {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1.5px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 0 16px;
+  transition: all .22s var(--e-out);
+}
+.lo-field:focus-within {
+  border-color: rgba(212,176,98,.45);
+  background: rgba(212,176,98,.06);
+  box-shadow: 0 0 0 4px rgba(212,176,98,.10);
+}
+.lo-field-ic { color: rgba(244,250,246,.45); flex-shrink: 0; }
+.lo-field input {
+  flex: 1; background: none; border: none;
+  color: #F4FAF6; font-size: 14.5px; font-weight: 500;
+  padding: 16px 0; letter-spacing: 0.02em;
+}
+.lo-field input::placeholder { color: rgba(244,250,246,.30); letter-spacing: 0; font-weight: 400; }
+.lo-eye {
+  color: rgba(244,250,246,.40);
+  padding: 4px;
+  transition: color .2s;
+}
+.lo-eye:hover { color: var(--c-400); }
+
+.lo-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; height: 54px;
+  background: linear-gradient(135deg, var(--g-700), var(--g-600), var(--g-500));
+  background-size: 200% 200%;
+  border-radius: 16px;
+  font-size: 14.5px; font-weight: 700;
+  color: #F4FAF6;
+  letter-spacing: 0.01em;
+  transition: all .25s var(--e-out);
+  box-shadow: 0 8px 24px rgba(20,120,90,.42), 0 1px 0 rgba(255,255,255,.10) inset;
+  position: relative; overflow: hidden;
+}
+.lo-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(212,176,98,.18) 50%, transparent 70%);
+  background-size: 200% 200%;
+  background-position: 100% 100%;
+  transition: background-position .6s var(--e-out);
+}
+.lo-btn:hover::before { background-position: 0% 0%; }
+.lo-btn:active { transform: scale(.97); }
+
+.lo-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 22px 0 4px;
+}
+.lo-divider-line { flex: 1; height: 1px; background: rgba(255,255,255,.08); }
+.lo-divider-text {
+  font-size: 10px; font-weight: 600;
+  color: rgba(255,255,255,.32);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+
+.lo-guest {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 16px 18px;
+  background: rgba(212,176,98,.08);
+  border: 1px solid rgba(212,176,98,.18);
+  border-radius: 16px;
+  text-align: left;
+  transition: all .22s var(--e-out);
+}
+.lo-guest:active { transform: scale(.98); background: rgba(212,176,98,.14); }
+.lo-guest-ic {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(212,176,98,.20), rgba(201,146,78,.10));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.lo-guest-t { font-size: 13.5px; font-weight: 700; color: var(--c-300); letter-spacing: -0.01em; }
+.lo-guest-s { font-size: 11.5px; color: rgba(229,203,148,.55); margin-top: 2px; }
+.lo-guest-arr { color: rgba(229,203,148,.5); margin-left: auto; }
+
+.lo-foot {
+  text-align: center;
+  font-size: 10.5px; font-weight: 500;
+  color: rgba(255,255,255,.22);
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+}
+.lo-foot strong { color: var(--c-400); font-weight: 600; }
+
+.lo-err {
+  display: none;
+  align-items: center; gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(180,63,63,.12);
+  border: 1px solid rgba(180,63,63,.24);
+  color: #F4B5B5;
+  font-size: 12.5px; font-weight: 500;
+}
+.lo-err.show { display: flex; animation: fadeUp .25s var(--e-out) both; }
+
+/* ════════════════════════════════════════════════════════════════
+   APP CONTAINER
+   ════════════════════════════════════════════════════════════════ */
+#app {
+  display: none;
+  height: 100vh;
+  overflow: hidden;
+}
+#app.on { display: block; }
+
+#topbar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(246,248,246,.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--hairline);
+}
+.tb {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px;
+  max-width: var(--app-w); margin: 0 auto;
+}
+.tb-mark {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--g-800), var(--g-600));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(10,61,46,.25);
+  flex-shrink: 0;
+}
+.tb-info { flex: 1; min-width: 0; }
+.tb-greet {
+  font-size: 11px; font-weight: 500;
+  color: var(--t-3); letter-spacing: 0.04em;
+}
+.tb-name {
+  font-family: var(--ff-display);
+  font-size: 16px; font-weight: 600;
+  color: var(--t-0); letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+.tb-act {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--surf);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t-2);
+  position: relative;
+  transition: all .2s var(--e-out);
+}
+.tb-act:hover { color: var(--g-700); border-color: var(--g-200); }
+.tb-act:active { transform: scale(.92); }
+.tb-act .dot {
+  position: absolute; top: 9px; right: 10px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-500);
+  border: 2px solid var(--surf);
+}
+
+.page {
+  display: none;
+  height: calc(100vh - 66px);
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 20px calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 28px);
+  max-width: var(--app-w); margin: 0 auto;
+  scroll-behavior: smooth;
+}
+.page.on {
+  display: block;
+  animation: fadeUp .35s var(--e-spring) both;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   DASHBOARD — Hero balance card
+   ════════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  border-radius: var(--r-2xl);
+  background:
+    radial-gradient(ellipse 110% 80% at 80% -20%, rgba(212,176,98,.22), transparent 50%),
+    radial-gradient(ellipse 80% 60% at -10% 110%, rgba(31,153,112,.30), transparent 60%),
+    linear-gradient(155deg, var(--g-900) 0%, var(--g-800) 40%, var(--g-700) 100%);
+  padding: 28px 26px 24px;
+  color: #F4FAF6;
+  overflow: hidden;
+  box-shadow: var(--sh-hero);
+  margin-bottom: 16px;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -60px; right: -40px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,176,98,.10), transparent 65%);
+  animation: drift 18s ease-in-out infinite;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -80px; left: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20,120,90,.16), transparent 65%);
+}
+.hero-deco {
+  position: absolute; top: 0; right: 0;
+  width: 180px; height: 180px;
+  pointer-events: none;
+  opacity: .35;
+}
+
+.hero-row {
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+  margin-bottom: 16px;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: rgba(212,176,98,.14);
+  border: 1px solid rgba(212,176,98,.28);
+  border-radius: var(--r-pill);
+  font-size: 10.5px; font-weight: 600;
+  color: var(--c-300);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+.hero-tag .led {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-400);
+  box-shadow: 0 0 8px var(--c-400);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.hero-eye {
+  width: 36px; height: 36px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.10);
+  color: rgba(244,250,246,.7);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s var(--e-out);
+}
+.hero-eye:hover { background: rgba(255,255,255,.14); }
+
+.hero-label {
+  font-size: 11px; font-weight: 500;
+  color: rgba(244,250,246,.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  position: relative; z-index: 1;
+}
+.hero-amt {
+  display: flex; align-items: baseline; gap: 6px;
+  font-family: var(--ff-display);
+  font-size: 44px; font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 4px;
+  position: relative; z-index: 1;
+  animation: balReveal .8s var(--e-spring) both;
+}
+.hero-amt .cur {
+  font-family: var(--ff-body);
+  font-size: 16px; font-weight: 600;
+  color: var(--c-300);
+  letter-spacing: 0;
+}
+.hero-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500;
+  color: rgba(244,250,246,.55);
+  position: relative; z-index: 1;
+}
+.hero-trend {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  background: rgba(31,153,112,.20);
+  color: #8DD4B8;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0;
+}
+
+.hero-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,176,98,.22), transparent);
+  margin: 22px 0 18px;
+  position: relative; z-index: 1;
+}
+
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  position: relative; z-index: 1;
+}
+.hero-stat {
+  text-align: left;
+}
+.hero-stat:nth-child(2) { text-align: center; border-left: 1px solid rgba(212,176,98,.14); border-right: 1px solid rgba(212,176,98,.14); }
+.hero-stat:nth-child(3) { text-align: right; }
+.hero-stat-lbl {
+  font-size: 10px; font-weight: 500;
+  color: rgba(244,250,246,.45);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hero-stat-val {
+  font-family: var(--ff-display);
+  font-size: 16px; font-weight: 600;
+  color: #F4FAF6;
+  letter-spacing: -0.015em;
+}
+.hero-stat-val.up { color: #8DD4B8; }
+.hero-stat-val.copper { color: var(--c-300); }
+
+/* Quick actions */
+.quick {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.qa {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 8px;
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition: all .22s var(--e-out);
+}
+.qa:active { transform: scale(.94); }
+.qa:hover { border-color: var(--g-300); box-shadow: var(--sh-1); }
+.qa-ic {
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--g-100), var(--g-050));
+  border: 1px solid var(--g-200);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--g-700);
+}
+.qa.copper .qa-ic {
+  background: linear-gradient(145deg, var(--c-100), #FDF7E8);
+  border-color: var(--c-200);
+  color: var(--c-700);
+}
+.qa-lbl {
+  font-size: 10.5px; font-weight: 600;
+  color: var(--t-2);
+  letter-spacing: 0.01em;
+}
+
+/* Section heading */
+.sec {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 18px 2px 12px;
+}
+.sec-t {
+  font-family: var(--ff-display);
+  font-size: 17px; font-weight: 600;
+  color: var(--t-0); letter-spacing: -0.02em;
+}
+.sec-l {
+  font-size: 12px; font-weight: 600;
+  color: var(--g-700);
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  transition: background .2s;
+}
+.sec-l:hover { background: var(--g-100); }
+
+/* Performance chart card */
+.chart-card {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--sh-1);
+}
+.chart-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.chart-title { font-size: 12px; font-weight: 600; color: var(--t-3); letter-spacing: 0.04em; text-transform: uppercase; }
+.chart-val {
+  font-family: var(--ff-display);
+  font-size: 26px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+.chart-trend {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 11.5px; font-weight: 700;
+}
+.chart-svg-wrap {
+  position: relative;
+  margin: 0 -4px;
+}
+.chart-svg { width: 100%; height: 140px; display: block; }
+.chart-svg .line {
+  fill: none;
+  stroke: var(--g-600);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 600;
+  animation: lineGrow 1.6s var(--e-out) both;
+}
+.chart-svg .area { fill: url(#chartFill); opacity: .9; }
+.chart-svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 4; }
+.chart-svg .dot {
+  fill: var(--surf);
+  stroke: var(--g-600);
+  stroke-width: 2.5;
+}
+.chart-svg .dot-active {
+  fill: var(--c-500);
+  stroke: var(--surf);
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 10px rgba(201,146,78,.40));
+}
+
+.chart-x {
+  display: flex; justify-content: space-between;
+  margin-top: 10px;
+  font-size: 10.5px;
+  color: var(--t-4);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.chart-tabs {
+  display: flex; gap: 6px;
+  background: var(--n-100);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  margin-top: 16px;
+}
+.chart-tab {
+  flex: 1; padding: 8px 12px;
+  border-radius: var(--r-pill);
+  font-size: 11.5px; font-weight: 600;
+  color: var(--t-3);
+  transition: all .22s var(--e-out);
+}
+.chart-tab.on {
+  background: var(--surf);
+  color: var(--g-800);
+  box-shadow: 0 1px 4px rgba(10,30,22,.06);
+}
+
+/* Transaction list */
+.tx-list {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.tx-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  transition: background .18s;
+  text-align: left;
+  width: 100%;
+}
+.tx-row:last-child { border-bottom: none; }
+.tx-row:hover { background: var(--n-050); }
+.tx-row:active { background: var(--n-100); }
+.tx-ic {
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.tx-ic.in { background: var(--g-100); color: var(--g-700); }
+.tx-ic.out { background: var(--bad-bg); color: var(--bad); }
+.tx-ic.copper { background: var(--c-100); color: var(--c-700); }
+.tx-ic.info { background: var(--info-bg); color: var(--info); }
+.tx-body { flex: 1; min-width: 0; }
+.tx-merchant {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.005em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tx-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11.5px; font-weight: 500;
+  color: var(--t-4);
+  margin-top: 3px;
+}
+.tx-meta .cat {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.tx-meta .cat.iuran { background: var(--g-100); color: var(--g-700); }
+.tx-meta .cat.kas   { background: var(--c-100); color: var(--c-700); }
+.tx-meta .cat.tal   { background: var(--info-bg); color: var(--info); }
+.tx-meta .cat.out   { background: var(--bad-bg); color: var(--bad); }
+
+.tx-amt {
+  font-family: var(--ff-display);
+  font-size: 15px; font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: right;
+  white-space: nowrap;
+}
+.tx-amt.in  { color: var(--ok); }
+.tx-amt.out { color: var(--bad); }
+.tx-amt-sub {
+  font-size: 10.5px; font-weight: 500;
+  color: var(--t-4);
+  margin-top: 2px;
+  text-align: right;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PERFORMANCE PAGE (Stats)
+   ════════════════════════════════════════════════════════════════ */
+.kpi-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 16px;
+}
+.kpi {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  box-shadow: var(--sh-1);
+  position: relative; overflow: hidden;
+}
+.kpi-ic {
+  width: 36px; height: 36px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.kpi.g .kpi-ic { background: var(--g-100); color: var(--g-700); }
+.kpi.c .kpi-ic { background: var(--c-100); color: var(--c-700); }
+.kpi.i .kpi-ic { background: var(--info-bg); color: var(--info); }
+.kpi.r .kpi-ic { background: var(--bad-bg); color: var(--bad); }
+.kpi-lbl {
+  font-size: 11px; font-weight: 600;
+  color: var(--t-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.kpi-val {
+  font-family: var(--ff-display);
+  font-size: 22px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.025em;
+  margin-top: 4px;
+  line-height: 1.1;
+}
+.kpi-sub {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--t-4);
+  margin-top: 2px;
+}
+
+/* Bar chart */
+.bars-card {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.bars-svg { width: 100%; height: 200px; display: block; }
+.bars-svg .bar {
+  transform-origin: bottom;
+  animation: barGrow .8s var(--e-spring) both;
+}
+.bars-svg .bar-track { fill: var(--n-100); }
+.bars-svg .bar-fill { fill: url(#barFill); }
+.bars-svg .bar-fill-copper { fill: url(#barCopper); }
+
+/* Donut chart */
+.donut-row {
+  display: flex; align-items: center; gap: 18px;
+}
+.donut-svg {
+  width: 130px; height: 130px;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+.donut-svg .seg { fill: none; stroke-width: 14; stroke-linecap: round; transition: all .4s; }
+.donut-legend { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.donut-row-i {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 12.5px;
+}
+.donut-row-i .lbl { display: flex; align-items: center; gap: 8px; color: var(--t-2); font-weight: 600; }
+.donut-row-i .lbl .swatch {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.donut-row-i .val { font-family: var(--ff-display); font-weight: 600; color: var(--t-0); letter-spacing: -0.02em; }
+
+/* ════════════════════════════════════════════════════════════════
+   DETAIL SHEET
+   ════════════════════════════════════════════════════════════════ */
+#sheet-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(8,18,14,.45);
+  backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--e-out);
+}
+#sheet-overlay.on { opacity: 1; pointer-events: auto; }
+#sheet {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 850;
+  max-width: var(--app-w); margin: 0 auto;
+  background: var(--surf);
+  border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+  max-height: 90vh; overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform .4s var(--e-spring);
+  box-shadow: 0 -16px 48px rgba(10,30,22,.18);
+}
+#sheet.on { transform: none; }
+.sh-handle {
+  width: 40px; height: 4px;
+  background: var(--n-300);
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+.sh-head {
+  padding: 18px 24px 0;
+  text-align: center;
+}
+.sh-cat {
+  display: inline-block;
+  font-size: 10px; font-weight: 700;
+  color: var(--c-700);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  background: var(--c-100);
+  border-radius: var(--r-pill);
+  margin-bottom: 12px;
+}
+.sh-merchant {
+  font-family: var(--ff-display);
+  font-size: 22px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.02em;
+}
+.sh-amt {
+  font-family: var(--ff-display);
+  font-size: 42px; font-weight: 700;
+  letter-spacing: -0.04em;
+  margin: 14px 0 6px;
+  line-height: 1;
+}
+.sh-amt.in { color: var(--ok); }
+.sh-amt.out { color: var(--bad); }
+.sh-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 11.5px; font-weight: 700;
+}
+.sh-status .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+}
+
+.sh-divider { height: 1px; background: var(--line); margin: 24px 24px 0; }
+
+.sh-rows { padding: 8px 24px 0; }
+.sh-r {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sh-r:last-child { border-bottom: none; }
+.sh-r-lbl {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--t-3);
+}
+.sh-r-lbl-ic { color: var(--t-4); }
+.sh-r-val {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.005em;
+}
+
+.sh-actions {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 20px 24px 0;
+}
+.sh-act {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 8px;
+  border-radius: var(--r-md);
+  background: var(--n-100);
+  border: 1px solid transparent;
+  transition: all .2s var(--e-out);
+}
+.sh-act:active { transform: scale(.94); }
+.sh-act:hover { background: var(--surf); border-color: var(--g-200); box-shadow: var(--sh-1); }
+.sh-act-ic {
+  width: 36px; height: 36px;
+  border-radius: 12px;
+  background: var(--surf);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--g-700);
+  border: 1px solid var(--line);
+}
+.sh-act-lbl {
+  font-size: 11px; font-weight: 600;
+  color: var(--t-2);
+}
+
+.sh-foot {
+  padding: 24px;
+  display: flex; gap: 10px;
+}
+.btn {
+  flex: 1; height: 50px;
+  border-radius: var(--r-md);
+  font-size: 13.5px; font-weight: 700;
+  letter-spacing: 0.005em;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .22s var(--e-out);
+}
+.btn:active { transform: scale(.97); }
+.btn.primary {
+  background: linear-gradient(135deg, var(--g-800), var(--g-600));
+  color: #F4FAF6;
+  box-shadow: 0 6px 20px rgba(10,61,46,.28);
+}
+.btn.ghost {
+  background: var(--n-100);
+  color: var(--t-1);
+  border: 1px solid var(--line);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SETTINGS
+   ════════════════════════════════════════════════════════════════ */
+.profile-card {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 70% at 100% 0%, rgba(212,176,98,.22), transparent 60%),
+    linear-gradient(155deg, var(--g-800), var(--g-700));
+  border-radius: var(--r-xl);
+  padding: 24px 22px;
+  color: #F4FAF6;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: var(--sh-2);
+}
+.profile-card::after {
+  content: ''; position: absolute; bottom: -50px; right: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,176,98,.12), transparent 65%);
+}
+.pf-row { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+.pf-avatar {
+  width: 56px; height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--c-500), var(--c-600));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-display);
+  font-size: 22px; font-weight: 700;
+  color: #F4FAF6;
+  box-shadow: var(--sh-copper);
+  flex-shrink: 0;
+}
+.pf-info { flex: 1; min-width: 0; }
+.pf-name {
+  font-family: var(--ff-display);
+  font-size: 19px; font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.pf-id { font-size: 11.5px; color: rgba(244,250,246,.55); margin-top: 3px; letter-spacing: 0.02em; }
+.pf-tier {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  background: rgba(212,176,98,.18);
+  border: 1px solid rgba(212,176,98,.32);
+  border-radius: var(--r-pill);
+  font-size: 10.5px; font-weight: 700;
+  color: var(--c-300);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.set-group {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: var(--sh-1);
+}
+.set-group-t {
+  font-size: 10.5px; font-weight: 600;
+  color: var(--t-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 18px 8px;
+}
+.set-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 18px;
+  border-top: 1px solid var(--line);
+  width: 100%;
+  text-align: left;
+  transition: background .15s;
+}
+.set-row:hover { background: var(--n-050); }
+.set-row:active { background: var(--n-100); }
+.set-ic {
+  width: 36px; height: 36px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: var(--g-100);
+  color: var(--g-700);
+}
+.set-ic.copper { background: var(--c-100); color: var(--c-700); }
+.set-ic.info { background: var(--info-bg); color: var(--info); }
+.set-ic.danger { background: var(--bad-bg); color: var(--bad); }
+.set-ic.gray { background: var(--n-100); color: var(--t-2); }
+.set-body { flex: 1; min-width: 0; }
+.set-lbl {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.005em;
+}
+.set-sub {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--t-4);
+  margin-top: 2px;
+}
+.set-arr { color: var(--t-4); flex-shrink: 0; }
+.set-tag {
+  font-size: 10.5px; font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--g-100);
+  color: var(--g-700);
+  letter-spacing: 0.02em;
+}
+
+/* Switch */
+.sw {
+  position: relative;
+  width: 44px; height: 26px;
+  background: var(--n-300);
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+  transition: background .2s;
+}
+.sw::after {
+  content: '';
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,.18);
+  transition: all .25s var(--e-out);
+}
+.sw.on { background: var(--g-600); }
+.sw.on::after { left: 21px; }
+
+/* ════════════════════════════════════════════════════════════════
+   BOTTOM NAV
+   ════════════════════════════════════════════════════════════════ */
+#nav {
+  display: none;
+  position: fixed;
+  bottom: calc(14px + env(safe-area-inset-bottom,0px));
+  left: 50%; transform: translateX(-50%);
+  z-index: 300;
+  width: calc(100% - 32px);
+  max-width: 408px;
+  height: 64px;
+  background: rgba(255,255,255,.78);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: var(--r-pill);
+  box-shadow:
+    0 12px 32px rgba(10,30,22,.12),
+    0 2px 8px rgba(10,30,22,.06),
+    0 0 0 1px rgba(10,30,22,.04);
+  padding: 0 8px;
+}
+#nav.on { display: flex; align-items: center; }
+.nav-row { display: flex; flex: 1; align-items: center; justify-content: space-around; height: 100%; }
+.ni {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; flex: 1; height: 100%;
+  border-radius: var(--r-lg);
+  color: var(--t-3);
+  position: relative;
+  transition: all .25s var(--e-out);
+}
+.ni:active { transform: scale(.92); }
+.ni-ic {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .25s var(--e-out);
+}
+.ni-lbl {
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: .65;
+  transition: all .25s var(--e-out);
+}
+.ni.on { color: var(--g-800); }
+.ni.on .ni-ic {
+  transform: translateY(-1px) scale(1.06);
+  filter: drop-shadow(0 2px 4px rgba(20,120,90,.22));
+}
+.ni.on .ni-lbl { opacity: 1; font-weight: 700; }
+
+/* ════════════════════════════════════════════════════════════════
+   FILTERS / PILLS / SEARCH
+   ════════════════════════════════════════════════════════════════ */
+.search {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 0 14px;
+  margin-bottom: 12px;
+  transition: all .22s;
+}
+.search:focus-within {
+  border-color: var(--g-400);
+  box-shadow: 0 0 0 4px var(--g-100);
+}
+.search-ic { color: var(--t-4); flex-shrink: 0; }
+.search input {
+  flex: 1; background: none; border: none;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--t-0);
+  padding: 12px 0;
+}
+.search input::placeholder { color: var(--t-4); font-weight: 400; }
+
+.pills {
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.pills::-webkit-scrollbar { display: none; }
+.pill {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 600;
+  background: var(--surf);
+  color: var(--t-3);
+  border: 1px solid var(--line);
+  transition: all .2s var(--e-out);
+  white-space: nowrap;
+}
+.pill.on {
+  background: var(--g-800);
+  color: #F4FAF6;
+  border-color: var(--g-800);
+  box-shadow: 0 4px 12px rgba(10,61,46,.22);
+}
+
+.day-sep {
+  display: flex; align-items: center; gap: 10px;
+  margin: 14px 4px 8px;
+}
+.day-sep-line { flex: 1; height: 1px; background: var(--line); }
+.day-sep-t {
+  font-size: 10.5px; font-weight: 600;
+  color: var(--t-4);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+/* Page header */
+.ph {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.ph-t {
+  font-family: var(--ff-display);
+  font-size: 28px; font-weight: 600;
+  color: var(--t-0);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.ph-s {
+  font-size: 12.5px; font-weight: 500;
+  color: var(--t-3);
+  margin-top: 4px;
+}
+.ph-act {
+  width: 40px; height: 40px;
+  border-radius: var(--r-pill);
+  background: var(--surf);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t-2);
+  transition: all .2s;
+}
+.ph-act:hover { color: var(--g-700); border-color: var(--g-300); }
+
+/* Empty */
+.empty {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 40px 24px;
+  text-align: center;
+}
+.empty-ic {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--n-100);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--t-4);
+  margin-bottom: 6px;
+}
+.empty-t { font-size: 14px; font-weight: 600; color: var(--t-2); }
+.empty-s { font-size: 12px; color: var(--t-4); }
+
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SVG ICON SPRITE
+     ═══════════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Brand mark: stylized H with leaf flourish -->
+    <symbol id="i-mark" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="markBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0E5C44"/>
+          <stop offset="100%" stop-color="#14785A"/>
+        </linearGradient>
+        <linearGradient id="markGlow" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#D4B062"/>
+          <stop offset="100%" stop-color="#C9924E"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="18" fill="url(#markBg)"/>
+      <path d="M22 18 L22 46 M42 18 L42 46 M22 32 L42 32" stroke="#F4FAF6" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+      <circle cx="48" cy="20" r="4" fill="url(#markGlow)"/>
+      <path d="M48 16 Q52 18 48 24" stroke="url(#markGlow)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="i-mark-lg" viewBox="0 0 96 96">
+      <defs>
+        <linearGradient id="markBgLg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0E5C44"/>
+          <stop offset="100%" stop-color="#1F9970"/>
+        </linearGradient>
+      </defs>
+      <rect width="96" height="96" rx="26" fill="url(#markBgLg)"/>
+      <path d="M32 26 L32 70 M64 26 L64 70 M32 48 L64 48" stroke="#F4FAF6" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="74" cy="30" r="6" fill="#D4B062"/>
+      <path d="M74 24 Q80 27 74 36" stroke="#D4B062" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Eye -->
+    <symbol id="i-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    </symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24">
+      <path d="M3 3l18 18M10.6 10.6a3 3 0 004.2 4.2M9.4 5.6A10.4 10.4 0 0112 5c6.5 0 10 7 10 7a17.3 17.3 0 01-3.4 4.3M6.5 6.5C3.5 8.5 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.8-.8" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Lock -->
+    <symbol id="i-lock" viewBox="0 0 24 24">
+      <rect x="4" y="11" width="16" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- User -->
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M4 21c0-4 3.5-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Bell -->
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M6 8a6 6 0 1112 0c0 5 2 7 2 7H4s2-2 2-7z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <path d="M10 19a2 2 0 004 0" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Arrow up right (in) -->
+    <symbol id="i-up-right" viewBox="0 0 24 24">
+      <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- Arrow down right (out) -->
+    <symbol id="i-down-right" viewBox="0 0 24 24">
+      <path d="M7 7l10 10M17 9v8H9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- Arrow right -->
+    <symbol id="i-arr-right" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24">
+      <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Search -->
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Plus -->
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Wallet -->
+    <symbol id="i-wallet" viewBox="0 0 24 24">
+      <path d="M3 7a2 2 0 012-2h12l4 3v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <path d="M3 8h14" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <circle cx="17" cy="14" r="1.5" fill="currentColor"/>
+    </symbol>
+
+    <!-- Receipt -->
+    <symbol id="i-receipt" viewBox="0 0 24 24">
+      <path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2V3z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Chart -->
+    <symbol id="i-chart" viewBox="0 0 24 24">
+      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Trending up -->
+    <symbol id="i-trend" viewBox="0 0 24 24">
+      <path d="M3 17l6-6 4 4 8-8M15 7h6v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Send -->
+    <symbol id="i-send" viewBox="0 0 24 24">
+      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Scan QR -->
+    <symbol id="i-qr" viewBox="0 0 24 24">
+      <path d="M3 7V5a2 2 0 012-2h2M21 7V5a2 2 0 00-2-2h-2M3 17v2a2 2 0 002 2h2M21 17v2a2 2 0 01-2 2h-2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <rect x="7" y="7" width="4" height="4" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <rect x="13" y="7" width="4" height="4" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <rect x="7" y="13" width="4" height="4" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M14 14h1v1h-1zM16 14h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1z" fill="currentColor"/>
+    </symbol>
+
+    <!-- Camera (receipt scan) -->
+    <symbol id="i-camera" viewBox="0 0 24 24">
+      <path d="M3 7h3l2-3h8l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    </symbol>
+
+    <!-- Calendar -->
+    <symbol id="i-cal" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Tag (category) -->
+    <symbol id="i-tag" viewBox="0 0 24 24">
+      <path d="M3 12V4h8l10 10-8 8-10-10z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+    </symbol>
+
+    <!-- Note -->
+    <symbol id="i-note" viewBox="0 0 24 24">
+      <path d="M5 3h11l4 4v14a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <path d="M15 3v5h5M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Shield (security) -->
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Card -->
+    <symbol id="i-card" viewBox="0 0 24 24">
+      <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M2 10h20M6 15h4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Globe -->
+    <symbol id="i-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" stroke="currentColor" stroke-width="1.8" fill="none"/>
+    </symbol>
+
+    <!-- Moon -->
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M21 13a9 9 0 11-10-10 7 7 0 0010 10z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Help -->
+    <symbol id="i-help" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 4M12 17.5h.01" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Logout -->
+    <symbol id="i-out" viewBox="0 0 24 24">
+      <path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4M16 17l5-5-5-5M21 12H10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Settings gear -->
+    <symbol id="i-gear" viewBox="0 0 24 24">
+      <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Home -->
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7H9v7H5a2 2 0 01-2-2v-9z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Refresh -->
+    <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M3 12a9 9 0 0115-6.7L21 8M21 4v4h-4M21 12a9 9 0 01-15 6.7L3 16M3 20v-4h4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Filter -->
+    <symbol id="i-filter" viewBox="0 0 24 24">
+      <path d="M3 5h18l-7 9v6l-4-2v-4L3 5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- Close -->
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Sparkle (premium accent) -->
+    <symbol id="i-spark" viewBox="0 0 24 24">
+      <path d="M12 3l1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3z" fill="currentColor"/>
+    </symbol>
+
+    <!-- People (anggota) -->
+    <symbol id="i-people" viewBox="0 0 24 24">
+      <circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+      <path d="M2 20c0-3 3-5 7-5s7 2 7 5M16 11a3 3 0 100-6M22 19c0-2-1.5-3.5-4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Check -->
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SPLASH
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="splash">
+  <div class="sp-mark">
+    <svg width="88" height="88"><use href="#i-mark-lg"/></svg>
+  </div>
+  <div class="sp-name">Hadiran</div>
+  <div class="sp-sub">Premium · 2026</div>
+  <div class="sp-ring"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LOGIN
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="login">
+  <div class="lo-orb a"></div>
+  <div class="lo-orb b"></div>
+  <div class="lo-orb c"></div>
+  <div class="lo-grid"></div>
+
+  <div class="lo-wrap">
+    <div class="lo-brand">
+      <div class="lo-brand-mark">
+        <svg width="64" height="64"><use href="#i-mark-lg"/></svg>
+      </div>
+      <div class="lo-brand-name">Hadiran</div>
+      <div class="lo-brand-tag">Manajemen Keuangan Premium</div>
+    </div>
+
+    <div class="lo-card">
+      <div class="lo-greet">
+        <div class="lo-greet-ic">
+          <svg width="22" height="22" style="color:var(--c-400)"><use href="#i-spark"/></svg>
+        </div>
+        <div>
+          <div class="lo-greet-t">Selamat datang kembali</div>
+          <div class="lo-greet-s">Masuk untuk melanjutkan ke dashboard</div>
+        </div>
+      </div>
+
+      <div class="lo-form">
+        <div class="lo-err" id="loErr">
+          <svg width="16" height="16"><use href="#i-x"/></svg>
+          <span id="loErrTxt">Password salah</span>
+        </div>
+
+        <div class="lo-field">
+          <svg class="lo-field-ic" width="18" height="18"><use href="#i-user"/></svg>
+          <input type="text" placeholder="Email atau ID Pengguna" value="admin@hadiran.id" autocomplete="username">
+        </div>
+
+        <div class="lo-field">
+          <svg class="lo-field-ic" width="18" height="18"><use href="#i-lock"/></svg>
+          <input id="loPw" type="password" placeholder="Password" autocomplete="current-password">
+          <button class="lo-eye" id="loEye" type="button" aria-label="Tampilkan password">
+            <svg width="18" height="18"><use href="#i-eye"/></svg>
+          </button>
+        </div>
+
+        <button class="lo-btn" id="loSubmit">
+          <span>Masuk</span>
+          <svg width="18" height="18"><use href="#i-arr-right"/></svg>
+        </button>
+      </div>
+
+      <div class="lo-divider">
+        <div class="lo-divider-line"></div>
+        <div class="lo-divider-text">Atau</div>
+        <div class="lo-divider-line"></div>
+      </div>
+
+      <button class="lo-guest" id="loGuest">
+        <div class="lo-guest-ic">
+          <svg width="18" height="18" style="color:var(--c-400)"><use href="#i-people"/></svg>
+        </div>
+        <div style="flex:1">
+          <div class="lo-guest-t">Masuk sebagai Tamu</div>
+          <div class="lo-guest-s">Lihat ringkasan publik tanpa login</div>
+        </div>
+        <svg class="lo-guest-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+    </div>
+
+    <div class="lo-foot">
+      Diamankan oleh <strong>Hadiran Vault™</strong> · v2026.1
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     APP
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Topbar -->
+  <header id="topbar">
+    <div class="tb">
+      <div class="tb-mark">
+        <svg width="38" height="38"><use href="#i-mark"/></svg>
+      </div>
+      <div class="tb-info">
+        <div class="tb-greet">Selamat pagi,</div>
+        <div class="tb-name">Bapak Irwansyah</div>
+      </div>
+      <button class="tb-act" aria-label="Cari">
+        <svg width="18" height="18"><use href="#i-search"/></svg>
+      </button>
+      <button class="tb-act" aria-label="Notifikasi">
+        <svg width="18" height="18"><use href="#i-bell"/></svg>
+        <span class="dot"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═════════════════════════════════════════════════════════════
+       PAGE: DASHBOARD
+       ═════════════════════════════════════════════════════════════ -->
+  <section class="page on" id="p-home">
+
+    <!-- Hero balance -->
+    <div class="hero">
+      <svg class="hero-deco" viewBox="0 0 180 180" aria-hidden="true">
+        <circle cx="140" cy="40" r="28" fill="none" stroke="rgba(212,176,98,.45)" stroke-width="1"/>
+        <circle cx="140" cy="40" r="48" fill="none" stroke="rgba(212,176,98,.22)" stroke-width="1"/>
+        <circle cx="140" cy="40" r="68" fill="none" stroke="rgba(212,176,98,.12)" stroke-width="1"/>
+        <circle cx="140" cy="40" r="6" fill="rgba(212,176,98,.6)"/>
+      </svg>
+      <div class="hero-row">
+        <div class="hero-tag"><span class="led"></span>Saldo Aktif</div>
+        <button class="hero-eye" id="balToggle" aria-label="Sembunyikan saldo">
+          <svg width="18" height="18"><use href="#i-eye"/></svg>
+        </button>
+      </div>
+      <div class="hero-label">Total Kas RT 004/006</div>
+      <div class="hero-amt"><span class="cur">Rp</span><span id="balAmt">12.485.000</span></div>
+      <div class="hero-meta">
+        <span>Per 23 Mei 2026</span>
+        <span class="hero-trend">
+          <svg width="11" height="11"><use href="#i-trend"/></svg>
+          +8.4%
+        </span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-grid">
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Pemasukan</div>
+          <div class="hero-stat-val up">+2.4M</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Pengeluaran</div>
+          <div class="hero-stat-val">−850k</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-lbl">Talangan</div>
+          <div class="hero-stat-val copper">300k</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="quick">
+      <button class="qa">
+        <div class="qa-ic"><svg width="18" height="18"><use href="#i-people"/></svg></div>
+        <div class="qa-lbl">Absensi</div>
+      </button>
+      <button class="qa">
+        <div class="qa-ic"><svg width="18" height="18"><use href="#i-send"/></svg></div>
+        <div class="qa-lbl">Transfer</div>
+      </button>
+      <button class="qa copper">
+        <div class="qa-ic"><svg width="18" height="18"><use href="#i-qr"/></svg></div>
+        <div class="qa-lbl">Pindai</div>
+      </button>
+      <button class="qa">
+        <div class="qa-ic"><svg width="18" height="18"><use href="#i-receipt"/></svg></div>
+        <div class="qa-lbl">Tagihan</div>
+      </button>
+    </div>
+
+    <!-- Performance chart -->
+    <div class="chart-card">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title">Performa Kas</div>
+          <div class="chart-val">Rp 12.485.000</div>
+        </div>
+        <div class="chart-trend">
+          <svg width="11" height="11"><use href="#i-trend"/></svg>
+          +8.4%
+        </div>
+      </div>
+
+      <div class="chart-svg-wrap">
+        <svg class="chart-svg" viewBox="0 0 320 140" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1F9970" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#1F9970" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="chartLine" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#0E5C44"/>
+              <stop offset="60%" stop-color="#14785A"/>
+              <stop offset="100%" stop-color="#1F9970"/>
+            </linearGradient>
+          </defs>
+          <line class="grid" x1="0" y1="35"  x2="320" y2="35"/>
+          <line class="grid" x1="0" y1="70"  x2="320" y2="70"/>
+          <line class="grid" x1="0" y1="105" x2="320" y2="105"/>
+
+          <path class="area" d="M0,90 L40,80 L80,95 L120,70 L160,75 L200,55 L240,60 L280,40 L320,30 L320,140 L0,140 Z"/>
+          <path class="line" d="M0,90 L40,80 L80,95 L120,70 L160,75 L200,55 L240,60 L280,40 L320,30" stroke="url(#chartLine)"/>
+
+          <circle class="dot" cx="40"  cy="80" r="3.5"/>
+          <circle class="dot" cx="80"  cy="95" r="3.5"/>
+          <circle class="dot" cx="120" cy="70" r="3.5"/>
+          <circle class="dot" cx="160" cy="75" r="3.5"/>
+          <circle class="dot" cx="200" cy="55" r="3.5"/>
+          <circle class="dot" cx="240" cy="60" r="3.5"/>
+          <circle class="dot-active" cx="280" cy="40" r="5"/>
+        </svg>
+      </div>
+
+      <div class="chart-x">
+        <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+      </div>
+
+      <div class="chart-tabs">
+        <button class="chart-tab" data-r="1W">1W</button>
+        <button class="chart-tab on" data-r="1M">1M</button>
+        <button class="chart-tab" data-r="3M">3M</button>
+        <button class="chart-tab" data-r="1Y">1Y</button>
+        <button class="chart-tab" data-r="ALL">ALL</button>
+      </div>
+    </div>
+
+    <!-- Recent transactions -->
+    <div class="sec">
+      <div class="sec-t">Transaksi Terbaru</div>
+      <a class="sec-l" data-page="tx">Semua <svg width="13" height="13"><use href="#i-chev-right"/></svg></a>
+    </div>
+
+    <div class="tx-list" id="txRecent"></div>
+
+  </section>
+
+
+  <!-- ═════════════════════════════════════════════════════════════
+       PAGE: TRANSACTIONS
+       ═════════════════════════════════════════════════════════════ -->
+  <section class="page" id="p-tx">
+    <div class="ph">
+      <div>
+        <div class="ph-t">Transaksi</div>
+        <div class="ph-s">Riwayat lengkap kas & iuran</div>
+      </div>
+      <button class="ph-act" aria-label="Filter">
+        <svg width="18" height="18"><use href="#i-filter"/></svg>
+      </button>
+    </div>
+
+    <div class="search">
+      <svg class="search-ic" width="18" height="18"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Cari transaksi, anggota, atau kategori...">
+    </div>
+
+    <div class="pills">
+      <button class="pill on">Semua</button>
+      <button class="pill">Iuran</button>
+      <button class="pill">Talangan</button>
+      <button class="pill">Pengeluaran</button>
+      <button class="pill">Sohibul Bait</button>
+    </div>
+
+    <div class="day-sep">
+      <span class="day-sep-t">Hari Ini</span>
+      <span class="day-sep-line"></span>
+    </div>
+    <div class="tx-list" id="txToday"></div>
+
+    <div class="day-sep">
+      <span class="day-sep-t">Kemarin</span>
+      <span class="day-sep-line"></span>
+    </div>
+    <div class="tx-list" id="txYesterday"></div>
+
+    <div class="day-sep">
+      <span class="day-sep-t">Minggu Ini</span>
+      <span class="day-sep-line"></span>
+    </div>
+    <div class="tx-list" id="txWeek"></div>
+  </section>
+
+
+  <!-- ═════════════════════════════════════════════════════════════
+       PAGE: STATS
+       ═════════════════════════════════════════════════════════════ -->
+  <section class="page" id="p-stats">
+    <div class="ph">
+      <div>
+        <div class="ph-t">Performa</div>
+        <div class="ph-s">Mei 2026 · 23 hari aktif</div>
+      </div>
+      <button class="ph-act" aria-label="Kalender">
+        <svg width="18" height="18"><use href="#i-cal"/></svg>
+      </button>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi g">
+        <div class="kpi-ic"><svg width="18" height="18"><use href="#i-up-right"/></svg></div>
+        <div class="kpi-lbl">Pemasukan</div>
+        <div class="kpi-val">2.4M</div>
+        <div class="kpi-sub">+12% dari April</div>
+      </div>
+      <div class="kpi r">
+        <div class="kpi-ic"><svg width="18" height="18"><use href="#i-down-right"/></svg></div>
+        <div class="kpi-lbl">Pengeluaran</div>
+        <div class="kpi-val">850k</div>
+        <div class="kpi-sub">−4% dari April</div>
+      </div>
+      <div class="kpi i">
+        <div class="kpi-ic"><svg width="18" height="18"><use href="#i-people"/></svg></div>
+        <div class="kpi-lbl">Anggota Aktif</div>
+        <div class="kpi-val">28</div>
+        <div class="kpi-sub">96% kehadiran</div>
+      </div>
+      <div class="kpi c">
+        <div class="kpi-ic"><svg width="18" height="18"><use href="#i-spark"/></svg></div>
+        <div class="kpi-lbl">Talangan</div>
+        <div class="kpi-val">300k</div>
+        <div class="kpi-sub">2 anggota</div>
+      </div>
+    </div>
+
+    <!-- Bar chart -->
+    <div class="bars-card">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title">Iuran Mingguan</div>
+          <div class="chart-val">Rp 1.4M / pekan</div>
+        </div>
+      </div>
+      <svg class="bars-svg" viewBox="0 0 320 200" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="barFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1F9970"/>
+            <stop offset="100%" stop-color="#0E5C44"/>
+          </linearGradient>
+          <linearGradient id="barCopper" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D4B062"/>
+            <stop offset="100%" stop-color="#B8732E"/>
+          </linearGradient>
+        </defs>
+        <!-- 8 bars -->
+        <g class="bar" style="animation-delay:.05s"><rect class="bar-track" x="14"  y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="14"  y="100" width="22" height="80" rx="6"/></g>
+        <g class="bar" style="animation-delay:.10s"><rect class="bar-track" x="50"  y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="50"  y="80"  width="22" height="100" rx="6"/></g>
+        <g class="bar" style="animation-delay:.15s"><rect class="bar-track" x="86"  y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="86"  y="60"  width="22" height="120" rx="6"/></g>
+        <g class="bar" style="animation-delay:.20s"><rect class="bar-track" x="122" y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="122" y="90"  width="22" height="90" rx="6"/></g>
+        <g class="bar" style="animation-delay:.25s"><rect class="bar-track" x="158" y="40"  width="22" height="140" rx="6"/><rect class="bar-fill-copper" x="158" y="50" width="22" height="130" rx="6"/></g>
+        <g class="bar" style="animation-delay:.30s"><rect class="bar-track" x="194" y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="194" y="70"  width="22" height="110" rx="6"/></g>
+        <g class="bar" style="animation-delay:.35s"><rect class="bar-track" x="230" y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="230" y="55"  width="22" height="125" rx="6"/></g>
+        <g class="bar" style="animation-delay:.40s"><rect class="bar-track" x="266" y="40"  width="22" height="140" rx="6"/><rect class="bar-fill"  x="266" y="45"  width="22" height="135" rx="6"/></g>
+      </svg>
+      <div class="chart-x" style="margin-top:6px">
+        <span>P1</span><span>P2</span><span>P3</span><span>P4</span><span>P5</span><span>P6</span><span>P7</span><span>P8</span>
+      </div>
+    </div>
+
+    <!-- Donut breakdown -->
+    <div class="bars-card" style="margin-bottom:16px">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title">Komposisi Kas</div>
+          <div class="chart-val">Rp 12.485.000</div>
+        </div>
+      </div>
+      <div class="donut-row">
+        <svg class="donut-svg" viewBox="0 0 100 100">
+          <circle class="seg" cx="50" cy="50" r="40" stroke="var(--n-200)"/>
+          <circle class="seg" cx="50" cy="50" r="40" stroke="#0E5C44" stroke-dasharray="138 251" stroke-dashoffset="0"/>
+          <circle class="seg" cx="50" cy="50" r="40" stroke="#C9924E" stroke-dasharray="63 251" stroke-dashoffset="-138"/>
+          <circle class="seg" cx="50" cy="50" r="40" stroke="#2C5282" stroke-dasharray="38 251" stroke-dashoffset="-201"/>
+        </svg>
+        <div class="donut-legend">
+          <div class="donut-row-i">
+            <span class="lbl"><span class="swatch" style="background:#0E5C44"></span>Iuran Mingguan</span>
+            <span class="val">55%</span>
+          </div>
+          <div class="donut-row-i">
+            <span class="lbl"><span class="swatch" style="background:#C9924E"></span>Sohibul Bait</span>
+            <span class="val">25%</span>
+          </div>
+          <div class="donut-row-i">
+            <span class="lbl"><span class="swatch" style="background:#2C5282"></span>Talangan</span>
+            <span class="val">15%</span>
+          </div>
+          <div class="donut-row-i">
+            <span class="lbl"><span class="swatch" style="background:#DDE2DE"></span>Lainnya</span>
+            <span class="val">5%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═════════════════════════════════════════════════════════════
+       PAGE: SETTINGS
+       ═════════════════════════════════════════════════════════════ -->
+  <section class="page" id="p-set">
+    <div class="ph">
+      <div>
+        <div class="ph-t">Pengaturan</div>
+        <div class="ph-s">Kelola akun & preferensi</div>
+      </div>
+    </div>
+
+    <!-- Profile card -->
+    <div class="profile-card">
+      <div class="pf-row">
+        <div class="pf-avatar">IS</div>
+        <div class="pf-info">
+          <div class="pf-name">Irwansyah</div>
+          <div class="pf-id">Bendahara · RT 004/006</div>
+          <div class="pf-tier">
+            <svg width="10" height="10" style="color:var(--c-400)"><use href="#i-spark"/></svg>
+            Anggota Premium
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account -->
+    <div class="set-group">
+      <div class="set-group-t">Akun</div>
+      <button class="set-row">
+        <div class="set-ic"><svg width="18" height="18"><use href="#i-user"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Profil Saya</div>
+          <div class="set-sub">Nama, email, nomor HP</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+      <button class="set-row">
+        <div class="set-ic copper"><svg width="18" height="18"><use href="#i-card"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Metode Pembayaran</div>
+          <div class="set-sub">Transfer, e-wallet, QRIS</div>
+        </div>
+        <span class="set-tag">3 aktif</span>
+      </button>
+      <button class="set-row">
+        <div class="set-ic info"><svg width="18" height="18"><use href="#i-receipt"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Riwayat Tagihan</div>
+          <div class="set-sub">Unduh laporan & faktur</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+    </div>
+
+    <!-- Security -->
+    <div class="set-group">
+      <div class="set-group-t">Keamanan</div>
+      <button class="set-row">
+        <div class="set-ic"><svg width="18" height="18"><use href="#i-shield"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Otentikasi 2 Faktor</div>
+          <div class="set-sub">Aktif via Authenticator</div>
+        </div>
+        <span class="sw on" data-sw></span>
+      </button>
+      <button class="set-row">
+        <div class="set-ic"><svg width="18" height="18"><use href="#i-lock"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Ubah Password</div>
+          <div class="set-sub">Terakhir diubah 28 hari lalu</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+      <button class="set-row">
+        <div class="set-ic info"><svg width="18" height="18"><use href="#i-eye"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Login Biometrik</div>
+          <div class="set-sub">Face ID / Sidik jari</div>
+        </div>
+        <span class="sw on" data-sw></span>
+      </button>
+    </div>
+
+    <!-- Notifications -->
+    <div class="set-group">
+      <div class="set-group-t">Notifikasi</div>
+      <button class="set-row">
+        <div class="set-ic copper"><svg width="18" height="18"><use href="#i-bell"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Push Notifications</div>
+          <div class="set-sub">Transaksi & pengingat</div>
+        </div>
+        <span class="sw on" data-sw></span>
+      </button>
+      <button class="set-row">
+        <div class="set-ic gray"><svg width="18" height="18"><use href="#i-cal"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Pengingat Iuran</div>
+          <div class="set-sub">3 hari sebelum jatuh tempo</div>
+        </div>
+        <span class="sw on" data-sw></span>
+      </button>
+      <button class="set-row">
+        <div class="set-ic gray"><svg width="18" height="18"><use href="#i-trend"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Laporan Bulanan</div>
+          <div class="set-sub">Ringkasan via email</div>
+        </div>
+        <span class="sw" data-sw></span>
+      </button>
+    </div>
+
+    <!-- Preferences -->
+    <div class="set-group">
+      <div class="set-group-t">Preferensi</div>
+      <button class="set-row">
+        <div class="set-ic gray"><svg width="18" height="18"><use href="#i-globe"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Bahasa</div>
+          <div class="set-sub">Indonesia (ID)</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+      <button class="set-row">
+        <div class="set-ic gray"><svg width="18" height="18"><use href="#i-moon"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Tampilan</div>
+          <div class="set-sub">Mengikuti sistem</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+      <button class="set-row">
+        <div class="set-ic gray"><svg width="18" height="18"><use href="#i-help"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl">Bantuan & Dukungan</div>
+          <div class="set-sub">FAQ, kontak admin</div>
+        </div>
+        <svg class="set-arr" width="18" height="18"><use href="#i-chev-right"/></svg>
+      </button>
+    </div>
+
+    <!-- Logout -->
+    <div class="set-group">
+      <button class="set-row" id="logoutBtn">
+        <div class="set-ic danger"><svg width="18" height="18"><use href="#i-out"/></svg></div>
+        <div class="set-body">
+          <div class="set-lbl" style="color:var(--bad)">Keluar</div>
+          <div class="set-sub">Anda akan diminta login lagi</div>
+        </div>
+      </button>
+    </div>
+
+    <div style="text-align:center;font-size:11px;color:var(--t-4);margin-top:18px;letter-spacing:.04em">
+      Hadiran v2026.1 · Build 240523
+    </div>
+  </section>
+
+
+  <!-- Bottom nav -->
+  <nav id="nav" class="on">
+    <div class="nav-row">
+      <button class="ni on" data-page="home">
+        <span class="ni-ic"><svg width="22" height="22"><use href="#i-home"/></svg></span>
+        <span class="ni-lbl">Beranda</span>
+      </button>
+      <button class="ni" data-page="tx">
+        <span class="ni-ic"><svg width="22" height="22"><use href="#i-receipt"/></svg></span>
+        <span class="ni-lbl">Transaksi</span>
+      </button>
+      <button class="ni" data-page="stats">
+        <span class="ni-ic"><svg width="22" height="22"><use href="#i-chart"/></svg></span>
+        <span class="ni-lbl">Performa</span>
+      </button>
+      <button class="ni" data-page="set">
+        <span class="ni-ic"><svg width="22" height="22"><use href="#i-gear"/></svg></span>
+        <span class="ni-lbl">Pengaturan</span>
+      </button>
+    </div>
+  </nav>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DETAIL SHEET
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="sheet-overlay"></div>
+<div id="sheet" role="dialog" aria-modal="true">
+  <div class="sh-handle"></div>
+  <div class="sh-head">
+    <div class="sh-cat" id="shCat">Iuran Mingguan</div>
+    <div class="sh-merchant" id="shMerchant">Pertemuan #15 · Pak Budi</div>
+    <div class="sh-amt in" id="shAmt"><span style="font-size:22px;color:inherit;opacity:.6">Rp</span> 1.400.000</div>
+    <div class="sh-status" id="shStatus">
+      <span class="dot"></span>
+      Lunas Terverifikasi
+    </div>
+  </div>
+
+  <div class="sh-divider"></div>
+
+  <div class="sh-rows">
+    <div class="sh-r">
+      <span class="sh-r-lbl"><svg class="sh-r-lbl-ic" width="16" height="16"><use href="#i-people"/></svg>Pedagang / Penerima</span>
+      <span class="sh-r-val" id="shTo">Pak Budi Santoso</span>
+    </div>
+    <div class="sh-r">
+      <span class="sh-r-lbl"><svg class="sh-r-lbl-ic" width="16" height="16"><use href="#i-tag"/></svg>Kategori</span>
+      <span class="sh-r-val" id="shCat2">Iuran Mingguan</span>
+    </div>
+    <div class="sh-r">
+      <span class="sh-r-lbl"><svg class="sh-r-lbl-ic" width="16" height="16"><use href="#i-cal"/></svg>Tanggal</span>
+      <span class="sh-r-val" id="shDate">23 Mei 2026 · 19:42</span>
+    </div>
+    <div class="sh-r">
+      <span class="sh-r-lbl"><svg class="sh-r-lbl-ic" width="16" height="16"><use href="#i-card"/></svg>Metode</span>
+      <span class="sh-r-val">Transfer BCA · ****8421</span>
+    </div>
+    <div class="sh-r">
+      <span class="sh-r-lbl"><svg class="sh-r-lbl-ic" width="16" height="16"><use href="#i-note"/></svg>ID Transaksi</span>
+      <span class="sh-r-val" style="font-family:var(--ff-mono);font-size:12px">HDR-26-05-1547</span>
+    </div>
+  </div>
+
+  <div class="sh-actions">
+    <button class="sh-act">
+      <div class="sh-act-ic"><svg width="18" height="18"><use href="#i-camera"/></svg></div>
+      <div class="sh-act-lbl">Pindai Bukti</div>
+    </button>
+    <button class="sh-act">
+      <div class="sh-act-ic"><svg width="18" height="18"><use href="#i-note"/></svg></div>
+      <div class="sh-act-lbl">Catatan</div>
+    </button>
+    <button class="sh-act">
+      <div class="sh-act-ic"><svg width="18" height="18"><use href="#i-tag"/></svg></div>
+      <div class="sh-act-lbl">Kategori</div>
+    </button>
+  </div>
+
+  <div class="sh-foot">
+    <button class="btn ghost" id="shClose">Tutup</button>
+    <button class="btn primary">
+      <svg width="16" height="16"><use href="#i-check"/></svg>
+      Selesai
+    </button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+
+  // ── Mock transaction data ─────────────────────────────────────
+  const TX = [
+    { id:'HDR-26-05-1547', merchant:'Pak Budi Santoso',  cat:'Iuran Mingguan', catKey:'iuran', amt:1400000, dir:'in',  time:'19:42', day:'today' },
+    { id:'HDR-26-05-1542', merchant:'Talangan · Pak Joko', cat:'Talangan',     catKey:'tal',   amt:50000,   dir:'in',  time:'18:10', day:'today' },
+    { id:'HDR-26-05-1538', merchant:'Konsumsi Pertemuan', cat:'Pengeluaran',   catKey:'out',   amt:380000,  dir:'out', time:'14:22', day:'today' },
+    { id:'HDR-26-05-1530', merchant:'Sohibul Bait Iqbal', cat:'Sohibul Bait',  catKey:'kas',   amt:1215000, dir:'out', time:'21:05', day:'yesterday' },
+    { id:'HDR-26-05-1525', merchant:'Iuran Pak Hasan',    cat:'Iuran Mingguan',catKey:'iuran', amt:50000,   dir:'in',  time:'19:38', day:'yesterday' },
+    { id:'HDR-26-05-1520', merchant:'Bu Sari Wahyuni',    cat:'Iuran Mingguan',catKey:'iuran', amt:50000,   dir:'in',  time:'19:35', day:'yesterday' },
+    { id:'HDR-26-05-1510', merchant:'Pertemuan #14',      cat:'Iuran Mingguan',catKey:'iuran', amt:1350000, dir:'in',  time:'20:14', day:'week' },
+    { id:'HDR-26-05-1505', merchant:'Air Mineral Galon',  cat:'Pengeluaran',   catKey:'out',   amt:120000,  dir:'out', time:'15:00', day:'week' },
+    { id:'HDR-26-05-1499', merchant:'Pelunasan Talangan', cat:'Talangan',      catKey:'tal',   amt:50000,   dir:'in',  time:'10:22', day:'week' }
+  ];
+
+  // ── Helpers ───────────────────────────────────────────────────
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  function fmt(n) {
+    return new Intl.NumberFormat('id-ID').format(n);
+  }
+  function compact(n) {
+    if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + 'M';
+    if (n >= 1000) return Math.round(n/1000) + 'k';
+    return String(n);
+  }
+  function iconFor(catKey, dir) {
+    if (dir === 'out') return 'i-down-right';
+    if (catKey === 'iuran') return 'i-up-right';
+    if (catKey === 'tal') return 'i-people';
+    if (catKey === 'kas') return 'i-wallet';
+    return 'i-up-right';
+  }
+  function rowClass(catKey, dir) {
+    if (dir === 'out') return 'out';
+    if (catKey === 'kas') return 'copper';
+    if (catKey === 'tal') return 'info';
+    return 'in';
+  }
+
+  function renderTx(container, list) {
+    container.innerHTML = list.map(t => `
+      <button class="tx-row" data-id="${t.id}">
+        <div class="tx-ic ${rowClass(t.catKey, t.dir)}">
+          <svg width="20" height="20"><use href="#${iconFor(t.catKey, t.dir)}"/></svg>
+        </div>
+        <div class="tx-body">
+          <div class="tx-merchant">${t.merchant}</div>
+          <div class="tx-meta">
+            <span class="cat ${t.catKey}">${t.cat}</span>
+            <span>${t.time}</span>
+          </div>
+        </div>
+        <div>
+          <div class="tx-amt ${t.dir}">${t.dir==='in'?'+':'−'}Rp ${fmt(t.amt)}</div>
+          <div class="tx-amt-sub">${t.day === 'today' ? 'Hari ini' : t.day === 'yesterday' ? 'Kemarin' : 'Minggu ini'}</div>
+        </div>
+      </button>
+    `).join('');
+
+    $$('.tx-row', container).forEach(row => {
+      row.addEventListener('click', () => {
+        const id = row.dataset.id;
+        const t = TX.find(x => x.id === id);
+        if (t) openSheet(t);
+      });
+    });
+  }
+
+  // ── Render lists ──────────────────────────────────────────────
+  renderTx($('#txRecent'),    TX.slice(0, 5));
+  renderTx($('#txToday'),     TX.filter(t => t.day === 'today'));
+  renderTx($('#txYesterday'), TX.filter(t => t.day === 'yesterday'));
+  renderTx($('#txWeek'),      TX.filter(t => t.day === 'week'));
+
+  // ── Page navigation ───────────────────────────────────────────
+  function go(page) {
+    $$('.page').forEach(p => p.classList.remove('on'));
+    const map = { home:'p-home', tx:'p-tx', stats:'p-stats', set:'p-set' };
+    const target = $('#' + (map[page] || 'p-home'));
+    if (target) target.classList.add('on');
+    $$('.ni').forEach(n => n.classList.toggle('on', n.dataset.page === page));
+    // scroll top
+    if (target) target.scrollTop = 0;
+  }
+
+  $$('.ni').forEach(n => {
+    n.addEventListener('click', () => go(n.dataset.page));
+  });
+  $$('[data-page]').forEach(el => {
+    if (el.classList.contains('ni')) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      go(el.dataset.page);
+    });
+  });
+
+  // ── Detail sheet ──────────────────────────────────────────────
+  const sheet = $('#sheet');
+  const overlay = $('#sheet-overlay');
+
+  function openSheet(t) {
+    $('#shCat').textContent = t.cat;
+    $('#shCat2').textContent = t.cat;
+    $('#shMerchant').textContent = t.merchant;
+    const amtEl = $('#shAmt');
+    amtEl.className = 'sh-amt ' + (t.dir === 'in' ? 'in' : 'out');
+    amtEl.innerHTML = '<span style="font-size:22px;color:inherit;opacity:.6">Rp</span> ' + fmt(t.amt);
+    $('#shTo').textContent = t.merchant;
+    $('#shDate').textContent = '23 Mei 2026 · ' + t.time;
+    overlay.classList.add('on');
+    requestAnimationFrame(() => sheet.classList.add('on'));
+  }
+
+  function closeSheet() {
+    sheet.classList.remove('on');
+    overlay.classList.remove('on');
+  }
+
+  overlay.addEventListener('click', closeSheet);
+  $('#shClose').addEventListener('click', closeSheet);
+
+  // ── Switches ──────────────────────────────────────────────────
+  $$('[data-sw]').forEach(sw => {
+    sw.parentElement.addEventListener('click', (e) => {
+      e.preventDefault();
+      sw.classList.toggle('on');
+    });
+  });
+
+  // ── Chart tabs ────────────────────────────────────────────────
+  $$('.chart-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      $$('.chart-tab').forEach(t => t.classList.remove('on'));
+      tab.classList.add('on');
+    });
+  });
+
+  // ── Pills ─────────────────────────────────────────────────────
+  $$('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      const group = p.parentElement;
+      $$('.pill', group).forEach(x => x.classList.remove('on'));
+      p.classList.add('on');
+    });
+  });
+
+  // ── Balance toggle ────────────────────────────────────────────
+  let balShown = true;
+  const realBal = '12.485.000';
+  $('#balToggle').addEventListener('click', () => {
+    balShown = !balShown;
+    $('#balAmt').textContent = balShown ? realBal : '••••••••';
+    const eyeUse = $('#balToggle svg use');
+    eyeUse.setAttribute('href', balShown ? '#i-eye' : '#i-eye-off');
+  });
+
+  // ── Login flow ────────────────────────────────────────────────
+  const splash = $('#splash');
+  const login = $('#login');
+  const app = $('#app');
+  const nav = $('#nav');
+
+  // Splash → Login
+  setTimeout(() => {
+    splash.classList.add('out');
+    setTimeout(() => splash.style.display = 'none', 600);
+  }, 1400);
+
+  // Show password
+  $('#loEye').addEventListener('click', () => {
+    const pw = $('#loPw');
+    const isPw = pw.type === 'password';
+    pw.type = isPw ? 'text' : 'password';
+    $('#loEye svg use').setAttribute('href', isPw ? '#i-eye-off' : '#i-eye');
+  });
+
+  function enterApp() {
+    login.classList.add('out');
+    setTimeout(() => {
+      login.style.display = 'none';
+      app.classList.add('on');
+      nav.classList.add('on');
+    }, 450);
+  }
+
+  $('#loSubmit').addEventListener('click', () => {
+    const pw = $('#loPw').value.trim();
+    const err = $('#loErr');
+    if (pw.length < 1) {
+      $('#loErrTxt').textContent = 'Masukkan password Anda';
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+    enterApp();
+  });
+
+  $('#loPw').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') $('#loSubmit').click();
+  });
+
+  $('#loGuest').addEventListener('click', enterApp);
+
+  // ── Logout ────────────────────────────────────────────────────
+  $('#logoutBtn').addEventListener('click', () => {
+    app.classList.remove('on');
+    nav.classList.remove('on');
+    login.style.display = 'flex';
+    requestAnimationFrame(() => login.classList.remove('out'));
+    $('#loPw').value = '';
+    go('home');
+  });
+
+})();
+</script>
+
+</body>
+</html>
